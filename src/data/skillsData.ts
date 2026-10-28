@@ -5,7 +5,7 @@ export const BANK_INFO: BankAccountInfo = {
   bankFullName: 'Ngân hàng TMCP Sài Gòn - Hà Nội',
   bankShortCode: 'SHB',
   accountNumber: '0913179424',
-  accountOwner: 'NGUYEN HAI TRIEU',
+  accountOwner: 'TRỊNH HAI TRIEU',
   defaultAmount: 99000,
   qrStaticUrl: '/assets/aistudio/image_7dffb38f.png',
   zaloGroupUrl: 'https://zalo.me/g/bd8u0pauixb47416hzxo',

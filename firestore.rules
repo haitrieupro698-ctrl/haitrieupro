@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'haitrieu.pro698@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['orderCode', 'customerName', 'customerPhone', 'productId', 'amount', 'status', 'createdAt'])
+        && data.orderCode is string && data.orderCode.size() <= 100
+        && data.customerName is string && data.customerName.size() <= 150
+        && data.customerPhone is string && data.customerPhone.size() <= 30
+        && data.productId is string && data.productId.size() <= 100
+        && data.amount is number && data.amount > 0
+        && data.status in ['pending', 'confirmed', 'delivered']
+        && (!('customerEmail' in data) || (data.customerEmail is string && data.customerEmail.size() <= 150))
+        && (!('note' in data) || (data.note is string && data.note.size() <= 500))
+        && (!('userId' in data) || (data.userId is string && data.userId.size() <= 128))
+        && (!('emailSent' in data) || data.emailSent is bool)
+        && (!('productName' in data) || (data.productName is string && data.productName.size() <= 200));
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['userId', 'email'])
+        && data.userId is string && data.userId.size() <= 128
+        && data.email is string && data.email.size() <= 150
+        && (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 150))
+        && (!('role' in data) || data.role in ['customer', 'admin']);
+    }
+
+    // Orders Collection
+    match /orders/{orderId} {
+      allow read: if isValidId(orderId) && (
+        isAdmin() ||
+        (isSignedIn() && resource.data.userId == request.auth.uid) ||
+        // Allow customer to fetch their own order right after placing by orderCode query
+        (resource.data.orderCode is string)
+      );
+
+      allow create: if isValidId(orderId) && isValidOrder(incoming());
+
+      allow update: if isValidId(orderId) && (
+        isAdmin() ||
+        (isSignedIn() && resource.data.userId == request.auth.uid)
+      ) && isValidOrder(incoming());
+
+      allow delete: if isValidId(orderId) && isAdmin();
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isValidId(userId) && (
+        isAdmin() ||
+        (isSignedIn() && request.auth.uid == userId)
+      );
+
+      allow create, update: if isValidId(userId) && isSignedIn() && request.auth.uid == userId && isValidUser(incoming());
+      allow delete: if isValidId(userId) && isAdmin();
+    }
+
+    // Test connection doc for client healthcheck
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

@@ -26,7 +26,7 @@ export const AboutSection: React.FC = () => {
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/70 to-transparent p-4 text-center">
                     <p className="font-serif-luxury font-bold text-amber-300 text-lg">
-                      NGUYỄN HẢI TRIỀU
+                      TRỊNH HẢI TRIỀU
                     </p>
                     <p className="text-xs text-zinc-400">
                       Nhà Sáng Tạo Nội Dung • Chia Sẻ Kỹ Năng AI

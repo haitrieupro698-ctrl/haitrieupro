@@ -11,18 +11,31 @@ import {
   CheckCircle2, 
   AlertCircle,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  Mail,
+  Send,
+  RefreshCw
 } from 'lucide-react';
 import { BANK_INFO, SKILL_PRODUCTS } from '../data/skillsData';
+import { createOrderInFirestore, updateOrderStatusInFirestore } from '../firebase';
+import { 
+  getAccessToken, 
+  sendEmailViaGmail, 
+  generateSkillDeliveryEmail 
+} from '../services/gmailService';
 
 interface CheckoutSectionProps {
   selectedProductId: string;
   onSelectProduct: (productId: string) => void;
+  currentUser?: any;
+  onOpenGmailConnect?: () => void;
 }
 
 export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
   selectedProductId,
   onSelectProduct,
+  currentUser,
+  onOpenGmailConnect,
 }) => {
   const currentProduct =
     SKILL_PRODUCTS.find((p) => p.id === selectedProductId) || SKILL_PRODUCTS[0];
@@ -34,6 +47,12 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [qrType, setQrType] = useState<'static' | 'dynamic'>('static');
+  const [createdOrderId, setCreatedOrderId] = useState<string | null>(null);
+
+  // Gmail delivery state
+  const [isConfirmingEmailSend, setIsConfirmingEmailSend] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+  const [emailStatus, setEmailStatus] = useState<{ sent: boolean; message: string } | null>(null);
 
   // Generate unique order code on mount or when phone changes
   useEffect(() => {
@@ -57,16 +76,82 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
     return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
   };
 
-  // Dynamic VietQR generator URL for direct mobile banking scanning with transfer memo
+  // Dynamic VietQR generator URL with TRỊNH HAI TRIEU
   const dynamicQrUrl = `https://img.vietqr.io/image/${BANK_INFO.bankShortCode}-${BANK_INFO.accountNumber}-compact2.png?amount=${currentProduct.price}&addInfo=${encodeURIComponent(orderCode)}&accountName=${encodeURIComponent(BANK_INFO.accountOwner)}`;
 
-  const handleConfirmPayment = (e: React.FormEvent) => {
+  // Submit order to Firestore
+  const handleConfirmPayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSuccessModalOpen(true);
+    try {
+      const orderId = await createOrderInFirestore({
+        orderCode,
+        customerName: customerName.trim(),
+        customerPhone: customerPhone.trim(),
+        customerEmail: customerEmail.trim() || undefined,
+        productId: currentProduct.id,
+        productName: currentProduct.name,
+        amount: currentProduct.price,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        userId: currentUser?.uid || undefined,
+      });
+
+      setCreatedOrderId(orderId);
+      setIsSuccessModalOpen(true);
+    } catch (err) {
+      console.error('Error creating order in Firestore:', err);
+      // Still open modal so customer has Zalo link and transfer info
+      setIsSuccessModalOpen(true);
+    }
   };
 
-  const handleOpenZaloDirectly = () => {
-    window.open(BANK_INFO.zaloGroupUrl, '_blank', 'noopener,noreferrer');
+  // Send confirmation email via Gmail with mandatory user confirmation
+  const handleExecuteSendEmail = async () => {
+    if (!customerEmail) return;
+
+    const token = await getAccessToken();
+    if (!token) {
+      if (onOpenGmailConnect) {
+        onOpenGmailConnect();
+      }
+      return;
+    }
+
+    setIsSendingEmail(true);
+    try {
+      const emailContent = generateSkillDeliveryEmail(
+        customerName || 'Bạn',
+        orderCode,
+        currentProduct.name,
+        currentProduct.price,
+        BANK_INFO.zaloGroupUrl
+      );
+
+      await sendEmailViaGmail({
+        to: customerEmail,
+        subject: emailContent.subject,
+        htmlBody: emailContent.html,
+      });
+
+      if (createdOrderId) {
+        await updateOrderStatusInFirestore(createdOrderId, 'delivered', true);
+      }
+
+      setEmailStatus({
+        sent: true,
+        message: `Đã gửi tài liệu và hướng dẫn thành công tới email ${customerEmail}!`,
+      });
+      setIsConfirmingEmailSend(false);
+    } catch (err: any) {
+      console.error('Error sending email:', err);
+      setEmailStatus({
+        sent: false,
+        message: err.message || 'Gửi email qua Gmail thất bại',
+      });
+      setIsConfirmingEmailSend(false);
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   return (
@@ -146,7 +231,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 <div className="relative rounded-xl overflow-hidden bg-white p-2">
                   <img
                     src={qrType === 'static' ? BANK_INFO.qrStaticUrl : dynamicQrUrl}
-                    alt="Mã VietQR SHB Hải Triều AI"
+                    alt="Mã VietQR SHB TRỊNH HẢI TRIỀU"
                     className="w-full h-auto object-contain mx-auto max-h-[300px]"
                   />
                 </div>
@@ -278,7 +363,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                   </button>
                 </div>
 
-                {/* 3. Account Owner */}
+                {/* 3. Account Owner - TRỊNH HAI TRIEU */}
                 <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-between">
                   <div>
                     <div className="text-[11px] text-zinc-400">Chủ tài khoản:</div>
@@ -416,7 +501,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </button>
 
                 <p className="text-[11px] text-center text-zinc-400">
-                  Sau khi bấm, bạn sẽ được tự động chuyển hướng đến nhóm Zalo của Hải Triều AI để tải tài liệu ngay.
+                  Sau khi bấm, đơn hàng sẽ được lưu trên Firebase Firestore và bạn sẽ được chuyển hướng đến nhóm Zalo của Hải Triều AI.
                 </p>
               </form>
 
@@ -442,7 +527,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
               </h3>
               <p className="text-zinc-300 text-sm">
                 Cảm ơn bạn <strong className="text-amber-400">{customerName || 'bạn'}</strong> đã mua Skill{' '}
-                <strong className="text-white">{currentProduct.name}</strong>!
+                <strong className="text-white">{currentProduct.name}</strong>! Đơn hàng đã được lưu trên hệ thống.
               </p>
             </div>
 
@@ -456,6 +541,10 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 <span className="font-bold text-emerald-400">{formatVND(currentProduct.price)}</span>
               </div>
               <div className="flex justify-between">
+                <span className="text-zinc-400">Chủ tài khoản:</span>
+                <span className="text-amber-300 font-bold">{BANK_INFO.accountOwner}</span>
+              </div>
+              <div className="flex justify-between">
                 <span className="text-zinc-400">Ngân hàng:</span>
                 <span className="text-white">SHB (STK: 0913179424)</span>
               </div>
@@ -463,7 +552,48 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 <span className="text-zinc-400">Số điện thoại:</span>
                 <span className="text-white">{customerPhone || 'Chưa cung cấp'}</span>
               </div>
+              {customerEmail && (
+                <div className="flex justify-between">
+                  <span className="text-zinc-400">Email:</span>
+                  <span className="text-blue-300">{customerEmail}</span>
+                </div>
+              )}
             </div>
+
+            {/* Email send status message */}
+            {emailStatus && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+                emailStatus.sent ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+              }`}>
+                {emailStatus.sent ? <CheckCircle2 className="w-4 h-4 flex-shrink-0" /> : <AlertCircle className="w-4 h-4 flex-shrink-0" />}
+                <span>{emailStatus.message}</span>
+              </div>
+            )}
+
+            {/* Gmail delivery button if customer provided email */}
+            {customerEmail && !emailStatus?.sent && (
+              <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-500/30 text-left">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <Mail className="w-4 h-4 text-blue-400" />
+                      <span>Nhận tài liệu qua Gmail</span>
+                    </div>
+                    <div className="text-[11px] text-zinc-400">
+                      Gửi thư xác nhận và file Prompt tới {customerEmail}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsConfirmingEmailSend(true)}
+                    className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                  >
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Gửi Mail</span>
+                  </button>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-3">
               <a
@@ -484,6 +614,74 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 className="w-full py-2.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
                 Đóng cửa sổ này
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* MANDATORY USER CONFIRMATION MODAL BEFORE SENDING EMAIL VIA GMAIL */}
+      {isConfirmingEmailSend && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
+          <div className="bg-[#151821] border-2 border-blue-500/50 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                <Mail className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-white text-base">
+                  Xác Nhận Gửi Email Qua Gmail
+                </h4>
+                <p className="text-xs text-zinc-400">
+                  Hệ thống sẽ gửi email xác nhận và tài liệu Skill
+                </p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 text-xs space-y-2 text-zinc-300">
+              <div>
+                <span className="text-zinc-500">Người nhận:</span>{' '}
+                <strong className="text-white">{customerName || 'Khách hàng'}</strong> ({customerEmail})
+              </div>
+              <div>
+                <span className="text-zinc-500">Mã đơn hàng:</span>{' '}
+                <strong className="text-amber-400 font-mono">{orderCode}</strong>
+              </div>
+              <div>
+                <span className="text-zinc-500">Gói Skill:</span>{' '}
+                <span className="text-white">{currentProduct.name}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setIsConfirmingEmailSend(false)}
+                disabled={isSendingEmail}
+                className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+              >
+                Hủy bỏ
+              </button>
+
+              <button
+                type="button"
+                onClick={handleExecuteSendEmail}
+                disabled={isSendingEmail}
+                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              >
+                {isSendingEmail ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Đang gửi...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-3.5 h-3.5" />
+                    <span>Xác Nhận Gửi</span>
+                  </>
+                )}
               </button>
             </div>
 

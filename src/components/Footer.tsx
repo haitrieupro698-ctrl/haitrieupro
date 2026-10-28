@@ -118,7 +118,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-          <p>© {new Date().getFullYear()} HẢI TRIỀU AI. Bản quyền thuộc về Nguyễn Hải Triều.</p>
+          <p>© {new Date().getFullYear()} HẢI TRIỀU AI. Bản quyền thuộc về Trịnh Hải Triều.</p>
           
           <button
             onClick={scrollToTop}

@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowRight, MessageCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, MessageCircle, Mail, ShoppingBag, Check } from 'lucide-react';
 import { BANK_INFO } from '../data/skillsData';
 
 interface NavbarProps {
   onOpenCheckout?: (productId?: string) => void;
+  currentUser?: any;
+  onOpenOrders?: () => void;
+  onOpenGmail?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
+export const Navbar: React.FC<NavbarProps> = ({ 
+  onOpenCheckout,
+  currentUser,
+  onOpenOrders,
+  onOpenGmail,
+}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (href: string) => {
@@ -21,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
     <header className="sticky top-0 z-50 bg-[#0d0f12]/90 backdrop-blur-md border-b border-amber-500/15">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Brand Logo - exactly matching (HT) HẢI TRIỀU AI in screenshots */}
+          {/* Brand Logo - matching (HT) HẢI TRIỀU AI */}
           <a
             href="#"
             className="flex items-center gap-3 group focus:outline-none"
@@ -44,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-300">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-zinc-300">
             <button
               onClick={() => handleNavClick('#gioithieu')}
               className="hover:text-amber-400 transition-colors cursor-pointer"
@@ -78,6 +86,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
               <MessageCircle className="w-4 h-4 text-blue-400" />
               Nhóm Zalo
             </a>
+
+            {/* Orders Firebase Link */}
+            {onOpenOrders && (
+              <button
+                onClick={onOpenOrders}
+                className="hover:text-amber-400 text-zinc-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+                title="Xem danh sách đơn hàng đã lưu trong Firebase"
+              >
+                <ShoppingBag className="w-4 h-4 text-amber-400" />
+                <span>Đơn Hàng</span>
+              </button>
+            )}
+
+            {/* Gmail Connection Link */}
+            {onOpenGmail && (
+              <button
+                onClick={onOpenGmail}
+                className="hover:text-blue-400 text-zinc-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+                title="Quản lý kết nối Gmail gửi tài liệu"
+              >
+                <Mail className="w-4 h-4 text-red-400" />
+                <span>Gmail</span>
+                {currentUser ? (
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
+                ) : null}
+              </button>
+            )}
           </nav>
 
           {/* CTA Buttons */}
@@ -98,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => {
                 if (onOpenCheckout) {
@@ -107,14 +142,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
                   handleNavClick('#shop');
                 }
               }}
-              className="gold-gradient-btn text-black font-bold text-xs uppercase px-3.5 py-2 rounded-full cursor-pointer"
+              className="gold-gradient-btn text-black font-bold text-xs uppercase px-3 py-1.5 rounded-full cursor-pointer"
             >
               MUA SKILL
             </button>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 focus:outline-none"
+              className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 focus:outline-none cursor-pointer"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -125,32 +160,60 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
 
       {/* Mobile menu dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#12141a] border-b border-amber-500/20 px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top duration-200">
+        <div className="lg:hidden bg-[#12141a] border-b border-amber-500/20 px-4 pt-3 pb-6 space-y-3 animate-in fade-in slide-in-from-top duration-200">
           <button
             onClick={() => handleNavClick('#gioithieu')}
-            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400"
+            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400 cursor-pointer"
           >
             Giới Thiệu
           </button>
           <button
             onClick={() => handleNavClick('#video')}
-            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400"
+            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400 cursor-pointer"
           >
             Video Hướng Dẫn
           </button>
           <button
             onClick={() => handleNavClick('#shop')}
-            className="block w-full text-left py-2 px-3 text-base font-medium text-amber-300 hover:bg-zinc-800/50 rounded-lg flex items-center justify-between"
+            className="block w-full text-left py-2 px-3 text-base font-medium text-amber-300 hover:bg-zinc-800/50 rounded-lg flex items-center justify-between cursor-pointer"
           >
             <span>Kho Skill Kịch Bản AI</span>
             <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30">99K</span>
           </button>
           <button
             onClick={() => handleNavClick('#thanhtoan')}
-            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400"
+            className="block w-full text-left py-2 px-3 text-base font-medium text-zinc-200 hover:bg-zinc-800/50 rounded-lg hover:text-amber-400 cursor-pointer"
           >
             Thanh Toán Chuyển Khoản SHB
           </button>
+
+          {/* Mobile Orders & Gmail buttons */}
+          {onOpenOrders && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenOrders();
+              }}
+              className="flex items-center gap-2 w-full text-left py-2 px-3 text-base font-medium text-amber-400 hover:bg-zinc-800/50 rounded-lg cursor-pointer"
+            >
+              <ShoppingBag className="w-5 h-5 text-amber-400" />
+              <span>Quản Lý Đơn Hàng (Firestore)</span>
+            </button>
+          )}
+
+          {onOpenGmail && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenGmail();
+              }}
+              className="flex items-center gap-2 w-full text-left py-2 px-3 text-base font-medium text-red-400 hover:bg-zinc-800/50 rounded-lg cursor-pointer"
+            >
+              <Mail className="w-5 h-5 text-red-400" />
+              <span>Quản Lý Gmail {currentUser ? `(${currentUser.email})` : ''}</span>
+            </button>
+          )}
+
           <a
             href={BANK_INFO.zaloGroupUrl}
             target="_blank"
@@ -160,6 +223,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
             <MessageCircle className="w-5 h-5 text-blue-400" />
             <span>Tham Gia Nhóm Zalo Hỗ Trợ</span>
           </a>
+
           <button
             onClick={() => {
               setMobileMenuOpen(false);
@@ -169,7 +233,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCheckout }) => {
                 handleNavClick('#shop');
               }
             }}
-            className="w-full mt-2 gold-gradient-btn text-black font-extrabold text-center py-3 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2"
+            className="w-full mt-2 gold-gradient-btn text-black font-extrabold text-center py-3 rounded-xl uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>MUA SKILL NGAY - 99.000 VNĐ</span>
             <ArrowRight className="w-4 h-4" />

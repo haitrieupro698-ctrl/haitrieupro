@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
@@ -11,11 +11,33 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { FloatingZaloButton } from './components/FloatingZaloButton';
-import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
+import { OrdersManagerModal } from './components/OrdersManagerModal';
+import { GmailManagerModal } from './components/GmailManagerModal';
+import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag } from 'lucide-react';
 import { BANK_INFO } from './data/skillsData';
+import { initAuth } from './services/gmailService';
+import { auth } from './firebase';
 
 export default function App() {
   const [selectedProductId, setSelectedProductId] = useState<string>('skill-text-overlay');
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [isOrdersModalOpen, setIsOrdersModalOpen] = useState(false);
+  const [isGmailModalOpen, setIsGmailModalOpen] = useState(false);
+
+  useEffect(() => {
+    // Listen to Google/Firebase auth changes
+    const unsubscribe = initAuth(
+      (user) => {
+        setCurrentUser(user);
+      },
+      () => {
+        setCurrentUser(null);
+      }
+    );
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
 
   const handleSelectProduct = (productId?: string) => {
     if (productId) {
@@ -54,7 +76,12 @@ export default function App() {
       </div>
 
       {/* Main Navbar */}
-      <Navbar onOpenCheckout={handleSelectProduct} />
+      <Navbar 
+        onOpenCheckout={handleSelectProduct}
+        currentUser={currentUser}
+        onOpenOrders={() => setIsOrdersModalOpen(true)}
+        onOpenGmail={() => setIsGmailModalOpen(true)}
+      />
 
       {/* Hero Section */}
       <main>
@@ -79,6 +106,8 @@ export default function App() {
         <CheckoutSection
           selectedProductId={selectedProductId}
           onSelectProduct={setSelectedProductId}
+          currentUser={currentUser}
+          onOpenGmailConnect={() => setIsGmailModalOpen(true)}
         />
 
         {/* Zalo Community Section */}
@@ -93,6 +122,26 @@ export default function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Modals for Firebase Orders & Gmail Integration */}
+      <OrdersManagerModal
+        isOpen={isOrdersModalOpen}
+        onClose={() => setIsOrdersModalOpen(false)}
+        currentUserEmail={currentUser?.email}
+        onOpenGmailLogin={() => {
+          setIsOrdersModalOpen(false);
+          setIsGmailModalOpen(true);
+        }}
+      />
+
+      <GmailManagerModal
+        isOpen={isGmailModalOpen}
+        onClose={() => setIsGmailModalOpen(false)}
+        user={currentUser}
+        onAuthChange={() => {
+          setCurrentUser(auth.currentUser);
+        }}
+      />
 
       {/* Persistent Floating Zalo Button */}
       <FloatingZaloButton />

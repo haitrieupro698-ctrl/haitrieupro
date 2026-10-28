@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "Order": {
+      "title": "Order",
+      "description": "Order records for skill and prompt purchases",
+      "type": "object",
+      "properties": {
+        "orderCode": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "delivered"] },
+        "note": { "type": "string" },
+        "userId": { "type": "string" },
+        "emailSent": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["orderCode", "customerName", "customerPhone", "productId", "amount", "status", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Registered user profile",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "admin"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "email"]
+    }
+  },
+  "firestore": {
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of all skill orders"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles keyed by auth UID"
+    }
+  }
+}
