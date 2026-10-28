@@ -1,0 +1,6 @@
+{
+  "name": "Hải Triều AI - Skill & Kịch Bản Video",
+  "description": "Kho tài nguyên Skill AI, Text Overlay Triệu View và Kịch bản Video chuyên nghiệp từ Hải Triều AI với cổng thanh toán VietQR tự động và nhóm hỗ trợ Zalo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
