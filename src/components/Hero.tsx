@@ -9,78 +9,78 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) => {
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 lg:py-20 bg-gradient-to-b from-[#0d0f12] via-[#121316] to-[#0d0f12]">
-      {/* Background glow effects */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/10 blur-[130px] pointer-events-none rounded-full" />
-      <div className="absolute top-10 right-10 w-72 h-72 bg-amber-600/5 blur-[100px] pointer-events-none rounded-full" />
+    <section className="relative overflow-hidden py-10 lg:py-16 bg-purple-mesh">
+      {/* Background ambient purple glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-purple-200/40 blur-[130px] pointer-events-none rounded-full" />
+      <div className="absolute top-10 right-10 w-80 h-80 bg-indigo-200/30 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Main Hero Card - exact dark gold aesthetic from screenshot */}
-        <div className="bg-[#121418] border border-amber-500/25 rounded-3xl p-6 sm:p-10 lg:p-14 shadow-2xl shadow-black/80 gold-border-glow">
+        {/* Main Hero Card - Clean White & Royal Purple Style */}
+        <div className="bg-white border-2 border-purple-200/90 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-xl shadow-purple-900/5">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* Left Column: Text & Content */}
             <div className="lg:col-span-7 space-y-6">
               
               {/* Top tag badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold tracking-wide">
-                <Zap className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 border border-purple-300 text-purple-800 text-xs sm:text-sm font-bold tracking-wide">
+                <Zap className="w-3.5 h-3.5 text-purple-700 fill-purple-700" />
                 <span>BÍ QUYẾT TỪ HẢI TRIỀU AI • GIÁ CHỈ 99K</span>
               </div>
 
-              {/* Big Headlines matching Image 4 */}
+              {/* Big Headlines */}
               <div className="space-y-1 sm:space-y-2">
-                <h1 className="font-serif-luxury font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600">
+                <h1 className="font-serif-luxury font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none purple-gradient-text">
                   TEXT OVERLAY
                 </h1>
-                <h2 className="font-serif-luxury font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none text-white">
+                <h2 className="font-serif-luxury font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none text-slate-900">
                   TRIỆU VIEW
                 </h2>
               </div>
 
               {/* Subtitle */}
-              <p className="font-serif-luxury font-bold text-lg sm:text-2xl text-amber-400/95 tracking-wide uppercase border-l-2 border-amber-500 pl-3">
+              <p className="font-serif-luxury font-bold text-lg sm:text-xl text-purple-900 tracking-wide uppercase border-l-4 border-purple-600 pl-3">
                 CHỈ CẦN MỘT Ý TƯỞNG – CÓ NGAY KỊCH BẢN VIDEO THU HÚT!
               </p>
 
-              {/* 3 Core Pain Points from Image 4 screenshot */}
-              <div className="space-y-3.5 pt-2 text-zinc-300 text-sm sm:text-base leading-relaxed">
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs mt-0.5">
+              {/* 3 Core Pain Points */}
+              <div className="space-y-3 pt-1 text-slate-700 text-sm sm:text-base leading-relaxed">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50/60 border border-purple-100">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold mt-0.5">
                     ?
                   </span>
                   <p>
-                    Bạn muốn làm video <strong className="text-white">TikTok, Facebook Reels hoặc YouTube Shorts</strong> nhưng chưa biết viết kịch bản thế nào cho hấp dẫn?
+                    Bạn muốn làm video <strong className="text-purple-950">TikTok, Facebook Reels hoặc YouTube Shorts</strong> nhưng chưa biết viết kịch bản thế nào cho hấp dẫn?
                   </p>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs mt-0.5">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50/60 border border-purple-100">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold mt-0.5">
                     ?
                   </span>
                   <p>
-                    Bạn có nhiều ý tưởng trong đầu nhưng <strong className="text-white">loay hoay không biết bắt đầu từ đâu</strong> và tốn hàng giờ đồng hồ?
+                    Bạn có nhiều ý tưởng trong đầu nhưng <strong className="text-purple-950">loay hoay không biết bắt đầu từ đâu</strong> và tốn hàng giờ đồng hồ?
                   </p>
                 </div>
 
-                <div className="flex items-start gap-3">
-                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs mt-0.5">
+                <div className="flex items-start gap-3 p-3 rounded-xl bg-purple-50/60 border border-purple-100">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold mt-0.5">
                     ?
                   </span>
                   <p>
-                    Bạn muốn tạo những video có <strong className="text-amber-300 font-medium">chữ xuất hiện trên màn hình</strong>, câu mở đầu "thôi miên" và nội dung khiến người xem phải xem đến giây cuối cùng?
+                    Bạn muốn tạo những video có <strong className="text-purple-800 font-bold">chữ xuất hiện trên màn hình</strong>, câu mở đầu "thôi miên" và nội dung khiến người xem phải xem đến giây cuối cùng?
                   </p>
                 </div>
               </div>
 
               {/* Value Highlight Badge */}
-              <div className="p-3.5 bg-black/40 border border-zinc-800 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-zinc-300">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="p-3.5 bg-purple-50/90 border border-purple-200 rounded-xl flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm text-slate-700">
+                <div className="flex items-center gap-2 font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Dùng ngay với ChatGPT / Gemini / Claude</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-amber-400" />
+                <div className="flex items-center gap-2 font-medium">
+                  <ShieldCheck className="w-4 h-4 text-purple-700" />
                   <span>Quét VietQR SHB Nhận Skill Tức Thì</span>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) =>
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
                 <button
                   onClick={() => onSelectProduct('skill-text-overlay')}
-                  className="gold-gradient-btn text-black font-extrabold text-sm sm:text-base uppercase tracking-wider px-7 py-4 rounded-xl cursor-pointer flex items-center justify-center gap-2.5 shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  className="purple-gradient-btn text-white font-extrabold text-sm sm:text-base uppercase tracking-wider px-7 py-4 rounded-xl cursor-pointer flex items-center justify-center gap-2.5 shadow-lg shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                   <span>MUA SKILL NGAY - 99.000 VNĐ</span>
                   <ArrowRight className="w-5 h-5 stroke-[2.5]" />
@@ -97,9 +97,9 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) =>
 
                 <button
                   onClick={onExploreDemo}
-                  className="bg-zinc-800/80 hover:bg-zinc-700/80 text-white font-semibold text-sm sm:text-base px-6 py-4 rounded-xl border border-zinc-700 hover:border-amber-400/40 cursor-pointer flex items-center justify-center gap-2 transition-all"
+                  className="bg-white hover:bg-purple-50 text-purple-900 font-bold text-sm sm:text-base px-6 py-4 rounded-xl border-2 border-purple-300 hover:border-purple-500 cursor-pointer flex items-center justify-center gap-2 transition-all shadow-xs"
                 >
-                  <Play className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  <Play className="w-4 h-4 text-purple-700 fill-purple-700" />
                   <span>Xem Video & Thử Mẫu</span>
                 </button>
 
@@ -107,9 +107,9 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) =>
                   href={BANK_INFO.zaloGroupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#0068ff]/15 hover:bg-[#0068ff]/30 text-blue-400 border border-[#0068ff]/40 font-semibold text-sm px-5 py-4 rounded-xl flex items-center justify-center gap-2 transition-all"
+                  className="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold text-sm px-5 py-4 rounded-xl flex items-center justify-center gap-2 transition-all"
                 >
-                  <MessageCircle className="w-4 h-4 text-blue-400" />
+                  <MessageCircle className="w-4 h-4 text-blue-600" />
                   <span>Nhóm Zalo</span>
                 </a>
               </div>
@@ -120,29 +120,29 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) =>
             <div className="lg:col-span-5 flex flex-col items-center">
               <div className="relative w-full max-w-md mx-auto">
                 {/* Decorative glowing backdrops */}
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-amber-500/30 to-amber-700/30 rounded-3xl blur-lg opacity-70 group-hover:opacity-100 transition duration-1000"></div>
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-3xl blur-lg opacity-40"></div>
 
-                <div className="relative rounded-2xl overflow-hidden border-2 border-amber-500/40 bg-zinc-900 shadow-2xl">
+                <div className="relative rounded-2xl overflow-hidden border-3 border-purple-200 bg-white shadow-xl">
                   {/* Portrait photo of Hai Trieu */}
                   <img
                     src="/assets/aistudio/image_8e8d66ac.png"
                     alt="Hải Triều AI - Chuyên gia Sáng tạo Kịch bản Video"
-                    className="w-full h-auto object-cover object-left-top max-h-[460px] filter brightness-[1.02] contrast-[1.05]"
+                    className="w-full h-auto object-cover object-left-top max-h-[460px]"
                   />
 
                   {/* Gradient Overlay bottom of photo */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5 pt-12">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-purple-950 via-purple-950/85 to-transparent p-5 pt-12">
                     <div className="flex items-center justify-between">
                       <div>
-                        <div className="font-serif-luxury font-black text-xl text-amber-400">
+                        <div className="font-serif-luxury font-black text-xl text-white">
                           HẢI TRIỀU AI
                         </div>
-                        <p className="text-xs text-zinc-300 font-medium">
+                        <p className="text-xs text-purple-200 font-medium">
                           Học Để Làm Được • Làm Để Tạo Ra Giá Trị
                         </p>
                       </div>
                       <div className="text-right">
-                        <span className="inline-block bg-amber-500 text-black font-black text-xs px-2.5 py-1 rounded-md shadow-md uppercase">
+                        <span className="inline-block bg-white text-purple-900 font-black text-xs px-2.5 py-1 rounded-md shadow-md uppercase">
                           99.000 VNĐ
                         </span>
                       </div>
@@ -151,19 +151,19 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProduct, onExploreDemo }) =>
                 </div>
 
                 {/* Floating highlight pills */}
-                <div className="absolute -bottom-4 -left-4 sm:-left-6 bg-[#16181f]/95 backdrop-blur-md border border-amber-500/40 rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-sm">
+                <div className="absolute -bottom-4 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md border border-purple-200 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-sm">
                     ✓
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Quét VietQR SHB</div>
-                    <div className="text-[10px] text-zinc-400">Nhận Skill & Vào Zalo Ngay</div>
+                    <div className="text-xs font-bold text-slate-900">Quét VietQR SHB</div>
+                    <div className="text-[10px] text-purple-700">Nhận Skill & Vào Zalo Ngay</div>
                   </div>
                 </div>
 
-                <div className="absolute -top-4 -right-4 sm:-right-6 bg-[#16181f]/95 backdrop-blur-md border border-amber-500/40 rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-2.5">
-                  <div className="w-3 h-3 rounded-full bg-amber-400 animate-ping" />
-                  <div className="text-xs font-bold text-amber-300">
+                <div className="absolute -top-4 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md border border-purple-200 rounded-xl px-4 py-2.5 shadow-lg flex items-center gap-2.5">
+                  <div className="w-3 h-3 rounded-full bg-purple-600 animate-ping" />
+                  <div className="text-xs font-bold text-purple-900">
                     2.500+ Học Viên Đã Áp Dụng
                   </div>
                 </div>

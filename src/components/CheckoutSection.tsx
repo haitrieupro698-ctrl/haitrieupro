@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { 
   Copy, 
   Check, 
-  QrCode, 
   ShieldCheck, 
   Smartphone, 
   MessageCircle, 
   ArrowRight, 
   Download, 
   CheckCircle2, 
-  AlertCircle,
-  Sparkles,
+  AlertCircle, 
   ExternalLink,
   Mail,
   Send,
@@ -100,7 +98,6 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
       setIsSuccessModalOpen(true);
     } catch (err) {
       console.error('Error creating order in Firestore:', err);
-      // Still open modal so customer has Zalo link and transfer info
       setIsSuccessModalOpen(true);
     }
   };
@@ -155,61 +152,61 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
   };
 
   return (
-    <section id="thanhtoan" className="py-16 sm:py-24 bg-[#0a0c0f] relative overflow-hidden">
+    <section id="thanhtoan" className="py-16 sm:py-24 bg-[#faf7ff] relative overflow-hidden">
       {/* Glow backgrounds */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-amber-500/10 blur-[150px] pointer-events-none rounded-full" />
-      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-amber-600/5 blur-[120px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-purple-200/40 blur-[150px] pointer-events-none rounded-full" />
+      <div className="absolute bottom-10 left-0 w-[400px] h-[400px] bg-indigo-200/30 blur-[120px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-wider uppercase mb-3">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 border border-purple-300 text-purple-800 text-xs font-bold tracking-wider uppercase mb-3">
+            <ShieldCheck className="w-4 h-4 text-purple-700" />
             <span>CỔNG THANH TOÁN VIETQR SHB TỰ ĐỘNG 24/7</span>
           </div>
-          <h2 className="font-serif-luxury font-black text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight mb-4">
-            THANH TOÁN CHUYỂN KHOẢN <span className="gold-gradient-text">DỄ DÀNG</span>
+          <h2 className="font-serif-luxury font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight mb-4">
+            THANH TOÁN CHUYỂN KHOẢN <span className="purple-gradient-text">DỄ DÀNG</span>
           </h2>
-          <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
             Quét mã VietQR trên bất kỳ ứng dụng ngân hàng nào để thanh toán nhanh chóng và tự động, hoặc sao chép thông tin tài khoản bên dưới.
           </p>
         </div>
 
         {/* Product Selector Bar */}
-        <div className="mb-10 max-w-3xl mx-auto bg-[#121419] p-2 rounded-2xl border border-zinc-800 flex flex-wrap gap-2">
+        <div className="mb-10 max-w-3xl mx-auto bg-purple-100/60 p-2 rounded-2xl border border-purple-200 flex flex-wrap gap-2">
           {SKILL_PRODUCTS.map((prod) => (
             <button
               key={prod.id}
               onClick={() => onSelectProduct(prod.id)}
               className={`flex-1 min-w-[140px] py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer text-center ${
                 selectedProductId === prod.id
-                  ? 'gold-gradient-btn text-black shadow-md'
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
+                  ? 'purple-gradient-btn text-white shadow-md shadow-purple-600/30'
+                  : 'text-purple-900 hover:text-purple-950 hover:bg-white'
               }`}
             >
               <div className="truncate">{prod.name}</div>
-              <div className="text-[10px] opacity-80">{formatVND(prod.price)}</div>
+              <div className="text-[10px] opacity-90">{formatVND(prod.price)}</div>
             </button>
           ))}
         </div>
 
-        {/* Main Payment Container */}
-        <div className="bg-[#121419] border-2 border-amber-500/35 rounded-3xl p-6 sm:p-10 shadow-2xl gold-border-glow">
+        {/* Main Payment Container - Crisp White & Purple Border */}
+        <div className="bg-white border-2 border-purple-200 rounded-3xl p-6 sm:p-10 shadow-xl shadow-purple-900/5">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             
             {/* Left Column: VietQR Code Box */}
             <div className="lg:col-span-5 flex flex-col items-center">
               
-              <div className="w-full max-w-sm bg-white rounded-2xl p-4 sm:p-5 shadow-2xl border-4 border-amber-500/30 text-center relative">
+              <div className="w-full max-w-sm bg-white rounded-2xl p-4 sm:p-5 shadow-lg border-3 border-purple-300 text-center relative">
                 
                 {/* QR Type Switcher */}
-                <div className="flex items-center justify-center gap-1 mb-3 bg-zinc-100 p-1 rounded-xl">
+                <div className="flex items-center justify-center gap-1 mb-3 bg-purple-50 p-1 rounded-xl">
                   <button
                     onClick={() => setQrType('static')}
                     className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                       qrType === 'static'
-                        ? 'bg-amber-500 text-black shadow-sm'
+                        ? 'bg-purple-600 text-white shadow-sm'
                         : 'text-zinc-600 hover:text-zinc-900'
                     }`}
                   >
@@ -219,7 +216,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                     onClick={() => setQrType('dynamic')}
                     className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                       qrType === 'dynamic'
-                        ? 'bg-amber-500 text-black shadow-sm'
+                        ? 'bg-purple-600 text-white shadow-sm'
                         : 'text-zinc-600 hover:text-zinc-900'
                     }`}
                   >
@@ -228,7 +225,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* QR Image */}
-                <div className="relative rounded-xl overflow-hidden bg-white p-2">
+                <div className="relative rounded-xl overflow-hidden bg-white p-2 border border-purple-100">
                   <img
                     src={qrType === 'static' ? BANK_INFO.qrStaticUrl : dynamicQrUrl}
                     alt="Mã VietQR SHB TRỊNH HẢI TRIỀU"
@@ -237,19 +234,19 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* Bank badge under QR */}
-                <div className="mt-3 pt-3 border-t border-zinc-200 flex items-center justify-between text-xs text-zinc-700">
+                <div className="mt-3 pt-3 border-t border-purple-100 flex items-center justify-between text-xs text-zinc-700">
                   <div className="text-left font-bold text-black flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
                     <span>Napas247 | SHB</span>
                   </div>
-                  <div className="text-right font-black text-amber-700 text-sm">
+                  <div className="text-right font-black text-purple-700 text-sm">
                     {formatVND(currentProduct.price)}
                   </div>
                 </div>
 
                 {/* QR quick tip */}
                 <p className="text-[11px] text-zinc-500 mt-2">
-                  Dùng app <span className="font-semibold text-zinc-800">Vietcombank, MB, Techcombank, VPBank, SHB...</span> quét là chuyển được ngay!
+                  Dùng app <span className="font-semibold text-purple-900">Vietcombank, MB, Techcombank, VPBank, SHB...</span> quét là chuyển được ngay!
                 </p>
               </div>
 
@@ -259,22 +256,22 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 download="VietQR_Hai_Trieu_AI.png"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 text-xs text-zinc-400 hover:text-amber-400 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 text-xs text-purple-700 hover:text-purple-900 font-bold transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Tải ảnh mã QR về máy</span>
               </a>
 
               {/* Zalo group callout below QR */}
-              <div className="mt-5 w-full max-w-sm p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/40 text-center">
-                <p className="text-xs text-blue-200">
-                  Sau khi chuyển khoản, bấm nút <strong className="text-white">"Vào Nhóm Zalo"</strong> để nhận file Skill và được kèm 1-1 ngay nhé!
+              <div className="mt-5 w-full max-w-sm p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-center">
+                <p className="text-xs text-blue-900 font-medium">
+                  Sau khi chuyển khoản, bấm nút <strong className="text-blue-950 font-bold">"Vào Nhóm Zalo"</strong> để nhận file Skill và được kèm 1-1 ngay nhé!
                 </p>
                 <a
                   href={BANK_INFO.zaloGroupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2.5 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-colors"
+                  className="mt-2.5 inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors shadow-sm"
                 >
                   <MessageCircle className="w-4 h-4" />
                   <span>Mở Nhóm Zalo: https://zalo.me/g/bd8u0pauixb47416hzxo</span>
@@ -287,17 +284,17 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
             <div className="lg:col-span-7 space-y-6">
               
               {/* Product chosen summary */}
-              <div className="p-4 rounded-2xl bg-black/40 border border-amber-500/30 flex items-center justify-between">
+              <div className="p-4 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-between">
                 <div>
-                  <span className="text-[11px] uppercase tracking-wider text-amber-400 font-bold block">
+                  <span className="text-[11px] uppercase tracking-wider text-purple-700 font-extrabold block">
                     ĐANG THANH TOÁN GÓI:
                   </span>
-                  <span className="font-serif-luxury font-bold text-lg sm:text-xl text-white">
+                  <span className="font-serif-luxury font-bold text-lg sm:text-xl text-slate-900">
                     {currentProduct.name}
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="font-serif-luxury font-black text-xl sm:text-2xl text-amber-400">
+                  <span className="font-serif-luxury font-black text-xl sm:text-2xl text-purple-700">
                     {formatVND(currentProduct.price)}
                   </span>
                 </div>
@@ -305,28 +302,28 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
               {/* Bank Account Info Cards - 1-CLICK COPY BUTTONS */}
               <div className="space-y-3">
-                <span className="text-xs uppercase tracking-wider text-zinc-400 font-bold flex items-center gap-1.5">
-                  <Smartphone className="w-4 h-4 text-amber-400" />
+                <span className="text-xs uppercase tracking-wider text-purple-900 font-extrabold flex items-center gap-1.5">
+                  <Smartphone className="w-4 h-4 text-purple-600" />
                   THÔNG TIN CHUYỂN KHOẢN NGÂN HÀNG CHÍNH CHỦ
                 </span>
 
                 {/* 1. Bank Name */}
-                <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200 flex items-center justify-between">
                   <div>
-                    <div className="text-[11px] text-zinc-400">Ngân hàng thụ hưởng:</div>
-                    <div className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-                      <span className="text-amber-400 font-black">{BANK_INFO.bankName}</span>
-                      <span className="text-xs text-zinc-400">({BANK_INFO.bankFullName})</span>
+                    <div className="text-[11px] text-zinc-500">Ngân hàng thụ hưởng:</div>
+                    <div className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                      <span className="text-purple-700 font-black">{BANK_INFO.bankName}</span>
+                      <span className="text-xs text-zinc-500">({BANK_INFO.bankFullName})</span>
                     </div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(BANK_INFO.bankName, 'bankName')}
-                    className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white hover:bg-purple-100 text-xs text-purple-900 font-bold border border-purple-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
                   >
                     {copiedField === 'bankName' ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Đã chép</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Đã chép</span>
                       </>
                     ) : (
                       <>
@@ -338,25 +335,25 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* 2. Account Number */}
-                <div className="p-3.5 rounded-xl bg-amber-500/10 border-2 border-amber-500/40 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-purple-100/80 border-2 border-purple-400 flex items-center justify-between">
                   <div>
-                    <div className="text-[11px] text-amber-300 font-semibold">Số tài khoản:</div>
-                    <div className="text-lg sm:text-2xl font-mono font-black text-amber-400 tracking-wider">
+                    <div className="text-[11px] text-purple-900 font-bold">Số tài khoản:</div>
+                    <div className="text-lg sm:text-2xl font-mono font-black text-purple-950 tracking-wider">
                       {BANK_INFO.accountNumber}
                     </div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(BANK_INFO.accountNumber, 'accountNumber')}
-                    className="gold-gradient-btn px-4 py-2 rounded-xl text-xs font-black text-black flex items-center gap-1.5 cursor-pointer shadow-md hover:scale-105 active:scale-95 transition-all"
+                    className="purple-gradient-btn px-4 py-2 rounded-xl text-xs font-black text-white flex items-center gap-1.5 cursor-pointer shadow-md hover:scale-105 active:scale-95 transition-all"
                   >
                     {copiedField === 'accountNumber' ? (
                       <>
-                        <Check className="w-4 h-4 text-black stroke-[3]" />
+                        <Check className="w-4 h-4 text-white stroke-[3]" />
                         <span>ĐÃ SAO CHÉP</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4 text-black stroke-[2.5]" />
+                        <Copy className="w-4 h-4 text-white stroke-[2.5]" />
                         <span>SAO CHÉP STK</span>
                       </>
                     )}
@@ -364,21 +361,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* 3. Account Owner - TRỊNH HAI TRIEU */}
-                <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200 flex items-center justify-between">
                   <div>
-                    <div className="text-[11px] text-zinc-400">Chủ tài khoản:</div>
-                    <div className="text-sm sm:text-base font-bold text-white uppercase tracking-wide">
+                    <div className="text-[11px] text-zinc-500">Chủ tài khoản:</div>
+                    <div className="text-sm sm:text-base font-bold text-slate-900 uppercase tracking-wide">
                       {BANK_INFO.accountOwner}
                     </div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(BANK_INFO.accountOwner, 'accountOwner')}
-                    className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white hover:bg-purple-100 text-xs text-purple-900 font-bold border border-purple-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
                   >
                     {copiedField === 'accountOwner' ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Đã chép</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Đã chép</span>
                       </>
                     ) : (
                       <>
@@ -390,21 +387,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* 4. Amount */}
-                <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200 flex items-center justify-between">
                   <div>
-                    <div className="text-[11px] text-zinc-400">Số tiền:</div>
-                    <div className="text-base sm:text-lg font-mono font-bold text-emerald-400">
+                    <div className="text-[11px] text-zinc-500">Số tiền:</div>
+                    <div className="text-base sm:text-lg font-mono font-bold text-emerald-700">
                       {formatVND(currentProduct.price)}
                     </div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(currentProduct.price.toString(), 'amount')}
-                    className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-200 flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-white hover:bg-purple-100 text-xs text-purple-900 font-bold border border-purple-200 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
                   >
                     {copiedField === 'amount' ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Đã chép</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Đã chép</span>
                       </>
                     ) : (
                       <>
@@ -416,21 +413,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 </div>
 
                 {/* 5. Transfer Memo */}
-                <div className="p-3.5 rounded-xl bg-black/60 border border-amber-500/30 flex items-center justify-between">
+                <div className="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200 flex items-center justify-between">
                   <div>
-                    <div className="text-[11px] text-amber-400 font-semibold">Nội dung chuyển khoản (Memo):</div>
-                    <div className="text-sm sm:text-base font-mono font-bold text-white">
+                    <div className="text-[11px] text-purple-900 font-bold">Nội dung chuyển khoản (Memo):</div>
+                    <div className="text-sm sm:text-base font-mono font-bold text-slate-900">
                       {orderCode}
                     </div>
                   </div>
                   <button
                     onClick={() => copyToClipboard(orderCode, 'orderCode')}
-                    className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-xs text-amber-300 border border-amber-500/40 flex items-center gap-1 cursor-pointer transition-colors"
+                    className="px-3 py-1.5 rounded-lg bg-purple-100 hover:bg-purple-200 text-xs text-purple-900 font-bold border border-purple-300 flex items-center gap-1 cursor-pointer transition-colors shadow-2xs"
                   >
                     {copiedField === 'orderCode' ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400">Đã chép</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Đã chép</span>
                       </>
                     ) : (
                       <>
@@ -444,13 +441,13 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
               {/* Customer registration / confirmation form */}
               <form onSubmit={handleConfirmPayment} className="pt-2 space-y-3.5">
-                <span className="text-xs uppercase tracking-wider text-zinc-400 font-bold block">
+                <span className="text-xs uppercase tracking-wider text-purple-900 font-extrabold block">
                   ĐIỀN THÔNG TIN ĐỂ KÍCH HOẠT VÀ VÀO NHÓM ZALO:
                 </span>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs text-zinc-300 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Họ và tên của bạn:
                     </label>
                     <input
@@ -459,12 +456,12 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                       placeholder="Ví dụ: Nguyễn Văn A"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
-                      className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400"
+                      className="w-full bg-white border border-purple-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-purple-600"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs text-zinc-300 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Số điện thoại / Zalo:
                     </label>
                     <input
@@ -473,13 +470,13 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                       placeholder="Ví dụ: 0913179424"
                       value={customerPhone}
                       onChange={(e) => setCustomerPhone(e.target.value)}
-                      className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400"
+                      className="w-full bg-white border border-purple-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-purple-600"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs text-zinc-300 mb-1">
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
                     Email nhận tài nguyên & file Skill (tùy chọn):
                   </label>
                   <input
@@ -487,20 +484,20 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                     placeholder="email@example.com"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
-                    className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-amber-400"
+                    className="w-full bg-white border border-purple-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-purple-600"
                   />
                 </div>
 
                 {/* Primary Action Button */}
                 <button
                   type="submit"
-                  className="w-full gold-gradient-btn text-black font-black text-sm sm:text-base uppercase tracking-wider py-4 px-6 rounded-xl cursor-pointer flex items-center justify-center gap-2.5 shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all"
+                  className="w-full purple-gradient-btn text-white font-black text-sm sm:text-base uppercase tracking-wider py-4 px-6 rounded-xl cursor-pointer flex items-center justify-center gap-2.5 shadow-lg shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all"
                 >
                   <span>TÔI ĐÃ CHUYỂN KHOẢN • VÀO NHÓM ZALO NHẬN SKILL</span>
                   <ArrowRight className="w-5 h-5 stroke-[3]" />
                 </button>
 
-                <p className="text-[11px] text-center text-zinc-400">
+                <p className="text-[11px] text-center text-slate-500 font-medium">
                   Sau khi bấm, đơn hàng sẽ được lưu trên Firebase Firestore và bạn sẽ được chuyển hướng đến nhóm Zalo của Hải Triều AI.
                 </p>
               </form>
@@ -514,48 +511,48 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
       {/* Payment Success & Zalo Redirect Modal */}
       {isSuccessModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-[#14161d] border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative text-center space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="bg-white border-2 border-purple-300 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative text-center space-y-5">
             
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-serif-luxury font-black text-2xl text-white">
+              <h3 className="font-serif-luxury font-black text-2xl text-slate-900">
                 XÁC NHẬN THÀNH CÔNG!
               </h3>
-              <p className="text-zinc-300 text-sm">
-                Cảm ơn bạn <strong className="text-amber-400">{customerName || 'bạn'}</strong> đã mua Skill{' '}
-                <strong className="text-white">{currentProduct.name}</strong>! Đơn hàng đã được lưu trên hệ thống.
+              <p className="text-slate-600 text-sm">
+                Cảm ơn bạn <strong className="text-purple-700">{customerName || 'bạn'}</strong> đã mua Skill{' '}
+                <strong className="text-slate-900">{currentProduct.name}</strong>! Đơn hàng đã được lưu trên hệ thống.
               </p>
             </div>
 
-            <div className="bg-black/60 p-4 rounded-xl border border-zinc-800 text-left text-xs space-y-2 text-zinc-300">
+            <div className="bg-purple-50 p-4 rounded-xl border border-purple-200 text-left text-xs space-y-2 text-slate-700">
               <div className="flex justify-between">
-                <span className="text-zinc-400">Mã đơn hàng:</span>
-                <span className="font-mono font-bold text-amber-400">{orderCode}</span>
+                <span className="text-zinc-500">Mã đơn hàng:</span>
+                <span className="font-mono font-bold text-purple-700">{orderCode}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-zinc-400">Số tiền:</span>
-                <span className="font-bold text-emerald-400">{formatVND(currentProduct.price)}</span>
+                <span className="text-zinc-500">Số tiền:</span>
+                <span className="font-bold text-emerald-700">{formatVND(currentProduct.price)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-zinc-400">Chủ tài khoản:</span>
-                <span className="text-amber-300 font-bold">{BANK_INFO.accountOwner}</span>
+                <span className="text-zinc-500">Chủ tài khoản:</span>
+                <span className="text-slate-900 font-bold">{BANK_INFO.accountOwner}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-zinc-400">Ngân hàng:</span>
-                <span className="text-white">SHB (STK: 0913179424)</span>
+                <span className="text-zinc-500">Ngân hàng:</span>
+                <span className="text-slate-900">SHB (STK: 0913179424)</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-zinc-400">Số điện thoại:</span>
-                <span className="text-white">{customerPhone || 'Chưa cung cấp'}</span>
+                <span className="text-zinc-500">Số điện thoại:</span>
+                <span className="text-slate-900">{customerPhone || 'Chưa cung cấp'}</span>
               </div>
               {customerEmail && (
                 <div className="flex justify-between">
-                  <span className="text-zinc-400">Email:</span>
-                  <span className="text-blue-300">{customerEmail}</span>
+                  <span className="text-zinc-500">Email:</span>
+                  <span className="text-blue-700 font-medium">{customerEmail}</span>
                 </div>
               )}
             </div>
@@ -563,7 +560,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
             {/* Email send status message */}
             {emailStatus && (
               <div className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
-                emailStatus.sent ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                emailStatus.sent ? 'bg-emerald-50 text-emerald-800 border border-emerald-300' : 'bg-rose-50 text-rose-800 border border-rose-300'
               }`}>
                 {emailStatus.sent ? <CheckCircle2 className="w-4 h-4 flex-shrink-0" /> : <AlertCircle className="w-4 h-4 flex-shrink-0" />}
                 <span>{emailStatus.message}</span>
@@ -572,21 +569,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
             {/* Gmail delivery button if customer provided email */}
             {customerEmail && !emailStatus?.sent && (
-              <div className="p-3 rounded-xl bg-blue-950/40 border border-blue-500/30 text-left">
+              <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-left">
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <Mail className="w-4 h-4 text-blue-400" />
+                    <div className="text-xs font-bold text-purple-950 flex items-center gap-1.5">
+                      <Mail className="w-4 h-4 text-purple-600" />
                       <span>Nhận tài liệu qua Gmail</span>
                     </div>
-                    <div className="text-[11px] text-zinc-400">
+                    <div className="text-[11px] text-slate-600">
                       Gửi thư xác nhận và file Prompt tới {customerEmail}
                     </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setIsConfirmingEmailSend(true)}
-                    className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 transition-colors cursor-pointer"
+                    className="px-3 py-1.5 rounded-lg bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs flex items-center gap-1 transition-colors cursor-pointer shadow-xs"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>Gửi Mail</span>
@@ -601,7 +598,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsSuccessModalOpen(false)}
-                className="w-full py-4 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-colors"
+                className="w-full py-4 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md shadow-blue-600/30 transition-colors"
               >
                 <MessageCircle className="w-5 h-5" />
                 <span>VÀO NHÓM ZALO NHẬN SKILL NGAY</span>
@@ -611,7 +608,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
               <button
                 type="button"
                 onClick={() => setIsSuccessModalOpen(false)}
-                className="w-full py-2.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
               >
                 Đóng cửa sổ này
               </button>
@@ -623,35 +620,35 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
       {/* MANDATORY USER CONFIRMATION MODAL BEFORE SENDING EMAIL VIA GMAIL */}
       {isConfirmingEmailSend && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
-          <div className="bg-[#151821] border-2 border-blue-500/50 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-white border-2 border-purple-300 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
             
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
                 <Mail className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-base">
+                <h4 className="font-bold text-slate-900 text-base">
                   Xác Nhận Gửi Email Qua Gmail
                 </h4>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-slate-600">
                   Hệ thống sẽ gửi email xác nhận và tài liệu Skill
                 </p>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 text-xs space-y-2 text-zinc-300">
+            <div className="p-3.5 rounded-xl bg-purple-50 border border-purple-200 text-xs space-y-2 text-slate-700">
               <div>
                 <span className="text-zinc-500">Người nhận:</span>{' '}
-                <strong className="text-white">{customerName || 'Khách hàng'}</strong> ({customerEmail})
+                <strong className="text-slate-900">{customerName || 'Khách hàng'}</strong> ({customerEmail})
               </div>
               <div>
                 <span className="text-zinc-500">Mã đơn hàng:</span>{' '}
-                <strong className="text-amber-400 font-mono">{orderCode}</strong>
+                <strong className="text-purple-700 font-mono">{orderCode}</strong>
               </div>
               <div>
                 <span className="text-zinc-500">Gói Skill:</span>{' '}
-                <span className="text-white">{currentProduct.name}</span>
+                <span className="text-slate-900 font-semibold">{currentProduct.name}</span>
               </div>
             </div>
 
@@ -660,7 +657,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 type="button"
                 onClick={() => setIsConfirmingEmailSend(false)}
                 disabled={isSendingEmail}
-                className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Hủy bỏ
               </button>
@@ -669,7 +666,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 type="button"
                 onClick={handleExecuteSendEmail}
                 disabled={isSendingEmail}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl purple-gradient-btn text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-all cursor-pointer"
               >
                 {isSendingEmail ? (
                   <>

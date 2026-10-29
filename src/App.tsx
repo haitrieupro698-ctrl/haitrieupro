@@ -55,12 +55,11 @@ export default function App() {
       videoEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
   return (
-    <div className="min-h-screen bg-[#0b0c0e] text-[#f3f4f6] selection:bg-amber-500 selection:text-black">
-      {/* Top Notification Announcement Bar */}
-      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 text-black px-4 py-2 text-xs sm:text-sm font-black text-center flex items-center justify-center gap-2 shadow-md">
-        <Sparkles className="w-4 h-4 fill-black text-black animate-pulse" />
+    <div className="min-h-screen bg-[#faf7ff] text-slate-900 selection:bg-purple-600 selection:text-white">
+      {/* Top Notification Announcement Bar - Purple & White Theme */}
+      <div className="bg-gradient-to-r from-purple-800 via-indigo-600 to-purple-900 text-white px-4 py-2 text-xs sm:text-sm font-bold text-center flex items-center justify-center gap-2 shadow-md border-b border-purple-500/30">
+        <Sparkles className="w-4 h-4 fill-purple-300 text-purple-300 animate-pulse" />
         <span>
           ƯU ĐÃI ĐỘC QUYỀN: BỘ SKILL TEXT OVERLAY GIẢM CÒN 99.000 VNĐ (GIÁ GỐC 299K) • QUÉT VIETQR SHB TỰ ĐỘNG
         </span>
@@ -68,9 +67,9 @@ export default function App() {
           href={BANK_INFO.zaloGroupUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center gap-1 bg-black text-amber-400 px-2.5 py-0.5 rounded-full text-xs hover:bg-zinc-900 transition-colors ml-2"
+          className="hidden md:inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-0.5 rounded-full text-xs transition-colors ml-2 border border-white/30"
         >
-          <MessageCircle className="w-3 h-3 text-amber-400" />
+          <MessageCircle className="w-3 h-3 text-purple-200" />
           <span>Vào Zalo ngay</span>
         </a>
       </div>

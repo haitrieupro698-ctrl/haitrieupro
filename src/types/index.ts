@@ -10,6 +10,7 @@ export interface SkillProduct {
   bonuses?: string[];
   description: string;
   iconName: string;
+  imageUrl?: string;
 }
 
 export interface BankAccountInfo {

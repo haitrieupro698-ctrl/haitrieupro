@@ -44,6 +44,7 @@ export const SKILL_PRODUCTS: SkillProduct[] = [
       'Tài liệu PDF hướng dẫn từng bước chi tiết',
       'Quyền truy cập kho Prompt cập nhật liên tục',
     ],
+    imageUrl: '/assets/aistudio/image_c4c4affd.png',
   },
   {
     id: 'skill-expert-storytelling',
@@ -64,6 +65,7 @@ export const SKILL_PRODUCTS: SkillProduct[] = [
       'Tặng 20 mẫu kịch bản ngành nghề: Bất động sản, Đào tạo, Sức khỏe, Bán lẻ',
       'Tham gia nhóm Zalo giải đáp và sửa kịch bản',
     ],
+    imageUrl: '/assets/aistudio/image_8e8d66ac.png',
   },
   {
     id: 'skill-ai-character-visual',
@@ -84,6 +86,7 @@ export const SKILL_PRODUCTS: SkillProduct[] = [
       'Danh sách các công cụ AI miễn phí tốt nhất hiện nay',
       'Hỗ trợ kỹ thuật thực hành trong nhóm Zalo',
     ],
+    imageUrl: '/assets/aistudio/image_70c6648a.png',
   },
   {
     id: 'combo-all-skills',
@@ -108,6 +111,7 @@ export const SKILL_PRODUCTS: SkillProduct[] = [
       'Tiết kiệm ngay 698.000đ so với mua lẻ',
       'Huy hiệu Thành Viên VIP trong Nhóm Zalo',
     ],
+    imageUrl: '/assets/aistudio/image_c4c4affd.png',
   },
 ];
 

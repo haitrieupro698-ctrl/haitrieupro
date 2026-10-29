@@ -118,25 +118,25 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="bg-[#12141a] border-2 border-amber-500/40 rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white border-2 border-purple-300 rounded-3xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden relative">
         
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-zinc-800 flex items-center justify-between bg-[#151821]">
+        <div className="p-5 sm:p-6 border-b border-purple-100 flex items-center justify-between bg-purple-50/70">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
               <Mail className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-serif-luxury font-black text-lg sm:text-xl text-white flex items-center gap-2">
+              <h3 className="font-serif-luxury font-black text-lg sm:text-xl text-slate-900 flex items-center gap-2">
                 <span>KẾT NỐI & QUẢN LÝ GMAIL</span>
                 {user && (
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                  <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300 font-bold">
                     Đã kết nối
                   </span>
                 )}
               </h3>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-slate-600">
                 Gửi email xác nhận đơn và tài liệu Skill tự động từ tài khoản Gmail chính chủ
               </p>
             </div>
@@ -144,7 +144,7 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-800 hover:bg-purple-100 transition-colors cursor-pointer"
             aria-label="Đóng"
           >
             <X className="w-6 h-6" />
@@ -158,24 +158,24 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
             <div
               className={`p-3.5 rounded-xl border text-xs flex items-center justify-between ${
                 feedbackMsg.type === 'success'
-                  ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
-                  : 'bg-rose-500/15 border-rose-500/40 text-rose-300'
+                  ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
+                  : 'bg-rose-50 border-rose-300 text-rose-800'
               }`}
             >
               <div className="flex items-center gap-2">
                 {feedbackMsg.type === 'success' ? (
-                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-600" />
                 ) : (
-                  <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 text-rose-600" />
                 )}
                 <span>{feedbackMsg.text}</span>
               </div>
-              <button onClick={() => setFeedbackMsg(null)} className="text-zinc-400 hover:text-white">✕</button>
+              <button onClick={() => setFeedbackMsg(null)} className="text-slate-400 hover:text-slate-800">✕</button>
             </div>
           )}
 
           {/* User Auth Card */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-black/50 border border-zinc-800">
+          <div className="p-4 sm:p-5 rounded-2xl bg-purple-50/50 border border-purple-200">
             {user ? (
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -183,22 +183,22 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                     <img
                       src={user.photoURL}
                       alt={user.displayName || 'Avatar'}
-                      className="w-12 h-12 rounded-full border border-amber-500/40"
+                      className="w-12 h-12 rounded-full border-2 border-purple-300 shadow-sm"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold">
+                    <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
                       <User className="w-6 h-6" />
                     </div>
                   )}
                   <div>
-                    <div className="font-bold text-white text-sm sm:text-base">
+                    <div className="font-bold text-slate-900 text-sm sm:text-base">
                       {user.displayName || 'Tài khoản Google'}
                     </div>
-                    <div className="text-xs text-amber-400 font-mono">
+                    <div className="text-xs text-purple-800 font-mono font-bold">
                       {user.email}
                     </div>
                     {profile && (
-                      <div className="text-[11px] text-zinc-500 mt-0.5">
+                      <div className="text-[11px] text-slate-500 mt-0.5">
                         Tổng số thư Gmail: {profile.messagesTotal.toLocaleString()}
                       </div>
                     )}
@@ -207,15 +207,15 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
 
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto"
+                  className="px-4 py-2 rounded-xl bg-white hover:bg-purple-100 text-slate-700 text-xs font-semibold border border-purple-200 flex items-center gap-1.5 transition-colors cursor-pointer self-start sm:self-auto"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
+                  <LogOut className="w-3.5 h-3.5 text-purple-600" />
                   <span>Đăng xuất</span>
                 </button>
               </div>
             ) : (
               <div className="text-center py-4 space-y-4">
-                <p className="text-xs sm:text-sm text-zinc-300 max-w-md mx-auto">
+                <p className="text-xs sm:text-sm text-slate-700 max-w-md mx-auto">
                   Đăng nhập tài khoản Google của bạn để cấp quyền cho ứng dụng gửi email xác nhận đơn và tài liệu kịch bản Skill cho học viên qua Gmail.
                 </p>
 
@@ -224,7 +224,7 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                   type="button"
                   onClick={handleSignIn}
                   disabled={isSigningIn}
-                  className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white text-zinc-800 hover:bg-zinc-100 font-bold text-xs sm:text-sm shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white text-slate-800 hover:bg-purple-50 font-bold text-xs sm:text-sm shadow-md border border-purple-200 transition-transform hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 48 48">
                     <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
@@ -242,17 +242,17 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
           {user && (
             <form onSubmit={handleOpenConfirmSend} className="space-y-4 pt-2">
               <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-wider text-amber-400 font-bold flex items-center gap-1.5">
-                  <Send className="w-3.5 h-3.5" />
+                <span className="text-xs uppercase tracking-wider text-purple-900 font-extrabold flex items-center gap-1.5">
+                  <Send className="w-3.5 h-3.5 text-purple-600" />
                   SOẠN VÀ GỬI EMAIL TỰ DO QUA GMAIL
                 </span>
-                <span className="text-[11px] text-zinc-500">
+                <span className="text-[11px] text-slate-500 font-mono">
                   Gửi từ: {user.email}
                 </span>
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Gửi đến email học viên / khách hàng:
                 </label>
                 <input
@@ -261,12 +261,12 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                   placeholder="khachhang@example.com"
                   value={composeTo}
                   onChange={(e) => setComposeTo(e.target.value)}
-                  className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-white border border-purple-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-purple-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Tiêu đề email:
                 </label>
                 <input
@@ -275,12 +275,12 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                   placeholder="Ví dụ: [Hải Triều AI] Gửi link tài nguyên Skill Text Overlay Triệu View"
                   value={composeSubject}
                   onChange={(e) => setComposeSubject(e.target.value)}
-                  className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-white border border-purple-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-purple-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-zinc-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Nội dung email:
                 </label>
                 <textarea
@@ -289,13 +289,13 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                   placeholder="Nhập nội dung thư, lời chào và link tài liệu gửi cho khách..."
                   value={composeBody}
                   onChange={(e) => setComposeBody(e.target.value)}
-                  className="w-full bg-black/70 border border-zinc-700 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-amber-400 resize-none"
+                  className="w-full bg-white border border-purple-200 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-purple-600 resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+                className="w-full py-3.5 px-4 rounded-xl purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>Gửi Email Bằng Tài Khoản Gmail Của Bạn</span>
@@ -309,29 +309,29 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
 
       {/* MANDATORY USER CONFIRMATION DIALOG BEFORE SENDING EMAIL */}
       {isConfirmingSend && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div className="bg-[#151821] border-2 border-amber-500/50 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-white border-2 border-purple-300 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
             
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
                 <Send className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-white text-base">
+                <h4 className="font-bold text-slate-900 text-base">
                   Xác Nhận Gửi Email
                 </h4>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-slate-500">
                   Gửi thư trực tiếp từ {user?.email}
                 </p>
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-black/60 border border-zinc-800 text-xs space-y-2 text-zinc-300">
+            <div className="p-3.5 rounded-xl bg-purple-50/70 border border-purple-200 text-xs space-y-2 text-slate-700">
               <div>
-                <span className="text-zinc-500">Tới:</span> <strong className="text-white">{composeTo}</strong>
+                <span className="text-slate-500">Tới:</span> <strong className="text-purple-950 font-bold">{composeTo}</strong>
               </div>
               <div>
-                <span className="text-zinc-500">Tiêu đề:</span> <span className="text-amber-400 font-semibold">{composeSubject}</span>
+                <span className="text-slate-500">Tiêu đề:</span> <span className="text-purple-900 font-bold">{composeSubject}</span>
               </div>
             </div>
 
@@ -340,7 +340,7 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                 type="button"
                 onClick={() => setIsConfirmingSend(false)}
                 disabled={isSending}
-                className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-xl text-xs text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Hủy bỏ
               </button>
@@ -349,7 +349,7 @@ export const GmailManagerModal: React.FC<GmailManagerModalProps> = ({
                 type="button"
                 onClick={handleExecuteSend}
                 disabled={isSending}
-                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all cursor-pointer"
+                className="px-5 py-2.5 rounded-xl purple-gradient-btn text-white font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-md transition-all cursor-pointer"
               >
                 {isSending ? (
                   <>
