@@ -55,8 +55,9 @@ export default function App() {
       videoEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   return (
-    <div className="min-h-screen bg-[#faf7ff] text-slate-900 selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen bg-[#0b0618] text-[#f8fafc] selection:bg-purple-600 selection:text-white">
       {/* Top Notification Announcement Bar - Purple & White Theme */}
       <div className="bg-gradient-to-r from-purple-800 via-indigo-600 to-purple-900 text-white px-4 py-2 text-xs sm:text-sm font-bold text-center flex items-center justify-center gap-2 shadow-md border-b border-purple-500/30">
         <Sparkles className="w-4 h-4 fill-purple-300 text-purple-300 animate-pulse" />

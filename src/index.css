@@ -11,80 +11,67 @@
   font-family: 'Cinzel', serif;
 }
 
-/* Bright & Luxurious Purple & White Theme */
+/* Custom Purple & White Theme Gradients & Glow Effects */
 .purple-gradient-text {
-  background: linear-gradient(135deg, #581c87 0%, #7c3aed 45%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.purple-gradient-text-light {
-  background: linear-gradient(135deg, #ffffff 0%, #f3e8ff 45%, #d8b4fe 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 40%, #c084fc 75%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .purple-gradient-btn {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%);
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 50%, #6366f1 100%);
   color: #ffffff;
-  box-shadow: 0 4px 18px -2px rgba(109, 40, 217, 0.35);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 22px -2px rgba(147, 51, 234, 0.45);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .purple-gradient-btn:hover {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #4338ca 100%);
-  box-shadow: 0 8px 26px -2px rgba(109, 40, 217, 0.5);
+  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #4f46e5 100%);
+  box-shadow: 0 6px 30px -2px rgba(168, 85, 247, 0.65);
   transform: translateY(-2px);
 }
 
 .purple-border-glow {
-  border: 1px solid #e9d5ff;
-  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 25px -5px rgba(147, 51, 234, 0.2);
 }
 
 .purple-border-glow:hover {
-  border-color: #c084fc;
-  box-shadow: 0 14px 35px -5px rgba(124, 58, 237, 0.18);
+  border-color: rgba(192, 132, 252, 0.7);
+  box-shadow: 0 0 35px -2px rgba(168, 85, 247, 0.4);
 }
 
-.purple-white-card {
-  background-color: #ffffff;
-  border: 1px solid #e9d5ff;
-  box-shadow: 0 10px 30px -4px rgba(109, 40, 217, 0.08);
-}
-
-/* Backward compatibility classes */
+/* Backward compatibility for previous classes */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #581c87 0%, #7c3aed 45%, #4f46e5 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #e9d5ff 40%, #c084fc 75%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gold-gradient-btn {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4f46e5 100%);
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 50%, #6366f1 100%);
   color: #ffffff;
-  box-shadow: 0 4px 18px -2px rgba(109, 40, 217, 0.35);
-  transition: all 0.25s ease;
+  box-shadow: 0 4px 22px -2px rgba(147, 51, 234, 0.45);
+  transition: all 0.3s ease;
 }
 
 .gold-gradient-btn:hover {
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #4338ca 100%);
-  box-shadow: 0 8px 26px -2px rgba(109, 40, 217, 0.5);
+  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 50%, #4f46e5 100%);
+  box-shadow: 0 6px 30px -2px rgba(168, 85, 247, 0.65);
   transform: translateY(-2px);
 }
 
 .gold-border-glow {
-  border: 1px solid #e9d5ff;
-  box-shadow: 0 10px 30px -5px rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 0 25px -5px rgba(147, 51, 234, 0.2);
 }
 
-/* Subtle pattern */
-.bg-purple-mesh {
-  background-color: #faf7ff;
+/* Grid pattern */
+.bg-grid-pattern {
+  background-size: 40px 40px;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(192, 132, 252, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(147, 51, 234, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(99, 102, 241, 0.12) 0px, transparent 50%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
 }
 
 /* Custom scrollbar */
@@ -92,10 +79,10 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #faf5ff;
+  background: #0f0b18;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c084fc;
+  background: #2e1a47;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
