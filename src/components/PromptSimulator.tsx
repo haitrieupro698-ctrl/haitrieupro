@@ -58,18 +58,18 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-[#0e0720] relative border-y border-purple-500/20">
+    <section className="py-16 sm:py-20 bg-white text-slate-900 relative border-y border-purple-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/40 text-purple-200 text-xs font-semibold tracking-wider uppercase mb-2">
-            <Zap className="w-3.5 h-3.5 fill-purple-400 text-purple-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-300 text-xs font-bold tracking-wider uppercase mb-2 shadow-2xs">
+            <Zap className="w-3.5 h-3.5 fill-purple-600 text-purple-600" />
             <span>TRẢI NGHIỆM TRỰC TIẾP</span>
           </div>
-          <h2 className="font-serif-luxury font-black text-2xl sm:text-4xl text-white">
+          <h2 className="font-serif-luxury font-black text-2xl sm:text-4xl text-slate-900">
             THỬ XEM SỨC MẠNH CỦA <span className="purple-gradient-text">SKILL AI</span>
           </h2>
-          <p className="text-zinc-300 text-xs sm:text-sm mt-2">
+          <p className="text-slate-600 text-xs sm:text-sm mt-2">
             Chọn chủ đề bên dưới để xem kịch bản mẫu được tạo ra chuẩn xác từ bộ Skill Text Overlay của Hải Triều AI!
           </p>
         </div>
@@ -80,10 +80,10 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
             <button
               key={topic.id}
               onClick={() => setSelectedTopicIndex(idx)}
-              className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 selectedTopicIndex === idx
                   ? 'purple-gradient-btn text-white shadow-lg shadow-purple-600/30 scale-105'
-                  : 'bg-[#1a0e36] text-purple-200 hover:bg-[#281552] border border-purple-500/30'
+                  : 'bg-purple-50 text-slate-700 hover:text-purple-900 border border-purple-200'
               }`}
             >
               {topic.label}
@@ -91,30 +91,30 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
           ))}
         </div>
 
-        {/* Interactive Result Card */}
-        <div className="max-w-4xl mx-auto bg-[#140b2b] border border-purple-500/35 rounded-2xl p-6 sm:p-8 shadow-2xl relative purple-border-glow">
+        {/* Interactive Result Card - Luminous Theme */}
+        <div className="max-w-4xl mx-auto bg-[#f8f9fe] rounded-3xl p-6 sm:p-8 shadow-xl relative border border-purple-200/90 text-slate-900">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-purple-900/50 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-purple-200 gap-3">
             <div>
-              <span className="text-xs font-mono text-purple-300 font-bold uppercase tracking-widest">
+              <span className="text-xs font-mono text-purple-700 font-bold uppercase tracking-widest">
                 [OUTPUT CHUẨN TỪ SKILL PROMPT]
               </span>
-              <h3 className="font-serif-luxury font-bold text-lg sm:text-xl text-white mt-1">
+              <h3 className="font-serif-luxury font-bold text-lg sm:text-xl text-slate-900 mt-1">
                 {currentTopic.title}
               </h3>
             </div>
             <button
               onClick={handleCopySample}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#24134a] hover:bg-purple-600 text-purple-100 text-xs font-medium border border-purple-400/30 transition-colors cursor-pointer self-start sm:self-auto"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-100 hover:bg-purple-200 text-purple-900 text-xs font-bold border border-purple-300 transition-colors cursor-pointer self-start sm:self-auto shadow-2xs"
             >
               {copied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Đã chép</span>
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-emerald-700">Đã chép</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" />
+                  <Copy className="w-3.5 h-3.5 text-purple-600" />
                   <span>Sao chép mẫu</span>
                 </>
               )}
@@ -123,24 +123,24 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
 
           {/* Hook & Text overlay previews */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-5">
-            <div className="p-4 rounded-xl bg-black/40 border border-purple-500/25">
-              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-wider block mb-1">
+            <div className="p-4 rounded-2xl bg-white border border-purple-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-purple-800 uppercase tracking-wider block mb-1">
                 ⚡ 3 Giây Đầu Thôi Miên (Hook)
               </span>
-              <p className="text-white text-sm font-medium italic">
+              <p className="text-slate-800 text-sm font-semibold italic">
                 "{currentTopic.hook}"
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-black/40 border border-purple-500/25">
-              <span className="text-[11px] font-bold text-purple-300 uppercase tracking-wider block mb-1">
+            <div className="p-4 rounded-2xl bg-white border border-purple-200 shadow-2xs">
+              <span className="text-[11px] font-bold text-purple-800 uppercase tracking-wider block mb-1">
                 📱 Text Overlay Hiển Thị Trên Màn Hình
               </span>
               <div className="flex flex-wrap gap-2 mt-2">
                 {currentTopic.textOverlay.map((txt, i) => (
                   <span
                     key={i}
-                    className="bg-purple-600/20 border border-purple-400/40 text-purple-200 text-xs font-bold px-2.5 py-1 rounded-md"
+                    className="bg-purple-100 border border-purple-300 text-purple-900 text-xs font-bold px-2.5 py-1 rounded-lg shadow-2xs"
                   >
                     #{txt}
                   </span>
@@ -150,31 +150,31 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
           </div>
 
           {/* Detailed Timeline Table */}
-          <div className="overflow-x-auto mt-2">
+          <div className="overflow-x-auto mt-2 rounded-2xl border border-purple-200 shadow-xs">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-[#1a0e36] text-purple-200 font-mono text-[11px] uppercase border-b border-purple-900/60">
+              <thead className="bg-purple-100/80 text-purple-950 font-bold text-[11px] uppercase border-b border-purple-200">
                 <tr>
-                  <th className="py-2.5 px-3">Thời gian</th>
-                  <th className="py-2.5 px-3">Hình ảnh / Góc quay</th>
-                  <th className="py-2.5 px-3">Chữ trên màn hình</th>
-                  <th className="py-2.5 px-3">Lời thoại / Giọng đọc</th>
+                  <th className="py-3 px-3">Thời gian</th>
+                  <th className="py-3 px-3">Hình ảnh / Góc quay</th>
+                  <th className="py-3 px-3">Chữ trên màn hình</th>
+                  <th className="py-3 px-3">Lời thoại / Giọng đọc</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-purple-900/40">
+              <tbody className="divide-y divide-purple-100 bg-white">
                 {currentTopic.scriptTimeline.map((item, index) => (
-                  <tr key={index} className="hover:bg-purple-900/20 transition-colors">
-                    <td className="py-3 px-3 font-mono text-purple-300 font-semibold whitespace-nowrap">
+                  <tr key={index} className="hover:bg-purple-50/60 transition-colors">
+                    <td className="py-3.5 px-3 font-mono text-purple-700 font-bold whitespace-nowrap">
                       {item.time}
                     </td>
-                    <td className="py-3 px-3 text-zinc-200">
+                    <td className="py-3.5 px-3 text-slate-700">
                       {item.visual}
                     </td>
-                    <td className="py-3 px-3">
-                      <span className="bg-purple-500/20 text-purple-200 font-bold px-2 py-0.5 rounded border border-purple-400/30 text-xs">
+                    <td className="py-3.5 px-3">
+                      <span className="bg-purple-50 border border-purple-300 text-purple-900 font-bold px-2 py-0.5 rounded text-xs">
                         {item.text}
                       </span>
                     </td>
-                    <td className="py-3 px-3 text-white">
+                    <td className="py-3.5 px-3 text-slate-900 font-medium">
                       {item.voice}
                     </td>
                   </tr>
@@ -184,14 +184,14 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
           </div>
 
           {/* CTA Banner inside simulator */}
-          <div className="mt-6 pt-5 border-t border-purple-900/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-zinc-200 text-xs sm:text-sm text-center sm:text-left">
-              <span className="text-white font-semibold">Muốn sở hữu ngay trọn bộ Prompt này cho mọi ngành nghề?</span>
-              <p className="text-purple-300 text-xs mt-0.5">Chỉ 99.000 VNĐ • Nhận file và tham gia nhóm Zalo hướng dẫn ngay</p>
+          <div className="mt-6 pt-5 border-t border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="text-slate-700 text-xs sm:text-sm text-center sm:text-left">
+              <span className="text-slate-900 font-bold">Muốn sở hữu ngay trọn bộ Prompt này cho mọi ngành nghề?</span>
+              <p className="text-purple-700 text-xs mt-0.5 font-medium">Chỉ 99.000 VNĐ • Nhận file và tham gia nhóm Zalo hướng dẫn ngay</p>
             </div>
             <button
               onClick={onBuyClick}
-              className="purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer flex items-center gap-2 whitespace-nowrap shadow-lg hover:scale-105 transition-transform"
+              className="purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer flex items-center gap-2 whitespace-nowrap shadow-lg shadow-purple-600/30 hover:scale-105 transition-transform"
             >
               <span>MUA SKILL CHỈ 99K</span>
               <ArrowRight className="w-4 h-4" />
