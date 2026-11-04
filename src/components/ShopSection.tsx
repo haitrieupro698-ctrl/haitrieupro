@@ -101,6 +101,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
     const discountPercent = item.originalPrice > item.price
       ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
       : null;
+    const skillIndex = products.findIndex((p) => p.id === item.id) + 1;
 
     return (
       <div
@@ -149,10 +150,10 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               {/* Top skill index and format indicator */}
               <div className="flex items-center justify-between">
                 <span className="font-mono text-xs font-black tracking-wider uppercase px-2.5 py-1 rounded-md bg-white/90 backdrop-blur-xs text-slate-800 border border-purple-200/60 shadow-2xs">
-                  SKILL {String(item.orderNumber).padStart(2, '0')}
+                  SKILL {String(skillIndex).padStart(2, '0')}
                 </span>
                 <span className="text-[10px] font-bold text-purple-700 bg-white/90 px-2 py-0.5 rounded border border-purple-200/50">
-                  {item.format}
+                  {isFree ? 'QUÀ 0Đ' : (item.price === 99000 ? 'HOT 99K' : 'CHUYÊN GIA')}
                 </span>
               </div>
 

@@ -405,6 +405,7 @@ Font serif thanh lịch, khoảng thở rộng, tập trung vào chiều sâu c�
     downloadsCount: 1540,
     author: 'Trịnh Hải Triều AI',
     iconName: 'Sparkles',
+    imageUrl: '/assets/skill_08.jpg',
     description: 'Lên bộ hình ảnh đồng bộ cho một đợt ra mắt, khuyến mãi, workshop hoặc sự kiện để kênh nhìn chuyên nghiệp hơn.',
     skillHelps: 'Đảm bảo tất cả các bài đăng trong đợt chiến dịch đều mang chung một ngôn ngữ thiết kế, tạo cảm giác quy mô và kích thích người xem tham gia.',
     preparation: 'Tên chiến dịch, thời gian diễn ra sự kiện, thông điệp chính và màu sắc chủ đạo.',
