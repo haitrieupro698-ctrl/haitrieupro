@@ -89,15 +89,15 @@ export const PromoGiftSection: React.FC = () => {
   ];
 
   return (
-    <section id="qua-tang" className="py-14 sm:py-24 bg-white text-slate-900 relative overflow-hidden border-y border-purple-100">
+    <section id="qua-tang" className="py-12 sm:py-16 bg-white text-slate-900 relative overflow-hidden border-y border-purple-100">
       {/* Background ambient lighting in soft lavender and purple */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[350px] bg-purple-200/35 blur-[160px] pointer-events-none rounded-full" />
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-200/30 blur-[150px] pointer-events-none rounded-full" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header Ribbon & Title - White background with rich Purple Text */}
-        <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/90 border border-purple-300 text-purple-900 font-black text-xs sm:text-sm tracking-wider uppercase mb-4 shadow-2xs">
             <Gift className="w-4 h-4 text-purple-700 fill-purple-700" />
             <span>ĐẶC QUYỀN TRI ÂN • QUÀ TẶNG MIỄN PHÍ</span>
@@ -110,7 +110,7 @@ export const PromoGiftSection: React.FC = () => {
             4 Ô Quà Tặng <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-indigo-700 to-fuchsia-700">Miễn Phí 100%</span>
           </h2>
 
-          <p className="mt-4 text-slate-600 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="mt-4 text-slate-600 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-[1.5]">
             Dành tặng riêng cho bạn từ <strong className="text-purple-900 font-bold">Hải Triều AI</strong>. Tham gia{' '}
             <a
               href="https://zalo.me/g/bd8u0pauixb47416hzxo"
@@ -125,7 +125,7 @@ export const PromoGiftSection: React.FC = () => {
         </div>
 
         {/* 4 Gift Cards Grid - Clean White Cards with Purple Typography */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-7 sm:gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mb-12">
           {giftItems.map((item) => (
             <div 
               key={item.skill.id}
@@ -220,40 +220,18 @@ export const PromoGiftSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Card Footer Buttons */}
-              <div className="p-5 sm:p-7 pt-0 space-y-3 bg-white">
-                {/* BIG FULL-WIDTH YELLOW BUTTON: Vào Nhóm Zalo Nhận Quà (0đ) */}
+              {/* Card Footer: CHỈ 1 nút nhận (Point 4) */}
+              <div className="p-5 sm:p-6 pt-0 bg-white">
                 <a
                   href={BANK_INFO.zaloGroupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl shadow-amber-400/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-amber-300"
+                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-sm uppercase tracking-wide flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-amber-300"
                 >
-                  <Users className="w-5 h-5 fill-slate-950" />
-                  <span>Vào Nhóm Zalo Nhận Ô Quà {item.boxNumber} (0đ)</span>
-                  <ArrowRight className="w-4 h-4 stroke-[3]" />
+                  <Gift className="w-4 h-4 fill-slate-950" />
+                  <span>Nhận Quà 0đ (Vào Nhóm Zalo)</span>
+                  <ArrowRight className="w-4 h-4" />
                 </a>
-
-                {/* Secondary Actions: Xem video + Nhắn riêng */}
-                <div className="grid grid-cols-2 gap-2.5">
-                  <button
-                    onClick={() => setActiveDetailProduct(item.skill)}
-                    className="py-2.5 px-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-purple-200 cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 text-purple-700 fill-purple-700" />
-                    <span>Xem Cách Dùng</span>
-                  </button>
-
-                  <a
-                    href={`https://zalo.me/${BANK_INFO.supportPhone}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2.5 px-3 rounded-xl bg-white hover:bg-purple-50 text-purple-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-purple-300 cursor-pointer shadow-2xs"
-                  >
-                    <MessageCircle className="w-3.5 h-3.5 text-purple-700" />
-                    <span>Nhắn Riêng Hải Triều</span>
-                  </a>
-                </div>
               </div>
 
             </div>

@@ -16,7 +16,7 @@ import { BackgroundMusicPlayer } from './components/BackgroundMusicPlayer';
 import { OrdersManagerModal } from './components/OrdersManagerModal';
 import { GmailManagerModal } from './components/GmailManagerModal';
 import { PromoGiftSection } from './components/PromoGiftSection';
-import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText, Gift } from 'lucide-react';
+import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText, Gift, Phone } from 'lucide-react';
 import { BANK_INFO } from './data/skillsData';
 import { initAuth } from './services/gmailService';
 import { auth } from './firebase';
@@ -81,32 +81,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fe] text-slate-800 selection:bg-purple-600 selection:text-white">
-      {/* Top Notification Announcement Bar matching user preference: purple instead of black */}
-      <div className="bg-gradient-to-r from-[#2e1065] via-[#4c1d95] to-[#2e1065] text-amber-300 px-3 sm:px-4 py-2 text-xs sm:text-[13px] font-semibold text-center flex items-center justify-center flex-wrap gap-2 sm:gap-4 shadow-md border-b border-purple-500/40">
-        <div className="flex items-center gap-1.5 shrink-0 text-amber-400 font-bold">
-          <span>🌐</span>
-          <span>haitrieu.pro.vn</span>
-        </div>
-        <span className="hidden sm:inline text-purple-300/60">•</span>
-        <div className="text-white">
-          Chính sách kích hoạt nhanh qua Zalo: <a href="https://zalo.me/0913179424" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-black hover:underline font-mono">0913179424</a>
-        </div>
-        <span className="hidden sm:inline text-purple-300/60">•</span>
-        <div className="hidden md:inline text-purple-200 italic">
-          Học để phát triển, chia sẻ để cùng nhau tiến xa hơn
-        </div>
-        <a
-          href="https://zalo.me/g/bd8u0pauixb47416hzxo"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-slate-950 px-3 py-0.5 rounded-full text-xs font-black transition-all shadow-xs shrink-0 cursor-pointer"
-        >
-          <Gift className="w-3 h-3 fill-slate-950" />
-          <span>4 Quà Tặng 0đ</span>
-        </a>
-      </div>
-
-      {/* Main Navbar */}
+      {/* 1-Line Top Bar & Navigation (Point 1) */}
       <Navbar 
         onOpenCheckout={handleSelectProduct}
         currentUser={currentUser}
@@ -183,9 +158,9 @@ export default function App() {
           onClick={() => setIsChatbotOpen(true)}
           title="Nhắn tin với Trợ lý HẢI TRIỀU AI"
           aria-label="Mở Trợ lý HẢI TRIỀU AI"
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white py-2.5 px-4 rounded-full border-2 border-white/80 shadow-2xl shadow-purple-900/40 hover:scale-105 active:scale-95 transition-all cursor-pointer group"
+          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2.5 bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white py-2.5 px-4 rounded-full border-2 border-white/80 shadow-2xl shadow-purple-900/40 hover:scale-105 active:scale-95 transition-all cursor-pointer group"
         >
-          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/80 shrink-0 shadow-md">
+          <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-white/80 shrink-0 shadow-md">
             <img
               src="/images/tro-ly-hai-trieu.jpg"
               alt="Trợ lý Hải Triều AI"
@@ -194,12 +169,11 @@ export default function App() {
                 (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
               }}
             />
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white" />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-white" />
           </div>
           <div className="text-left hidden sm:block">
             <div className="text-xs font-bold text-white flex items-center gap-1.5">
               <span>Trợ lý HẢI TRIỀU AI</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             </div>
             <div className="text-[11px] text-purple-200 font-medium">Hỏi đáp 24/7 • Bấm nhắn</div>
           </div>
@@ -220,7 +194,7 @@ export default function App() {
           onClick={handleScrollDown}
           title="Cuộn xuống khám phá thêm"
           aria-label="Cuộn xuống"
-          className="fixed bottom-24 right-6 z-30 w-10 h-10 rounded-full bg-white/95 text-purple-700 hover:text-purple-900 border border-purple-200 shadow-xl flex items-center justify-center cursor-pointer hover:bg-purple-50 transition-all hover:scale-105 active:scale-95 group backdrop-blur-md animate-in fade-in"
+          className="fixed bottom-36 sm:bottom-24 right-4 sm:right-6 z-30 w-10 h-10 rounded-full bg-white/95 text-purple-700 hover:text-purple-900 border border-purple-200 shadow-xl flex items-center justify-center cursor-pointer hover:bg-purple-50 transition-all hover:scale-105 active:scale-95 group backdrop-blur-md animate-in fade-in"
         >
           <div className="flex flex-col items-center -space-y-2">
             <ChevronDown className="w-4 h-4 text-purple-700 group-hover:text-purple-900 group-hover:translate-y-0.5 transition-all" />
@@ -228,6 +202,27 @@ export default function App() {
           </div>
         </button>
       )}
+
+      {/* Mobile Fixed Bottom Bar (Point 6: nút "Vào Nhóm Zalo" + "Gọi ngay") */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-purple-200 px-4 py-2.5 flex items-center justify-between gap-3 shadow-2xl">
+        <a
+          href={BANK_INFO.zaloGroupUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 py-3 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs uppercase flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
+        >
+          <MessageCircle className="w-4 h-4 fill-white" />
+          <span>Vào Nhóm Zalo</span>
+        </a>
+
+        <a
+          href={`tel:${BANK_INFO.supportPhone}`}
+          className="flex-1 py-3 px-3 rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-slate-950 font-black text-xs uppercase flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all border border-amber-300"
+        >
+          <Phone className="w-4 h-4 text-slate-950" />
+          <span>Gọi ngay</span>
+        </a>
+      </div>
 
       {/* Background Music Player (Bottom Left with Music Note Icon, 30% Vol, Autoplay & Video clash protection) */}
       <BackgroundMusicPlayer defaultAudioSrc="/audio/background-music.mp3" />
