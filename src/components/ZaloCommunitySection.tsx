@@ -1,10 +1,21 @@
-import React from 'react';
-import { MessageCircle, Users, CheckCircle2, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageCircle, Users, CheckCircle2, ArrowRight, Copy, Check, ExternalLink } from 'lucide-react';
 import { BANK_INFO } from '../data/skillsData';
 
 export const ZaloCommunitySection: React.FC = () => {
+  const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(BANK_INFO.zaloGroupUrl);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
+  };
+
   return (
-    <section id="zalo" className="py-16 sm:py-24 bg-white text-slate-900 relative overflow-hidden border-t border-purple-100">
+    <section id="zalo" className="py-16 sm:py-24 bg-white text-slate-900 relative overflow-hidden border-t border-purple-100 scroll-mt-16">
+      {/* Target anchor for #lienhe */}
+      <div id="lienhe" className="sr-only" />
+
       {/* Background soft glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-blue-100/50 blur-[140px] pointer-events-none rounded-full" />
 
@@ -55,22 +66,46 @@ export const ZaloCommunitySection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="pt-3 flex flex-wrap items-center gap-4">
-                <a
-                  href={BANK_INFO.zaloGroupUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider px-8 py-4 rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-3 transition-transform hover:scale-105 active:scale-95"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span>BẤM VÀO NHÓM ZALO NGAY</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+              {/* Action Buttons & Visible Link Box */}
+              <div className="pt-3 space-y-3">
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href={BANK_INFO.zaloGroupUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider px-8 py-4 rounded-xl shadow-lg shadow-blue-600/30 flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <MessageCircle className="w-5 h-5 fill-white" />
+                    <span>BẤM VÀO NHÓM ZALO NGAY</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
 
-                <span className="text-xs text-slate-500 font-semibold">
-                  (Miễn phí tham gia • Hỗ trợ thực chiến)
-                </span>
+                  <span className="text-xs text-slate-500 font-semibold">
+                    (Miễn phí tham gia • Hỗ trợ thực chiến)
+                  </span>
+                </div>
+
+                {/* Explicitly displayed link box */}
+                <div className="p-3 bg-white rounded-xl border border-blue-200 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="font-bold text-slate-700">Link Nhóm Zalo chính thức:</span>
+                    <a
+                      href={BANK_INFO.zaloGroupUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono font-bold text-blue-600 hover:text-blue-800 hover:underline"
+                    >
+                      {BANK_INFO.zaloGroupUrl}
+                    </a>
+                  </div>
+                  <button
+                    onClick={handleCopy}
+                    className="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-blue-200"
+                  >
+                    {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedLink ? 'Đã chép link' : 'Sao chép link'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -104,7 +139,18 @@ export const ZaloCommunitySection: React.FC = () => {
                 </div>
 
                 {/* Direct Action Buttons */}
-                <div className="space-y-2 pt-1">
+                <div className="space-y-2.5 pt-1">
+                  <a
+                    href={BANK_INFO.zaloGroupUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-blue-400/30"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>VÀO NHÓM ZALO: 4 SKILL 0Đ</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
                   <a
                     href={`https://zalo.me/${BANK_INFO.supportPhone}`}
                     target="_blank"
@@ -113,16 +159,6 @@ export const ZaloCommunitySection: React.FC = () => {
                   >
                     <MessageCircle className="w-4 h-4 fill-slate-950" />
                     <span>Nhắn Zalo Riêng: {BANK_INFO.supportPhone}</span>
-                  </a>
-
-                  <a
-                    href={BANK_INFO.zaloGroupUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-                  >
-                    <Users className="w-4 h-4" />
-                    <span>Mở Nhóm Zalo Nhận 4 Quà 0đ</span>
                   </a>
                 </div>
               </div>

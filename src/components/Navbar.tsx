@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowRight, MessageCircle, Mail, ShoppingBag, Gift } from 'lucide-react';
+import { Menu, X, ArrowRight, MessageCircle, Mail, ShoppingBag, Gift, ExternalLink } from 'lucide-react';
 import { BANK_INFO } from '../data/skillsData';
 
 interface NavbarProps {
@@ -92,6 +92,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Hỏi đáp (FAQ)
             </button>
+            <a
+              href={BANK_INFO.zaloGroupUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-700 hover:text-blue-900 transition-colors cursor-pointer font-bold flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 hover:bg-blue-100 shadow-2xs"
+              title="Vào Nhóm Zalo nhận 4 Skill 0đ"
+            >
+              <MessageCircle className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
+              <span>Nhóm Zalo</span>
+            </a>
           </nav>
 
           {/* CTA Buttons - Yellow Zalo button matching screenshot with direct phone */}
@@ -201,10 +211,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             href={BANK_INFO.zaloGroupUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 w-full text-left py-2.5 px-3 text-base font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-lg"
+            className="flex items-center justify-between w-full py-3 px-3.5 text-base font-extrabold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md transition-colors"
           >
-            <MessageCircle className="w-5 h-5 text-blue-600" />
-            <span>Tham Gia Nhóm Zalo Hỗ Trợ</span>
+            <div className="flex items-center gap-2.5">
+              <MessageCircle className="w-5 h-5 fill-white" />
+              <span>Vào Nhóm Zalo (Nhận 4 Skill 0đ)</span>
+            </div>
+            <ExternalLink className="w-4 h-4 text-blue-100" />
           </a>
 
           <button

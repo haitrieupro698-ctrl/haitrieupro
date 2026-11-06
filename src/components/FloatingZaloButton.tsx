@@ -66,38 +66,56 @@ export const FloatingZaloButton: React.FC = () => {
         </div>
       )}
 
-      {/* Floating Yellow Pill matching user's screenshot exactly: "💬 Zalo: 0913179424" */}
-      <div className="flex items-center gap-2">
+      {/* Floating Action Buttons */}
+      <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
+        {/* Direct Zalo Group Button */}
         <a
-          href={`https://zalo.me/${BANK_INFO.supportPhone}`}
+          href={BANK_INFO.zaloGroupUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-2xl shadow-amber-400/40 border-2 border-white hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
-          title={`Bấm để nhắn Zalo trực tiếp với Hải Triều: ${BANK_INFO.supportPhone}`}
+          className="group flex items-center gap-2 px-3.5 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 text-white font-extrabold text-xs tracking-wide shadow-xl shadow-blue-600/30 border-2 border-white hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+          title={`Vào nhóm Zalo Hải Triều AI: ${BANK_INFO.zaloGroupUrl}`}
         >
-          {/* Zalo circular logo */}
-          <div className="w-7 h-7 rounded-full bg-[#0068ff] text-white flex items-center justify-center shrink-0 shadow-xs">
-            <MessageCircle className="w-4 h-4 fill-white" />
+          <div className="w-6 h-6 rounded-full bg-white text-blue-600 flex items-center justify-center shrink-0 shadow-xs">
+            <Users className="w-3.5 h-3.5" />
           </div>
-
-          <div className="flex items-center gap-1 font-sans">
-            <span className="font-extrabold">Zalo:</span>
-            <span className="font-black tracking-wider text-slate-950">
-              {BANK_INFO.supportPhone}
-            </span>
-          </div>
-
-          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping ml-0.5" />
+          <span>Nhóm Zalo 4 Quà 0đ</span>
+          <ExternalLink className="w-3 h-3 opacity-90" />
         </a>
 
-        {/* Quick Menu Toggle Button */}
-        <button
-          onClick={() => setIsOpenMenu(!isOpenMenu)}
-          className="w-10 h-10 rounded-full bg-slate-900 border border-amber-400/80 text-amber-400 flex items-center justify-center hover:bg-slate-800 transition-colors shadow-lg cursor-pointer"
-          title="Chọn vào nhóm hoặc nhắn riêng Zalo"
-        >
-          <Users className="w-4 h-4" />
-        </button>
+        {/* Floating Yellow Pill: "💬 Zalo: 0913179424" */}
+        <div className="flex items-center gap-1.5">
+          <a
+            href={`https://zalo.me/${BANK_INFO.supportPhone}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-2xl shadow-amber-400/40 border-2 border-white hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            title={`Bấm để nhắn Zalo trực tiếp với Hải Triều: ${BANK_INFO.supportPhone}`}
+          >
+            {/* Zalo circular logo */}
+            <div className="w-7 h-7 rounded-full bg-[#0068ff] text-white flex items-center justify-center shrink-0 shadow-xs">
+              <MessageCircle className="w-4 h-4 fill-white" />
+            </div>
+
+            <div className="flex items-center gap-1 font-sans">
+              <span className="font-extrabold">Zalo:</span>
+              <span className="font-black tracking-wider text-slate-950">
+                {BANK_INFO.supportPhone}
+              </span>
+            </div>
+
+            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping ml-0.5" />
+          </a>
+
+          {/* Quick Menu Toggle Button */}
+          <button
+            onClick={() => setIsOpenMenu(!isOpenMenu)}
+            className="w-10 h-10 rounded-full bg-slate-900 border border-amber-400/80 text-amber-400 flex items-center justify-center hover:bg-slate-800 transition-colors shadow-lg cursor-pointer"
+            title="Xem tùy chọn Zalo"
+          >
+            <Users className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
