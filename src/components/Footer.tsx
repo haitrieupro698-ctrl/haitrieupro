@@ -61,8 +61,8 @@ export const Footer: React.FC = () => {
                 <strong className="text-white font-bold">{BANK_INFO.accountOwner}</strong>
               </p>
               <p>
-                <span className="text-slate-400">Giá Skill cơ bản:</span>{' '}
-                <strong className="text-emerald-400 font-bold">99.000 VNĐ</strong> (Quà tặng tri ân: 0đ)
+                <span className="text-slate-400">Giá Skill niêm yết:</span>{' '}
+                <strong className="text-emerald-400 font-bold">49.000 VNĐ – 99.000 VNĐ</strong>
               </p>
               <p className="text-[11px] text-slate-500 pt-1">
                 * Hỗ trợ thanh toán quét mã VietQR tự động từ mọi ứng dụng ngân hàng 24/7.

@@ -134,15 +134,14 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
       };
     }
 
-    if (q.includes('sảnh 3') || q.includes('sảnh iii') || q.includes('nội dung & marketing') || q.includes('nội dung')) {
-      const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-3');
+    if (q.includes('sảnh 3') || q.includes('sảnh iii') || q.includes('nội dung & marketing')) {
       return {
-        text: `Dạ, SẢNH III — NỘI DUNG & MARKETING gồm 8 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nAnh/Chị quan tâm bài viết bán hàng, chăm khách Zalo hay lịch 30 ngày nhắn cho em nhé!`,
+        text: `Dạ, để tối ưu kết quả thực chiến, hệ thống đã tinh gọn và dồn toàn bộ nguồn lực vào các sảnh cốt lõi: Sảnh I (Hình ảnh thương hiệu), Sảnh II (Video bán hàng triệu view) và Sảnh IV (Trang bán hàng & Sàn dịch vụ tự động). Anh/Chị có thể tham khảo ngay các Skill nổi bật có poster tại Sảnh IV nhé!`,
         actions: [
           {
-            label: 'Đến Sảnh III trên website',
+            label: 'Đến Sảnh IV trên website',
             action: () => {
-              const el = document.getElementById('sanh-3') || document.getElementById('shop');
+              const el = document.getElementById('sanh-4') || document.getElementById('shop');
               el?.scrollIntoView({ behavior: 'smooth' });
             },
             primary: true
@@ -197,10 +196,10 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
       if (p.id === 'skill-anh-bia-kenh' && (q.includes('ảnh bìa') || q.includes('ảnh bìa kênh'))) return true;
       if (p.id === 'skill-bo-anh-dich-vu' && (q.includes('bộ ảnh dịch vụ') || q.includes('ảnh dịch vụ'))) return true;
       if (p.id === 'skill-anh-feedback' && (q.includes('feedback') || q.includes('ảnh feedback') || q.includes('tin nhắn phản hồi'))) return true;
-      if (p.id === 'skill-anh-quote-thuong-hieu' && (q.includes('quote') || q.includes('châm ngôn') || q.includes('ảnh quote'))) return true;
+      if ((p.id === 'skill-mot-anh-chin-goc-quay' || p.id === 'skill-anh-quote-thuong-hieu') && (q.includes('chín góc') || q.includes('9 góc') || q.includes('multishot') || q.includes('góc quay') || q.includes('quote') || q.includes('châm ngôn'))) return true;
       if (p.id === 'skill-anh-chien-dich' && (q.includes('ảnh chiến dịch') || q.includes('chiến dịch ra mắt ảnh'))) return true;
-      if (p.id === 'skill-kich-ban-video-30-giay' && (q.includes('30 giây') || q.includes('30s') || q.includes('video 30'))) return true;
-      if (p.id === 'skill-video-noi-chuyen-ban-hang' && (q.includes('nói chuyện trước máy quay') || q.includes('nói chuyện bán hàng') || q.includes('tự nhiên trước ống kính'))) return true;
+      if ((p.id === 'skill-edit-video-kol-ai' || p.id === 'skill-kich-ban-video-30-giay') && (q.includes('edit video') || q.includes('kol ai') || q.includes('30 giây') || q.includes('30s') || q.includes('video 30'))) return true;
+      if ((p.id === 'skill-hieu-ung-cao-cap' || p.id === 'skill-video-noi-chuyen-ban-hang') && (q.includes('hiệu ứng') || q.includes('cao cấp') || q.includes('sticker') || q.includes('nói chuyện'))) return true;
       if (p.id === 'skill-cat-video-dai-thanh-short' && (q.includes('cắt video') || q.includes('video dài thành short') || q.includes('short'))) return true;
       if (p.id === 'skill-video-giai-dap-khach-hoi' && (q.includes('giải đáp khách hỏi') || q.includes('video giải đáp') || q.includes('khách hỏi'))) return true;
       if (p.id === 'skill-video-ke-cau-chuyen-khach-hang' && (q.includes('kể câu chuyện') || q.includes('chuyện khách hàng') || q.includes('storytelling'))) return true;
@@ -287,7 +286,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
 
     if (q.includes('bán hàng') || q.includes('sảnh nào') || q.includes('bắt đầu từ')) {
       return {
-        text: 'Dạ nếu kênh của Anh/Chị chưa có hình ảnh rõ ràng, hãy bắt đầu từ Sảnh I (Skill Hình Ảnh Thương Hiệu). Nếu đã có sản phẩm nhưng chưa biết quay gì để khách dừng lại, mình đi từ Sảnh II (Video Ngắn Triệu View). Còn nếu khách xem nhiều nhưng chưa nhắn tin, Anh/Chị ưu tiên Sảnh III và Sảnh IV (Kịch Bản Chốt Đơn & Tự Động Hóa).',
+        text: 'Dạ nếu kênh của Anh/Chị chưa có hình ảnh rõ ràng, hãy bắt đầu từ Sảnh I (Skill Hình Ảnh Thương Hiệu). Nếu đã có sản phẩm nhưng chưa biết quay gì để khách dừng lại, mình đi từ Sảnh II (Video Ngắn Triệu View). Còn nếu khách xem nhiều nhưng chưa nhắn tin, Anh/Chị ưu tiên Sảnh IV (Trang Bán Hàng & Dịch Vụ Tự Động).',
         actions: [
           {
             label: 'Đi tới Sàn Skill ngay',

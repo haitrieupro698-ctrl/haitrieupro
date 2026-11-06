@@ -5,7 +5,6 @@ import {
   Flame, 
   Camera, 
   Video, 
-  FileText, 
   Layout, 
   Crown, 
   Search, 
@@ -16,7 +15,8 @@ import {
   Compass,
   SlidersHorizontal,
   Layers,
-  HelpCircle
+  HelpCircle,
+  MessageCircle
 } from 'lucide-react';
 import { SKILL_PRODUCTS, SKILL_CATEGORIES, SKILL_SANH_LIST, BANK_INFO } from '../data/skillsData';
 import { SkillProduct, SkillCategory } from '../types';
@@ -46,10 +46,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
     return products.filter((p) => p.sanhId === 'sanh-2' || p.category === 'sanh-2');
   }, [products]);
 
-  const sanh3Products = useMemo(() => {
-    return products.filter((p) => p.sanhId === 'sanh-3' || p.category === 'sanh-3');
-  }, [products]);
-
   const sanh4Products = useMemo(() => {
     return products.filter((p) => p.sanhId === 'sanh-4' || p.category === 'sanh-4');
   }, [products]);
@@ -65,7 +61,11 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
     }
 
     return products.filter((item) => {
-      if (selectedCategory !== 'all') {
+      if (selectedCategory === 'zalo-gifts') {
+        if (!item.isZaloGift) return false;
+      } else if (selectedCategory === 'featured') {
+        if (!item.imageUrl) return false;
+      } else if (selectedCategory !== 'all') {
         if (item.sanhId !== selectedCategory && item.category !== selectedCategory) {
           return false;
         }
@@ -81,6 +81,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
       return true;
     });
   }, [products, selectedCategory, searchQuery]);
+
+  const getCatCount = (catId: string) => {
+    if (catId === 'all') return products.length;
+    if (catId === 'zalo-gifts') return products.filter((p) => p.isZaloGift).length;
+    if (catId === 'featured') return products.filter((p) => !!p.imageUrl).length;
+    return products.filter((p) => p.sanhId === catId || p.category === catId).length;
+  };
 
   // Poster gradient scheme by product ID for artistic card covers
   const getPosterGradient = (id: string) => {
@@ -153,7 +160,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   SKILL {String(skillIndex).padStart(2, '0')}
                 </span>
                 <span className="text-[10px] font-bold text-purple-700 bg-white/90 px-2 py-0.5 rounded border border-purple-200/50">
-                  {isFree ? 'QUÀ 0Đ' : (item.price === 99000 ? 'HOT 99K' : 'CHUYÊN GIA')}
+                  {isFree ? 'QUÀ 0Đ' : 'ĐỒNG GIÁ 49K'}
                 </span>
               </div>
 
@@ -229,23 +236,34 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
 
         {/* Card Action Buttons & Footer Links */}
         <div className="p-4 sm:p-5 pt-0 space-y-2">
-          {/* Main Action Button (Coral-Orange Gradient matching image_cf4f315e.png) */}
-          <button
-            onClick={() => onSelectProduct(item.id)}
-            className="coral-gradient-btn w-full py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
-          >
-            {isFree ? (
-              <>
-                <Gift className="w-4 h-4" />
-                <span>Nhận Quà Tặng Tri Ân [0đ]</span>
-              </>
-            ) : (
-              <>
-                <ShoppingCart className="w-4 h-4" />
-                <span>Mua Skill ngay</span>
-              </>
-            )}
-          </button>
+          {item.isZaloGift ? (
+            <a
+              href={BANK_INFO.zaloGroupUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2.5 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-700 text-white"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>Vào Zalo Nhận Quà 0đ</span>
+            </a>
+          ) : (
+            <button
+              onClick={() => onSelectProduct(item.id)}
+              className="coral-gradient-btn w-full py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
+              {isFree ? (
+                <>
+                  <Gift className="w-4 h-4" />
+                  <span>Nhận Quà Tặng Tri Ân [0đ]</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Mua Skill ngay (49k)</span>
+                </>
+              )}
+            </button>
+          )}
 
           {/* Button: "Xem cách dùng" as explicitly requested by user */}
           <button
@@ -273,7 +291,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300 text-xs font-bold tracking-wider uppercase mb-3 shadow-xs">
             <Flame className="w-3.5 h-3.5 fill-purple-600 text-purple-600" />
-            <span>SÀN GIAO DỊCH 40 AI SKILLS • CHUẨN THỰC CHIẾN</span>
+            <span>SÀN GIAO DỊCH 40 AI SKILLS • ĐỒNG GIÁ 49.000 Đ/SKILL • QUÀ TẶNG 0Đ</span>
           </div>
           <h2 className="font-serif-luxury font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight mb-4">
             KHO SKILL & KỊCH BẢN <span className="purple-gradient-text">HẢI TRIỀU AI</span>
@@ -287,10 +305,10 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto mb-10">
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
             <div className="text-2xl sm:text-3xl font-black font-serif-luxury text-purple-950">
-              40
+              49.000 đ
             </div>
             <div className="text-xs text-slate-600 font-semibold mt-0.5">
-              AI Skills trong 5 Sảnh
+              Đồng Giá Toàn Bộ Skill (Gốc 199k)
             </div>
           </div>
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
@@ -340,7 +358,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
                     selectedCategory === cat.id ? 'bg-white/20 text-white' : 'bg-purple-200/80 text-purple-900'
                   }`}>
-                    {cat.count}
+                    {getCatCount(cat.id)}
                   </span>
                 </button>
               ))}
@@ -394,7 +412,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase text-purple-700 tracking-wider">SẢNH I</span>
-                      <span className="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">8 Kỹ Năng</span>
+                      <span className="text-xs bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">{sanh1Products.length} Kỹ Năng</span>
                     </div>
                     <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
                       HÌNH ẢNH THƯƠNG HIỆU
@@ -421,7 +439,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase text-blue-700 tracking-wider">SẢNH II</span>
-                      <span className="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">8 Kỹ Năng</span>
+                      <span className="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-full">{sanh2Products.length} Kỹ Năng</span>
                     </div>
                     <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
                       VIDEO BÁN HÀNG
@@ -438,33 +456,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               </div>
             </section>
 
-            {/* SẢNH III — NỘI DUNG & MARKETING */}
-            <section id="sanh-3" className="scroll-mt-24">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-3 border-b border-purple-200 gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-teal-100 border border-teal-300 flex items-center justify-center text-teal-700 font-black shadow-xs">
-                    <FileText className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-black uppercase text-teal-700 tracking-wider">SẢNH III</span>
-                      <span className="text-xs bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded-full">8 Kỹ Năng</span>
-                    </div>
-                    <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
-                      NỘI DUNG & MARKETING
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-xs text-slate-500 max-w-md">
-                  Bài bán hàng có chiều sâu, chuỗi chăm khách Zalo tự động, lịch nội dung 30 ngày và tiêu đề dừng lướt.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {sanh3Products.map((p) => renderProductCard(p))}
-              </div>
-            </section>
-
             {/* SẢNH IV — TRANG BÁN HÀNG & DỊCH VỤ */}
             <section id="sanh-4" className="scroll-mt-24">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-3 border-b border-purple-200 gap-2">
@@ -475,7 +466,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase text-indigo-700 tracking-wider">SẢNH IV</span>
-                      <span className="text-xs bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full">8 Kỹ Năng</span>
+                      <span className="text-xs bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full">{sanh4Products.length} Kỹ Năng</span>
                     </div>
                     <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
                       TRANG BÁN HÀNG & DỊCH VỤ
@@ -502,7 +493,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-black uppercase text-fuchsia-700 tracking-wider">SẢNH V</span>
-                      <span className="text-xs bg-fuchsia-100 text-fuchsia-800 font-bold px-2 py-0.5 rounded-full">8 Kỹ Năng VIP</span>
+                      <span className="text-xs bg-fuchsia-100 text-fuchsia-800 font-bold px-2 py-0.5 rounded-full">{sanh5Products.length} Kỹ Năng VIP</span>
                     </div>
                     <h3 className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight">
                       VIDEO VIP & ĐA KÊNH

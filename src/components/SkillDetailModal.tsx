@@ -387,16 +387,30 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = ({
               <span className="hidden sm:inline">Hỏi Qua Zalo</span>
             </a>
 
-            <button
-              onClick={() => {
-                onClose();
-                onUnlockSkill(product.id);
-              }}
-              className="px-4 py-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-600 to-fuchsia-600 hover:from-purple-800 hover:to-indigo-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all shrink-0"
-            >
-              <span>{product.price === 0 ? 'NHẬN 0Đ NGAY' : 'MỞ KHÓA NGAY'}</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
-            </button>
+            {product.isZaloGift ? (
+              <a
+                href={BANK_INFO.zaloGroupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={onClose}
+                className="px-4 py-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-blue-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all shrink-0"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>VÀO ZALO NHẬN QUÀ 0Đ</span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+              </a>
+            ) : (
+              <button
+                onClick={() => {
+                  onClose();
+                  onUnlockSkill(product.id);
+                }}
+                className="px-4 py-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-600 to-fuchsia-600 hover:from-purple-800 hover:to-indigo-700 text-white font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all shrink-0"
+              >
+                <span>{product.price === 0 ? 'NHẬN 0Đ NGAY' : 'MỞ KHÓA NGAY (49K)'}</span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+              </button>
+            )}
           </div>
         </div>
 

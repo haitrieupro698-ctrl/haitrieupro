@@ -81,18 +81,25 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
   const handleConfirmPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const orderId = await createOrderInFirestore({
+      const orderPayload: Parameters<typeof createOrderInFirestore>[0] = {
         orderCode,
         customerName: customerName.trim(),
         customerPhone: customerPhone.trim(),
-        customerEmail: customerEmail.trim() || undefined,
         productId: currentProduct.id,
         productName: currentProduct.name,
         amount: currentProduct.price,
         status: 'pending',
         createdAt: new Date().toISOString(),
-        userId: currentUser?.uid || undefined,
-      });
+      };
+
+      if (customerEmail && customerEmail.trim()) {
+        orderPayload.customerEmail = customerEmail.trim();
+      }
+      if (currentUser?.uid) {
+        orderPayload.userId = currentUser.uid;
+      }
+
+      const orderId = await createOrderInFirestore(orderPayload);
 
       setCreatedOrderId(orderId);
       setIsSuccessModalOpen(true);

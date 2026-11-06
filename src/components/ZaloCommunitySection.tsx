@@ -27,13 +27,23 @@ export const ZaloCommunitySection: React.FC = () => {
               </h2>
 
               <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-normal">
-                Đừng lo nếu bạn chưa từng viết kịch bản hay dùng công cụ AI! Khi tham gia nhóm Zalo, Hải Triều và đội ngũ sẽ trực tiếp sửa kịch bản, gợi ý chủ đề hot và cập nhật toàn bộ prompt mới hoàn toàn miễn phí.
+                Đừng lo nếu bạn chưa từng viết kịch bản hay dùng công cụ AI! Khi tham gia nhóm Zalo, bạn sẽ được <strong className="text-rose-600 font-bold">nhận miễn phí 100% trọn bộ 4 Skill đầu tiên</strong> (đang được ghim ở đầu nhóm), đồng thời được Hải Triều và đội ngũ trực tiếp sửa bài, góp ý video và cập nhật prompt mới hàng tuần.
               </p>
+
+              {/* Gift Highlight Strip */}
+              <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-300 flex items-center gap-3 text-amber-900 text-xs sm:text-sm font-bold shadow-2xs">
+                <span className="text-lg">🎁</span>
+                <span>Tài nguyên ghim sẵn trong nhóm: Trọn bộ 4 Skill (Avatar chuyên gia, Poster sản phẩm, Tách nền & Xoá vật thể) — Tải về dùng ngay trọn đời!</span>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-800 font-medium pt-1">
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Sửa kịch bản và góp ý video thực tế</span>
+                  <span>Nhận trọn bộ 4 Skill quà tặng 0đ ghim đầu nhóm</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Sửa kịch bản và góp ý video thực tế từ Hải Triều</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -41,11 +51,7 @@ export const ZaloCommunitySection: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Giao lưu cùng hơn 2.500+ nhà sáng tạo nội dung</span>
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Nhận giải đáp thắc mắc 24/7 trực tiếp từ Hải Triều</span>
+                  <span>Giao lưu cùng hơn 2.680+ nhà sáng tạo nội dung</span>
                 </div>
               </div>
 
@@ -68,24 +74,56 @@ export const ZaloCommunitySection: React.FC = () => {
               </div>
             </div>
 
-            {/* Right QR Box */}
+            {/* Right Direct Contact Box - NO QR CODE as user requested, direct phone & buttons */}
             <div className="lg:col-span-4 flex justify-center">
-              <div className="bg-white p-5 rounded-2xl border border-purple-200 shadow-md text-center max-w-xs w-full">
-                <div className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3 font-bold">
-                  <MessageCircle className="w-6 h-6" />
+              <div className="bg-slate-950 p-6 rounded-3xl border-2 border-amber-400 shadow-xl text-center max-w-sm w-full text-white space-y-4">
+                <div className="w-14 h-14 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center mx-auto shadow-md font-bold">
+                  <MessageCircle className="w-8 h-8 fill-slate-950 text-slate-950" />
                 </div>
-                <h4 className="font-bold text-slate-900 text-sm mb-1">
-                  Nhóm Zalo Hải Triều AI
-                </h4>
-                <p className="text-xs text-slate-600 mb-3">
-                  Quét mã hoặc bấm link để tham gia cùng 2.500+ anh chị em!
-                </p>
-                <div className="p-2 bg-slate-50 rounded-xl border border-slate-200">
-                  <img
-                    src={BANK_INFO.qrStaticUrl}
-                    alt="Mã QR Zalo Hải Triều AI"
-                    className="w-full h-auto object-contain rounded-lg"
-                  />
+
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
+                    Liên Hệ Trực Tiếp Không Cần Quét Mã
+                  </div>
+                  <h4 className="font-serif-luxury font-black text-xl text-white mt-1">
+                    Hải Triều AI
+                  </h4>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Bấm là mở ứng dụng Zalo ngay trên máy của bạn
+                  </p>
+                </div>
+
+                {/* Big Direct Phone Number Display */}
+                <div className="p-3.5 bg-slate-900 rounded-2xl border border-amber-400/40">
+                  <div className="text-[11px] text-slate-400 font-semibold mb-0.5">
+                    Số Zalo / Hotline hỗ trợ 24/7:
+                  </div>
+                  <div className="font-mono font-black text-2xl text-amber-400 tracking-wider">
+                    {BANK_INFO.supportPhone}
+                  </div>
+                </div>
+
+                {/* Direct Action Buttons */}
+                <div className="space-y-2 pt-1">
+                  <a
+                    href={`https://zalo.me/${BANK_INFO.supportPhone}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-slate-950" />
+                    <span>Nhắn Zalo Riêng: {BANK_INFO.supportPhone}</span>
+                  </a>
+
+                  <a
+                    href={BANK_INFO.zaloGroupUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  >
+                    <Users className="w-4 h-4" />
+                    <span>Mở Nhóm Zalo Nhận 4 Quà 0đ</span>
+                  </a>
                 </div>
               </div>
             </div>

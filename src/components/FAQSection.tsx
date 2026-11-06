@@ -29,11 +29,20 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ onOpenChatbot }) => {
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-4 font-serif-luxury">
-            Có điều gì chị <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-indigo-700 to-fuchsia-700">còn băn khoăn?</span>
+            Có điều gì anh/chị <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-indigo-700 to-fuchsia-700">còn băn khoăn?</span>
           </h2>
 
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Hỏi đúng để bắt đầu đúng. Nếu vẫn chưa rõ, hãy nhắn <span className="text-purple-800 font-bold underline decoration-purple-400 underline-offset-4">Trợ lý HẢI TRIỀU AI</span>.
+            Hỏi đúng để bắt đầu đúng. Nếu vẫn chưa rõ, hãy tham gia{' '}
+            <a
+              href="https://zalo.me/g/bd8u0pauixb47416hzxo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-800 font-black underline decoration-purple-400 hover:text-purple-950"
+            >
+              Nhóm Zalo Hỏi Đáp & Nhận Quà
+            </a>{' '}
+            hoặc nhắn <button type="button" onClick={onOpenChatbot} className="text-purple-800 font-bold underline decoration-purple-400 underline-offset-4 cursor-pointer">Trợ lý HẢI TRIỀU AI</button>.
           </p>
         </div>
 
@@ -80,14 +89,25 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ onOpenChatbot }) => {
           })}
         </div>
 
-        {/* Bottom CTA Button to trigger Chatbot */}
-        <div className="mt-12 text-center">
+        {/* Bottom CTA Buttons: Direct Zalo Group for Q&A and Assistant Chatbot */}
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="https://zalo.me/g/bd8u0pauixb47416hzxo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm sm:text-base uppercase tracking-wider shadow-xl shadow-amber-400/30 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-amber-300"
+          >
+            <span className="text-xl">👥</span>
+            <span>Vào Nhóm Zalo Hỏi Đáp & Nhận Quà</span>
+            <span className="text-xs bg-slate-950 text-amber-300 px-2 py-0.5 rounded font-black">0Đ</span>
+          </a>
+
           <button
             type="button"
             onClick={onOpenChatbot}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-purple-700 via-indigo-600 to-fuchsia-600 hover:from-purple-800 hover:to-indigo-700 text-white font-bold text-base sm:text-lg shadow-xl shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-white/40 group"
+            className="inline-flex items-center gap-3 px-7 py-4 rounded-full bg-gradient-to-r from-purple-700 via-indigo-600 to-fuchsia-600 hover:from-purple-800 hover:to-indigo-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-purple-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-white/40 group"
           >
-            <div className="w-7 h-7 rounded-full overflow-hidden border border-white/60 shrink-0 bg-purple-800 shadow-xs">
+            <div className="w-6 h-6 rounded-full overflow-hidden border border-white/60 shrink-0 bg-purple-800 shadow-xs">
               <img
                 src="/images/tro-ly-hai-trieu.jpg"
                 alt="Trợ lý Hải Triều AI"
@@ -100,10 +120,10 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ onOpenChatbot }) => {
             <span>Nhắn Trợ lý HẢI TRIỀU AI →</span>
             <span className="inline-block transition-transform group-hover:translate-x-1">💬</span>
           </button>
-          <p className="text-slate-500 text-xs mt-3 font-medium">
-            Hỗ trợ tự động 24/7 • Giải đáp chi tiết từng thắc mắc và hướng dẫn nhận tài nguyên
-          </p>
         </div>
+        <p className="text-slate-500 text-xs text-center mt-3 font-medium">
+          Giải đáp thắc mắc 24/7 • Bấm là mở Zalo trực tiếp hỗ trợ 1-1 ngay trên điện thoại và máy tính!
+        </p>
 
       </div>
     </section>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, ArrowRight, MessageCircle, Mail, ShoppingBag } from 'lucide-react';
+import { Menu, X, ArrowRight, MessageCircle, Mail, ShoppingBag, Gift } from 'lucide-react';
 import { BANK_INFO } from '../data/skillsData';
 
 interface NavbarProps {
@@ -39,101 +39,83 @@ export const Navbar: React.FC<NavbarProps> = ({
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 flex items-center justify-center font-bold text-white text-lg shadow-md shadow-purple-600/30 border border-purple-300 group-hover:scale-105 transition-transform duration-200">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 via-purple-600 to-indigo-600 flex items-center justify-center font-bold text-white text-lg shadow-md shadow-purple-600/30 border border-amber-300 group-hover:scale-105 transition-transform duration-200">
               HT
             </div>
             <div className="flex flex-col">
-              <span className="font-serif-luxury font-black text-xl sm:text-2xl tracking-wider text-slate-900 group-hover:text-purple-700 transition-colors">
-                HẢI TRIỀU AI
-              </span>
-              <span className="text-[10px] tracking-widest text-purple-700 uppercase -mt-1 font-bold">
-                Skill & Kịch Bản Triệu View
+              <div className="flex items-center gap-2">
+                <span className="font-serif-luxury font-black text-xl sm:text-2xl tracking-wider text-slate-900 group-hover:text-purple-700 transition-colors">
+                  HẢI TRIỀU AI
+                </span>
+                <span className="text-[10px] bg-purple-900 text-amber-300 font-extrabold px-1.5 py-0.2 rounded border border-amber-400/60 uppercase">
+                  OFFICIAL
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500 font-medium -mt-0.5">
+                AI cho cuộc sống tốt đẹp hơn
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links - High Contrast Slate / Dark */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-700">
+          <nav className="hidden lg:flex items-center gap-5 text-sm font-semibold text-slate-700">
             <button
               onClick={() => handleNavClick('#gioithieu')}
               className="hover:text-purple-700 transition-colors cursor-pointer"
             >
-              Giới Thiệu
+              Về Hải Triều AI
             </button>
             <button
               onClick={() => handleNavClick('#video')}
               className="hover:text-purple-700 transition-colors cursor-pointer"
             >
-              Video Hướng Dẫn
+              Sản phẩm nổi bật
             </button>
             <button
-              onClick={() => handleNavClick('#shop')}
-              className="text-purple-900 hover:text-orange-600 transition-colors cursor-pointer font-bold flex items-center gap-1.5"
+              onClick={() => handleNavClick('#qua-tang')}
+              className="text-amber-950 hover:text-amber-900 transition-colors cursor-pointer font-bold flex items-center gap-1.5 bg-amber-100/90 px-3 py-1.5 rounded-full border border-amber-300 shadow-2xs"
             >
-              <span>Kho 40 Skill</span>
-              <span className="text-[10px] bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded border border-orange-300 font-black">
+              <span className="text-[10px] bg-amber-500 text-slate-950 px-1.5 py-0.2 rounded font-black">
                 HOT
               </span>
+              <span>4 Quà Tặng 0đ</span>
             </button>
             <button
               onClick={() => handleNavClick('#thanhtoan')}
               className="hover:text-purple-700 transition-colors cursor-pointer"
             >
-              Thanh Toán VietQR
+              Hướng dẫn thanh toán
             </button>
-            <a
-              href={BANK_INFO.zaloGroupUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-700 text-slate-700 transition-colors flex items-center gap-1.5"
+            <button
+              onClick={() => handleNavClick('#faq')}
+              className="hover:text-purple-700 transition-colors cursor-pointer"
             >
-              <MessageCircle className="w-4 h-4 text-blue-600" />
-              <span>Nhóm Zalo</span>
-            </a>
-
-            {/* Orders Firebase Link */}
-            {onOpenOrders && (
-              <button
-                onClick={onOpenOrders}
-                className="hover:text-purple-700 text-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
-                title="Xem danh sách đơn hàng đã lưu trong Firebase"
-              >
-                <ShoppingBag className="w-4 h-4 text-purple-600" />
-                <span>Đơn Hàng</span>
-              </button>
-            )}
-
-            {/* Gmail Connection Link */}
-            {onOpenGmail && (
-              <button
-                onClick={onOpenGmail}
-                className="hover:text-rose-700 text-slate-700 transition-colors flex items-center gap-1.5 cursor-pointer"
-                title="Quản lý kết nối Gmail gửi tài liệu"
-              >
-                <Mail className="w-4 h-4 text-rose-600" />
-                <span>Gmail</span>
-                {currentUser ? (
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block shadow-xs" />
-                ) : null}
-              </button>
-            )}
+              Hỏi đáp (FAQ)
+            </button>
           </nav>
 
-          {/* CTA Buttons - High Contrast Purple Button matching image_039fb139.png */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* CTA Buttons - Yellow Zalo button matching screenshot with direct phone */}
+          <div className="hidden sm:flex items-center gap-2.5">
             <button
-              onClick={() => {
-                if (onOpenCheckout) {
-                  onOpenCheckout('skill-text-overlay');
-                } else {
-                  handleNavClick('#shop');
-                }
-              }}
-              className="purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider px-6 py-2.5 rounded-full cursor-pointer flex items-center gap-2 shadow-lg shadow-purple-600/30 hover:scale-105 active:scale-95 transition-all border border-purple-400/40"
+              onClick={() => handleNavClick('#shop')}
+              className="px-4 py-2 rounded-xl bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs sm:text-sm transition-colors border border-purple-700 cursor-pointer shadow-xs"
             >
-              <span>MUA SKILL NGAY</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              Xem sản phẩm
             </button>
+
+            <a
+              href={`https://zalo.me/${BANK_INFO.supportPhone}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-md shadow-amber-400/30 border border-amber-300 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              title="Nhắn tin Zalo trực tiếp"
+            >
+              <MessageCircle className="w-4 h-4 fill-slate-950 text-slate-950" />
+              <span>Liên hệ Zalo</span>
+              <span className="font-mono bg-slate-950 text-amber-300 px-2 py-0.5 rounded text-[11px] font-black">
+                {BANK_INFO.supportPhone}
+              </span>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -152,6 +134,16 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile navigation menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-t border-purple-100 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+          <button
+            onClick={() => handleNavClick('#qua-tang')}
+            className="block w-full text-left py-2 px-3 text-base font-black text-amber-900 bg-amber-50 border border-amber-200 rounded-lg cursor-pointer flex items-center justify-between"
+          >
+            <div className="flex items-center gap-2">
+              <Gift className="w-4 h-4 text-amber-600 fill-amber-600" />
+              <span>Quà Tặng 4 Skill 0đ (Vào Zalo)</span>
+            </div>
+            <span className="text-xs bg-rose-600 text-white px-2 py-0.5 rounded-full font-bold">0Đ</span>
+          </button>
           <button
             onClick={() => handleNavClick('#gioithieu')}
             className="block w-full text-left py-2 px-3 text-base font-semibold text-slate-700 hover:bg-purple-50 rounded-lg hover:text-purple-900 cursor-pointer"

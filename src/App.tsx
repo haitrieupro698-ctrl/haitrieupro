@@ -15,7 +15,8 @@ import { FloatingZaloButton } from './components/FloatingZaloButton';
 import { BackgroundMusicPlayer } from './components/BackgroundMusicPlayer';
 import { OrdersManagerModal } from './components/OrdersManagerModal';
 import { GmailManagerModal } from './components/GmailManagerModal';
-import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText } from 'lucide-react';
+import { PromoGiftSection } from './components/PromoGiftSection';
+import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText, Gift } from 'lucide-react';
 import { BANK_INFO } from './data/skillsData';
 import { initAuth } from './services/gmailService';
 import { auth } from './firebase';
@@ -80,22 +81,28 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fe] text-slate-800 selection:bg-purple-600 selection:text-white">
-      {/* Top Notification Announcement Bar - Exactly as in image_5a00c292.png */}
-      <div className="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold text-center flex items-center justify-center flex-wrap gap-2 shadow-lg border-b border-purple-800/40">
-        <div className="flex items-center gap-1.5 shrink-0">
-          <Sparkles className="w-4 h-4 fill-purple-300 text-purple-300 animate-pulse" />
-          <span>
-            ƯU ĐÃI ĐỘC QUYỀN: BỘ SKILL TEXT OVERLAY GIẢM CÒN 99.000 VNĐ (GIÁ GỐC 299K) • QUÉT VIETQR SHB TỰ ĐỘNG
-          </span>
+      {/* Top Notification Announcement Bar matching user preference: purple instead of black */}
+      <div className="bg-gradient-to-r from-[#2e1065] via-[#4c1d95] to-[#2e1065] text-amber-300 px-3 sm:px-4 py-2 text-xs sm:text-[13px] font-semibold text-center flex items-center justify-center flex-wrap gap-2 sm:gap-4 shadow-md border-b border-purple-500/40">
+        <div className="flex items-center gap-1.5 shrink-0 text-amber-400 font-bold">
+          <span>🌐</span>
+          <span>haitrieu.pro.vn</span>
+        </div>
+        <span className="hidden sm:inline text-purple-300/60">•</span>
+        <div className="text-white">
+          Chính sách kích hoạt nhanh qua Zalo: <a href="https://zalo.me/0913179424" target="_blank" rel="noopener noreferrer" className="text-amber-400 font-black hover:underline font-mono">0913179424</a>
+        </div>
+        <span className="hidden sm:inline text-purple-300/60">•</span>
+        <div className="hidden md:inline text-purple-200 italic">
+          Học để phát triển, chia sẻ để cùng nhau tiến xa hơn
         </div>
         <a
           href="https://zalo.me/g/bd8u0pauixb47416hzxo"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 bg-white/15 hover:bg-white/25 active:bg-white/35 text-white px-3 py-1 rounded-full text-xs font-bold transition-all border border-white/30 shrink-0 cursor-pointer shadow-xs"
+          className="inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-slate-950 px-3 py-0.5 rounded-full text-xs font-black transition-all shadow-xs shrink-0 cursor-pointer"
         >
-          <MessageCircle className="w-3.5 h-3.5 text-purple-200" />
-          <span>Vào Zalo ngay</span>
+          <Gift className="w-3 h-3 fill-slate-950" />
+          <span>4 Quà Tặng 0đ</span>
         </a>
       </div>
 
@@ -113,6 +120,9 @@ export default function App() {
           onSelectProduct={handleSelectProduct}
           onExploreDemo={handleExploreDemo}
         />
+
+        {/* Exclusive Promotional Gift: 4 First Skills for Zalo Members */}
+        <PromoGiftSection />
 
         {/* About Hải Triều AI */}
         <AboutSection />

@@ -106,7 +106,17 @@ export interface FirestoreOrder {
 export async function createOrderInFirestore(order: Omit<FirestoreOrder, 'id'>): Promise<string> {
   const collectionPath = 'orders';
   try {
-    const docRef = await addDoc(collection(db, collectionPath), order);
+    // Strip out undefined or empty optional values so Firestore addDoc does not reject with "Unsupported field value: undefined"
+    const cleanedOrder: Record<string, any> = {};
+    for (const [key, value] of Object.entries(order)) {
+      if (value !== undefined && value !== null) {
+        if (typeof value === 'string' && value === '' && (key === 'userId' || key === 'customerEmail' || key === 'note')) {
+          continue;
+        }
+        cleanedOrder[key] = value;
+      }
+    }
+    const docRef = await addDoc(collection(db, collectionPath), cleanedOrder);
     return docRef.id;
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, collectionPath);

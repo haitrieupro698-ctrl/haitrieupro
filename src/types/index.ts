@@ -18,6 +18,7 @@ export interface SkillProduct {
   bannerTitle?: string;
   branch?: string;
   isGift?: boolean;
+  isZaloGift?: boolean;
   category: SkillCategory;
   categoryName: string;
   price: number;

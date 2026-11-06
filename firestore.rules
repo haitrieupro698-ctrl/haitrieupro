@@ -37,7 +37,7 @@ service cloud.firestore {
         && data.customerName is string && data.customerName.size() <= 150
         && data.customerPhone is string && data.customerPhone.size() <= 30
         && data.productId is string && data.productId.size() <= 100
-        && data.amount is number && data.amount > 0
+        && data.amount is number && data.amount >= 0
         && data.status in ['pending', 'confirmed', 'delivered']
         && (!('customerEmail' in data) || (data.customerEmail is string && data.customerEmail.size() <= 150))
         && (!('note' in data) || (data.note is string && data.note.size() <= 500))
