@@ -70,15 +70,11 @@ export const AboutSection: React.FC = () => {
                 </p>
 
                 <p>
-                  Tôi tin rằng mỗi người đều có thể bắt đầu học và sử dụng những công cụ mới nếu có hướng dẫn phù hợp.
+                  Tôi tin rằng mỗi người đều có thể bắt đầu học và sử dụng công cụ mới nếu có hướng dẫn phù hợp. Vì vậy tôi luôn chia sẻ cách làm đơn giản, dễ hiểu, thực hành được từng bước.
                 </p>
 
                 <p>
-                  Vì vậy, tôi luôn mong muốn chia sẻ những cách làm đơn giản, dễ hiểu và có thể thực hành từng bước.
-                </p>
-
-                <p>
-                  Tôi hy vọng những Skill này sẽ giúp các bạn tiết kiệm thời gian, có thêm ý tưởng và tự tin tạo ra những sản phẩm của riêng mình.
+                  Tôi hy vọng những Skill này sẽ giúp bạn tiết kiệm thời gian, có thêm ý tưởng và tự tin tạo ra sản phẩm của riêng mình.
                 </p>
               </div>
 
@@ -98,7 +94,7 @@ export const AboutSection: React.FC = () => {
                   className="purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider px-6 py-3 rounded-full cursor-pointer shadow-md inline-flex items-center gap-2"
                 >
                   <Video className="w-4 h-4" />
-                  <span>Xem Kho 40 Skill</span>
+                  <span>Xem Kho 41 Skill</span>
                 </a>
 
                 <a

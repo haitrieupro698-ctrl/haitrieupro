@@ -107,20 +107,20 @@ export const PromoGiftSection: React.FC = () => {
           </div>
 
           <h2 className="font-serif-luxury font-black text-3xl sm:text-5xl lg:text-6xl text-purple-950 tracking-tight leading-tight">
-            4 Ô Quà Tặng <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-indigo-700 to-fuchsia-700">Miễn Phí 100%</span>
+            4 Skill Quà Tặng <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-800 via-indigo-700 to-fuchsia-700">Miễn Phí 100%</span>
           </h2>
 
           <p className="mt-4 text-slate-600 text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-[1.5]">
             Dành tặng riêng cho bạn từ <strong className="text-purple-900 font-bold">Hải Triều AI</strong>. Tham gia{' '}
             <a
-              href="https://zalo.me/g/bd8u0pauixb47416hzxo"
+              href={BANK_INFO.zaloGroupUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-purple-800 font-black underline decoration-purple-400 hover:text-purple-950"
             >
               Nhóm Zalo Nhận Quà
             </a>{' '}
-            để nhận trọn vẹn 4 món quà giá trị này hoàn toàn miễn phí!
+            để nhận trọn vẹn 4 món quà trị giá <strong className="text-rose-600 font-black">1.400.000đ</strong> hoàn toàn miễn phí.
           </p>
         </div>
 

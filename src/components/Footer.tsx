@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { MessageCircle, Phone, Mail, ArrowUp, Users, ExternalLink, Check, Copy } from 'lucide-react';
+import { MessageCircle, Phone, Mail, ArrowUp, Users, ExternalLink, Check, Copy, MapPin, ShieldCheck, FileText } from 'lucide-react';
 import { BANK_INFO, YOUTUBE_VIDEO } from '../data/skillsData';
+import { PoliciesModal, PolicyTab } from './PoliciesModal';
 
 export const Footer: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
+  const [policyModalOpen, setPolicyModalOpen] = useState(false);
+  const [activePolicyTab, setActivePolicyTab] = useState<PolicyTab>('privacy');
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -13,6 +16,11 @@ export const Footer: React.FC = () => {
     navigator.clipboard.writeText(BANK_INFO.zaloGroupUrl);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
+  };
+
+  const handleOpenPolicy = (tab: PolicyTab) => {
+    setActivePolicyTab(tab);
+    setPolicyModalOpen(true);
   };
 
   return (
@@ -89,13 +97,17 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm">
-              Chia sẻ những cách làm đơn giản, dễ hiểu và có thể thực hành từng bước để biến mọi ý tưởng thành video ngắn thu hút triệu lượt xem.
+              HẢI TRIỀU AI – Học để làm được, làm để tạo ra giá trị. Chia sẻ những cách làm đơn giản, dễ hiểu và có thể thực hành từng bước để biến mọi ý tưởng thành sản phẩm thực tế.
             </p>
 
-            <div className="p-3.5 rounded-xl bg-white/80 border border-purple-200/80 shadow-2xs">
+            <div className="p-3.5 rounded-xl bg-white/80 border border-purple-200/80 shadow-2xs space-y-1.5">
               <p className="font-serif-luxury font-bold text-purple-900 text-xs">
                 "HỌC ĐỂ LÀM ĐƯỢC, LÀM ĐỂ TẠO RA GIÁ TRỊ!"
               </p>
+              <div className="flex items-center gap-1.5 text-slate-500 text-[11px] pt-1 border-t border-purple-100">
+                <MapPin className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+                <span>Địa chỉ: TP. Hồ Chí Minh & Hà Nội</span>
+              </div>
             </div>
           </div>
 
@@ -120,8 +132,8 @@ export const Footer: React.FC = () => {
                 <strong className="text-purple-950 font-bold">{BANK_INFO.accountOwner}</strong>
               </p>
               <p>
-                <span className="text-slate-500">Giá Skill cơ bản:</span>{' '}
-                <strong className="text-emerald-700 font-black">99.000 VNĐ</strong>{' '}
+                <span className="text-slate-500">Giá Skill niêm yết:</span>{' '}
+                <strong className="text-emerald-700 font-black">49.000 VNĐ – 99.000 VNĐ</strong>{' '}
                 <span className="text-slate-500">(Quà tặng tri ân: 0đ)</span>
               </p>
               <p className="text-[11px] text-slate-500 pt-1 border-t border-purple-100">
@@ -166,7 +178,7 @@ export const Footer: React.FC = () => {
 
               <div className="flex items-center gap-2 pt-1">
                 <Phone className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                <span>Hotline / Zalo: <a href={`https://zalo.me/${BANK_INFO.supportPhone}`} target="_blank" rel="noopener noreferrer" className="text-purple-950 font-mono font-bold hover:text-purple-700 hover:underline">{BANK_INFO.supportPhone}</a></span>
+                <span>Hotline / Zalo: <a href={`https://zalo.me/${BANK_INFO.supportPhone}`} target="_blank" rel="noopener noreferrer" className="text-purple-950 font-mono font-bold hover:text-purple-700 hover:underline">0913 179 424</a></span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -187,10 +199,37 @@ export const Footer: React.FC = () => {
 
         </div>
 
+        {/* Policy Links bar */}
+        <div className="py-6 border-b border-purple-200/70 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold text-purple-900">
+          <button
+            onClick={() => handleOpenPolicy('privacy')}
+            className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
+            <span>Chính sách bảo mật</span>
+          </button>
+          <span className="text-purple-300">|</span>
+          <button
+            onClick={() => handleOpenPolicy('terms')}
+            className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
+          >
+            <FileText className="w-3.5 h-3.5 text-purple-600" />
+            <span>Điều khoản sử dụng</span>
+          </button>
+          <span className="text-purple-300">|</span>
+          <button
+            onClick={() => handleOpenPolicy('refund')}
+            className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Chính sách hoàn tiền & bàn giao</span>
+          </button>
+        </div>
+
         {/* Bottom bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-600">
           <p>
-            © {new Date().getFullYear()} Trịnh Hải Triều AI. Bản quyền nội dung & kỹ năng thực chiến được bảo lưu.
+            © 2026 Hải Triều AI. Bảo lưu mọi quyền.
           </p>
 
           <button
@@ -203,6 +242,14 @@ export const Footer: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Policies Modal */}
+      <PoliciesModal
+        isOpen={policyModalOpen}
+        onClose={() => setPolicyModalOpen(false)}
+        activeTab={activePolicyTab}
+        onSelectTab={setActivePolicyTab}
+      />
     </footer>
   );
 };

@@ -109,7 +109,10 @@ export default function App() {
         <PromptSimulator onBuyClick={() => handleSelectProduct('skill-text-overlay')} />
 
         {/* Shop Section (#shop as in san-skill.vercel.app/index.html#shop) */}
-        <ShopSection onSelectProduct={handleSelectProduct} />
+        <ShopSection 
+          onSelectProduct={handleSelectProduct}
+          onOpenChatbot={() => setIsChatbotOpen(true)}
+        />
 
         {/* Câu hỏi thường gặp (FAQ) - Đặt sau phần Sàn Skill và trước phần cộng đồng/liên hệ */}
         <FAQSection onOpenChatbot={() => setIsChatbotOpen(true)} />
@@ -162,11 +165,11 @@ export default function App() {
         >
           <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-white/80 shrink-0 shadow-md">
             <img
-              src="/images/tro-ly-hai-trieu.jpg"
+              src="/assets/aistudio/HT_V_NG_e1df51c9.jpg"
               alt="Trợ lý Hải Triều AI"
               className="w-full h-full object-cover"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
+                (e.currentTarget as HTMLImageElement).src = '/images/tro-ly-hai-trieu.jpg';
               }}
             />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 rounded-full border-2 border-white" />

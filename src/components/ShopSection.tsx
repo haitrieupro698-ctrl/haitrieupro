@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Sparkles, 
   ArrowRight, 
@@ -16,7 +16,11 @@ import {
   SlidersHorizontal,
   Layers,
   HelpCircle,
-  MessageCircle
+  MessageCircle,
+  Clock,
+  Bot,
+  Bell,
+  ExternalLink
 } from 'lucide-react';
 import { SKILL_PRODUCTS, SKILL_CATEGORIES, SKILL_SANH_LIST, BANK_INFO } from '../data/skillsData';
 import { SkillProduct, SkillCategory } from '../types';
@@ -24,13 +28,28 @@ import { SkillDetailModal } from './SkillDetailModal';
 
 interface ShopSectionProps {
   onSelectProduct: (productId: string) => void;
+  onOpenChatbot?: () => void;
 }
 
-export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => {
+export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct, onOpenChatbot }) => {
   const [products] = useState<SkillProduct[]>(SKILL_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDetailProduct, setActiveDetailProduct] = useState<SkillProduct | null>(null);
+
+  // Active countdown timer for 49.000đ promotion
+  const [timeLeft, setTimeLeft] = useState({ hours: 5, minutes: 42, seconds: 18 });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return { hours: 5, minutes: 59, seconds: 59 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const formatVND = (amount: number) => {
     if (amount === 0) return '0 đ';
@@ -43,7 +62,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
   }, [products]);
 
   const sanh2Products = useMemo(() => {
-    return products.filter((p) => p.sanhId === 'sanh-2' || p.category === 'sanh-2');
+    const list = products.filter((p) => p.sanhId === 'sanh-2' || p.category === 'sanh-2');
+    const textOverlayIndex = list.findIndex((p) => p.id === 'skill-text-overlay');
+    if (textOverlayIndex > 0) {
+      const [item] = list.splice(textOverlayIndex, 1);
+      list.unshift(item);
+    }
+    return list;
   }, [products]);
 
   const sanh4Products = useMemo(() => {
@@ -86,6 +111,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
     if (catId === 'all') return products.length;
     if (catId === 'zalo-gifts') return products.filter((p) => p.isZaloGift).length;
     if (catId === 'featured') return products.filter((p) => !!p.imageUrl).length;
+    if (catId === 'sanh-3') return 'Sắp mở';
     return products.filter((p) => p.sanhId === catId || p.category === catId).length;
   };
 
@@ -105,6 +131,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
   // Card component matching image_cf4f315e.png with prominent "Xem cách dùng" button
   const renderProductCard = (item: SkillProduct) => {
     const isFree = item.price === 0 || item.isGift;
+    const isVipHero = item.id === 'skill-text-overlay';
     const discountPercent = item.originalPrice > item.price
       ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
       : null;
@@ -113,24 +140,36 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
     return (
       <div
         key={item.id}
-        className="market-card rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col justify-between bg-white border border-purple-200/80 shadow-md hover:shadow-xl transition-all duration-300 group"
+        className={`market-card rounded-2xl sm:rounded-3xl overflow-hidden flex flex-col justify-between bg-white transition-all duration-300 group ${
+          isVipHero
+            ? 'border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-xl shadow-amber-500/10'
+            : 'border border-purple-200/80 shadow-md hover:shadow-xl'
+        }`}
       >
         <div>
           {/* Card Header Strip: Badges & Sảnh category OUTSIDE the poster so 0% of poster text is covered */}
-          <div className="px-3.5 py-2.5 bg-slate-50 border-b border-purple-100/80 flex items-center justify-between gap-2 shrink-0">
+          <div className={`px-3.5 py-2.5 border-b flex items-center justify-between gap-2 shrink-0 ${
+            isVipHero ? 'bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200' : 'bg-slate-50 border-purple-100/80'
+          }`}>
             <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-black tracking-wide shadow-2xs ${
               isFree 
                 ? 'bg-emerald-600 text-white' 
+                : isVipHero
+                ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-slate-950 font-black'
                 : item.highlight 
                 ? 'bg-purple-600 text-white' 
                 : 'bg-orange-500 text-white'
             }`}>
-              {isFree ? <Gift className="w-3 h-3 fill-white" /> : <Flame className="w-3 h-3 fill-white" />}
+              {isFree ? <Gift className="w-3 h-3 fill-white" /> : <Flame className="w-3 h-3 fill-current" />}
               <span>{item.cardBadge || (isFree ? 'Quà 0đ' : 'Hot')}</span>
             </span>
             
-            <span className="text-[11px] font-bold text-purple-900 bg-white px-2.5 py-0.5 rounded-full border border-purple-200/80 shadow-2xs truncate">
-              {item.sanhTitle?.split('—')[0]?.trim() || item.categoryName}
+            <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs truncate ${
+              isVipHero
+                ? 'text-amber-950 bg-amber-100/80 border-amber-300'
+                : 'text-purple-900 bg-white border-purple-200/80'
+            }`}>
+              {isVipHero ? '⭐ BÁN CHẠY #1 • VIP' : (item.sanhTitle?.split('—')[0]?.trim() || item.categoryName)}
             </span>
           </div>
 
@@ -259,7 +298,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               ) : (
                 <>
                   <ShoppingCart className="w-4 h-4" />
-                  <span>Mua Skill ngay (49k)</span>
+                  <span>Mua Skill ngay ({item.price === 99000 ? '99k' : '49k'})</span>
                 </>
               )}
             </button>
@@ -288,10 +327,10 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Marketplace Hero Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300 text-xs font-bold tracking-wider uppercase mb-3 shadow-xs">
             <Flame className="w-3.5 h-3.5 fill-purple-600 text-purple-600" />
-            <span>SÀN GIAO DỊCH 40 AI SKILLS • ĐỒNG GIÁ 49.000 Đ/SKILL • QUÀ TẶNG 0Đ</span>
+            <span>SÀN GIAO DỊCH 41 AI SKILLS • ĐỒNG GIÁ 49K (VIP 99K) • TẶNG 4 SKILL 0Đ</span>
           </div>
           <h2 className="font-serif-luxury font-black text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight mb-4">
             KHO SKILL & KỊCH BẢN <span className="purple-gradient-text">HẢI TRIỀU AI</span>
@@ -301,22 +340,42 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
           </p>
         </div>
 
-        {/* Marketplace Metrics Strip - Fresh, High Contrast & Auspicious */}
+        {/* Countdown Ribbon for Promo */}
+        <div className="max-w-2xl mx-auto mb-8 p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-amber-50 to-purple-50 border border-amber-300/80 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping inline-block" />
+            <span className="text-purple-950 font-black uppercase tracking-wide">Ưu Đãi Đồng Giá 49k (VIP 99k) Kết Thúc Sau:</span>
+          </div>
+          <div className="flex items-center gap-1.5 font-mono font-black text-rose-600 bg-white px-3 py-1 rounded-lg border border-purple-200 shadow-2xs">
+            <Clock className="w-4 h-4 text-amber-500" />
+            <span>
+              {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+            </span>
+          </div>
+          <span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 text-xs font-black">
+            🔥 Còn 47/50 suất hôm nay
+          </span>
+        </div>
+
+        {/* Marketplace Metrics Strip - 4 Số Liệu Chuẩn */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto mb-10">
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
             <div className="text-2xl sm:text-3xl font-black font-serif-luxury text-purple-950">
-              49.000 đ
+              49K – 99K
             </div>
             <div className="text-xs text-slate-600 font-semibold mt-0.5">
-              Đồng Giá Toàn Bộ Skill (Gốc 199k)
+              Đồng giá 49k (riêng VIP Text Overlay 99k)
             </div>
           </div>
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
             <div className="text-2xl sm:text-3xl font-black font-serif-luxury text-purple-950">
-              5.200+
+              41
             </div>
             <div className="text-xs text-slate-600 font-semibold mt-0.5">
-              Học Viên Đã Nhận & Mở Khóa
+              Kỹ năng thực chiến đang mở
+            </div>
+            <div className="text-[11px] text-purple-700 font-bold mt-0.5">
+              (5.200+ lượt tải & mở khóa Skill)
             </div>
           </div>
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
@@ -325,7 +384,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
             </div>
             <div className="text-xs text-slate-600 font-semibold mt-0.5">
-              Đánh Giá Thực Tế (5 Sao)
+              Đánh giá thực tế (5 sao)
             </div>
           </div>
           <div className="p-4 rounded-2xl bg-white border border-purple-200/80 text-center shadow-sm">
@@ -333,7 +392,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               100%
             </div>
             <div className="text-xs text-slate-600 font-semibold mt-0.5">
-              Quét VietQR SHB Tự Động
+              Quét VietQR SHB tự động, nhận file ngay
             </div>
           </div>
         </div>
@@ -378,8 +437,50 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
           </div>
         </div>
 
-        {/* Conditional Rendering: Grouped view of 5 Sảnh OR Filtered search results */}
-        {filteredProducts !== null ? (
+        {/* Conditional Rendering: Grouped view of 5 Sảnh OR Filtered search results OR Sảnh III Teaser */}
+        {selectedCategory === 'sanh-3' ? (
+          <div className="py-6">
+            <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-950 via-indigo-950 to-purple-900 border-2 border-purple-400/50 text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/20 blur-[100px] pointer-events-none rounded-full" />
+              
+              <div className="max-w-2xl text-left space-y-4 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-300/40 text-xs font-black uppercase tracking-wider">
+                  <Bot className="w-4 h-4 text-amber-400" />
+                  <span>SẢNH III — SẮP MỞ (ĐANG HOÀN THIỆN)</span>
+                </div>
+
+                <h3 className="font-serif-luxury font-black text-3xl sm:text-4xl text-white tracking-wide">
+                  CHATBOT & TỰ ĐỘNG HÓA
+                </h3>
+
+                <p className="text-amber-200 text-sm font-bold">
+                  các tool và skill (Đang hoàn thiện)
+                </p>
+
+                <p className="text-purple-200 text-sm sm:text-base leading-relaxed">
+                  Kỹ năng đang được <strong className="text-amber-300 font-bold">Hải Triều AI</strong> kiểm thử trước khi phát hành. Bao gồm: Chatbot Zalo OA trả lời tự động 24/7, Bot tư vấn Messenger Fanpage, kịch bản nhắc đơn tự động và quy trình chăm sóc khách hàng tự động đa kênh.
+                </p>
+
+                <p className="text-xs text-purple-300 italic pt-1">
+                  * Thành viên nhóm Zalo sẽ được nhận thông báo và ưu đãi đặc biệt đầu tiên khi Sảnh III chính thức mở.
+                </p>
+
+                <div className="pt-4">
+                  <a
+                    href={BANK_INFO.zaloGroupUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-400/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <Bell className="w-4 h-4" />
+                    <span>Nhận thông báo mở Sảnh III</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : filteredProducts !== null ? (
           <div>
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-bold text-lg sm:text-xl text-slate-900">
@@ -397,6 +498,22 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredProducts.map((p) => renderProductCard(p))}
+            </div>
+
+            {/* CTA cho kết quả tìm kiếm / lọc */}
+            <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+              <div className="text-xs sm:text-sm text-slate-700">
+                <span className="font-bold text-purple-950">Chưa biết chọn Skill nào?</span>{' '}
+                <span>Nhắn Trợ lý trên web để được gợi ý đúng nghề của bạn trong 2 phút.</span>
+              </div>
+              <button
+                type="button"
+                onClick={onOpenChatbot}
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+              >
+                <Bot className="w-4 h-4 text-amber-300" />
+                <span>Nhắn Trợ Lý Trên Web</span>
+              </button>
             </div>
           </div>
         ) : (
@@ -427,6 +544,22 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {sanh1Products.map((p) => renderProductCard(p))}
               </div>
+
+              {/* CTA cuối Sảnh I */}
+              <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-purple-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+                <div className="text-xs sm:text-sm text-slate-700">
+                  <span className="font-bold text-purple-950">Chưa biết chọn Skill nào?</span>{' '}
+                  <span>Nhắn Trợ lý trên web để được gợi ý đúng nghề của bạn trong 2 phút.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onOpenChatbot}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Bot className="w-4 h-4 text-amber-300" />
+                  <span>Nhắn Trợ Lý Trên Web</span>
+                </button>
+              </div>
             </section>
 
             {/* SẢNH II — VIDEO BÁN HÀNG */}
@@ -446,13 +579,68 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
                     </h3>
                   </div>
                 </div>
-                <p className="text-xs text-slate-500 max-w-md">
-                  Kịch bản video 30 giây, nói chuyện tự nhiên trước máy quay, cắt video dài thành short và video giải đáp thắc mắc.
+                <p className="text-xs text-slate-600 font-medium max-w-md">
+                  9 kỹ năng video bán hàng – Text Overlay Triệu View 99k (VIP hay nhất), các kỹ năng còn lại đồng giá 49.000đ. Kịch bản video 30 giây, nói chuyện tự nhiên trước máy quay, cắt video dài thành short và video giải đáp thắc mắc.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {sanh2Products.map((p) => renderProductCard(p))}
+              </div>
+
+              {/* CTA cuối Sảnh II */}
+              <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+                <div className="text-xs sm:text-sm text-slate-700">
+                  <span className="font-bold text-blue-950">Chưa biết chọn Skill nào?</span>{' '}
+                  <span>Nhắn Trợ lý trên web để được gợi ý đúng nghề của bạn trong 2 phút.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onOpenChatbot}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Bot className="w-4 h-4 text-amber-300" />
+                  <span>Nhắn Trợ Lý Trên Web</span>
+                </button>
+              </div>
+            </section>
+
+            {/* SẢNH III — SẮP MỞ (Teaser card giữ vững link neo và kích hoạt tò mò) */}
+            <section id="sanh-3" className="scroll-mt-24">
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-purple-950 via-indigo-950 to-purple-900 border-2 border-purple-400/50 text-white shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/20 blur-[100px] pointer-events-none rounded-full" />
+                
+                <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
+                  <div className="space-y-3 max-w-2xl text-left">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 border border-amber-300/40 text-xs font-black uppercase tracking-wider">
+                      <Bot className="w-4 h-4 text-amber-400" />
+                      <span>SẢNH III — SẮP MỞ</span>
+                    </div>
+
+                    <h3 className="font-serif-luxury font-black text-2xl sm:text-3xl text-white tracking-wide">
+                      CHATBOT & TỰ ĐỘNG HÓA
+                    </h3>
+
+                    <p className="text-amber-200 text-xs sm:text-sm font-bold">
+                      các tool và skill (Đang hoàn thiện)
+                    </p>
+
+                    <p className="text-purple-200 text-xs sm:text-sm leading-relaxed">
+                      Kỹ năng đang được <strong className="text-amber-300 font-bold">Hải Triều AI</strong> kiểm thử trước khi phát hành. Thành viên nhóm Zalo sẽ được nhận thông báo và ưu đãi đặc biệt đầu tiên khi Sảnh III chính thức mở.
+                    </p>
+                  </div>
+
+                  <a
+                    href={BANK_INFO.zaloGroupUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-amber-400/30 hover:scale-105 active:scale-95 transition-all shrink-0 cursor-pointer"
+                  >
+                    <Bell className="w-4 h-4" />
+                    <span>Nhận thông báo mở Sảnh III</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
             </section>
 
@@ -481,6 +669,22 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {sanh4Products.map((p) => renderProductCard(p))}
               </div>
+
+              {/* CTA cuối Sảnh IV */}
+              <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-indigo-50 via-purple-50 to-indigo-50 border border-indigo-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+                <div className="text-xs sm:text-sm text-slate-700">
+                  <span className="font-bold text-indigo-950">Chưa biết chọn Skill nào?</span>{' '}
+                  <span>Nhắn Trợ lý trên web để được gợi ý đúng nghề của bạn trong 2 phút.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onOpenChatbot}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Bot className="w-4 h-4 text-amber-300" />
+                  <span>Nhắn Trợ Lý Trên Web</span>
+                </button>
+              </div>
             </section>
 
             {/* SẢNH V — VIDEO VIP & ĐA KÊNH */}
@@ -507,6 +711,22 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct }) => 
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {sanh5Products.map((p) => renderProductCard(p))}
+              </div>
+
+              {/* CTA cuối Sảnh V */}
+              <div className="mt-6 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-fuchsia-50 via-purple-50 to-fuchsia-50 border border-fuchsia-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left shadow-2xs">
+                <div className="text-xs sm:text-sm text-slate-700">
+                  <span className="font-bold text-fuchsia-950">Chưa biết chọn Skill nào?</span>{' '}
+                  <span>Nhắn Trợ lý trên web để được gợi ý đúng nghề của bạn trong 2 phút.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onOpenChatbot}
+                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 hover:from-purple-800 hover:to-indigo-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shrink-0"
+                >
+                  <Bot className="w-4 h-4 text-amber-300" />
+                  <span>Nhắn Trợ Lý Trên Web</span>
+                </button>
               </div>
             </section>
 

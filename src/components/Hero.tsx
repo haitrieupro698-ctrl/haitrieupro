@@ -72,14 +72,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreDemo }) => {
                   className="bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold text-sm sm:text-base px-6 py-4 rounded-xl border border-purple-200 cursor-pointer flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <Play className="w-4 h-4 text-purple-700 fill-purple-700" />
-                  <span>▶ Xem Video Mẫu</span>
+                  <span>Xem Video Mẫu</span>
                 </button>
               </div>
 
               {/* Dòng tin cậy */}
               <div className="pt-1 flex items-center gap-2 text-xs sm:text-sm text-slate-600 font-medium">
                 <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span className="font-semibold text-slate-800">✓ 2.500+ học viên đã áp dụng thành công</span>
+                <span className="font-semibold text-slate-800">✓ 2.500+ thành viên đã nhận Skill</span>
               </div>
 
             </div>

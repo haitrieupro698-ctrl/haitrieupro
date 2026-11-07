@@ -9,7 +9,10 @@ import {
   PhoneCall,
   ExternalLink,
   ChevronDown,
-  Bot
+  Bot,
+  Gift,
+  HelpCircle,
+  Phone
 } from 'lucide-react';
 import { BANK_INFO, FAQS, SKILL_PRODUCTS, SKILL_SANH_LIST } from '../data/skillsData';
 
@@ -32,13 +35,18 @@ interface Message {
   }>;
 }
 
+const ASSISTANT_AVATAR = '/assets/aistudio/HT_V_NG_e1df51c9.jpg';
+const ASSISTANT_AVATAR_FALLBACK = '/images/tro-ly-hai-trieu.jpg';
+
 const QUICK_QUESTIONS = [
-  'Tôi không rành công nghệ, có dùng được không?',
-  'Bán hàng online nên bắt đầu từ Sảnh nào?',
-  'Sau khi thanh toán tôi nhận tài nguyên ở đâu?',
-  'Tôi muốn nhận quà tặng Skill 0đ',
-  'Tôi muốn được ANH HẢI TRIỀU AI tư vấn trực tiếp 1-1',
-  'Thông tin chuyển khoản SHB như thế nào?'
+  '🎬 b) Làm video ngắn',
+  '🛍️ c) Bán hàng online',
+  '📚 d) Soạn bài giảng & slide',
+  '👀 Xem thử',
+  '🎁 Nhận quà 0đ',
+  '📞 Gặp người thật',
+  'Giá 49k có đắt không?',
+  'Sợ không dùng được'
 ];
 
 export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
@@ -50,14 +58,41 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     {
       id: 'welcome-1',
       sender: 'bot',
-      text: 'Dạ em chào Anh/Chị! Em là Trợ lý HẢI TRIỀU AI. Em ở đây để hỗ trợ Anh/Chị chọn đúng Skill, hướng dẫn nhận tài nguyên sau khi thanh toán hoặc hỗ trợ kết nối trực tiếp với Anh Hải Triều.',
+      text: 'Dạ em chào Anh/Chị! Em là Trợ lý HẢI TRIỀU AI. Em ở đây để tư vấn gợi ý đúng Skill theo ngành nghề của mình, hướng dẫn nhận tài nguyên hoặc kết nối trực tiếp với Anh Hải Triều ạ.',
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
     },
     {
       id: 'welcome-2',
       sender: 'bot',
-      text: 'Anh/Chị đang vướng ở khâu nào (lên ý tưởng, viết kịch bản, làm ảnh hay chốt đơn), nhắn cho em để em tư vấn đúng việc nhé ạ!',
+      text: 'Anh/Chị bấm nhanh vào một trong các lựa chọn bên dưới để em gợi ý đúng việc nhé ạ:\n• b) Làm video ngắn (TikTok, Reels)\n• c) Bán hàng online, sản phẩm\n• d) Soạn bài giảng, slide\n• Nút 4: Xem thử\n• Nút 5: Nhận quà 0đ\n• Nút 6: Gặp người thật',
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+      actions: [
+        {
+          label: '🎬 Làm video ngắn',
+          action: () => handleSend('Làm video ngắn')
+        },
+        {
+          label: '🛍️ Bán hàng online',
+          action: () => handleSend('Bán hàng online')
+        },
+        {
+          label: '📚 Soạn bài giảng & slide',
+          action: () => handleSend('Soạn bài giảng và slide')
+        },
+        {
+          label: '👀 Xem thử',
+          action: () => handleSend('Xem thử'),
+          primary: true
+        },
+        {
+          label: '🎁 Nhận quà 0đ',
+          action: () => handleSend('Nhận quà 0đ')
+        },
+        {
+          label: '📞 Gặp người thật',
+          action: () => handleSend('Gặp người thật')
+        }
+      ]
     }
   ]);
 
@@ -99,7 +134,270 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
   const generateAnswer = (userQuery: string): { text: string; actions?: Message['actions'] } => {
     const q = userQuery.toLowerCase().trim();
 
-    // 0. Check if user is asking about a specific Sảnh (Sảnh I, Sảnh II, Sảnh III, Sảnh IV, Sảnh V)
+    // =========================================================================
+    // 1. XỬ LÝ TỪ CHỐI (Theo kịch bản chốt của Hải Triều AI)
+    // =========================================================================
+    if (q.includes('đắt') || q.includes('giá cao') || q.includes('mắc') || q.includes('bớt') || q.includes('giảm giá')) {
+      return {
+        text: 'Dạ 49k bằng 1 ly trà sữa thôi ạ, mà dùng được vĩnh viễn, tiết kiệm mấy tiếng mỗi lần làm ạ.',
+        actions: [
+          {
+            label: 'Mở Khóa Skill (Chỉ 49k)',
+            action: () => {
+              const el = document.getElementById('shop');
+              el?.scrollIntoView({ behavior: 'smooth' });
+            },
+            primary: true
+          },
+          {
+            label: '👀 Xem thử 4 Skill 0đ',
+            action: () => handleSend('Xem thử')
+          }
+        ]
+      };
+    }
+
+    if (q.includes('để em xem') || q.includes('để xem') || q.includes('suy nghĩ') || q.includes('tính sau') || q.includes('chưa mua')) {
+      return {
+        text: 'Dạ anh/chị cứ xem thoải mái ạ. Em gửi trước 4 Skill 0đ để mình trải nghiệm cho chắc nhé?',
+        actions: [
+          {
+            label: '🎁 Nhận 4 Skill 0đ Trải Nghiệm',
+            action: () => {
+              window.open(BANK_INFO.zaloGroupUrl, '_blank');
+            },
+            primary: true
+          },
+          {
+            label: '📞 Gặp Anh Hải Triều',
+            action: () => handleSend('Gặp người thật')
+          }
+        ]
+      };
+    }
+
+    if (q.includes('sợ không dùng được') || q.includes('không dùng được') || q.includes('sợ khó') || q.includes('không biết dùng')) {
+      return {
+        text: 'Dạ bên em hỗ trợ 1-1 qua Zalo đến khi dùng được mới thôi ạ, không bỏ mặc đâu ạ.',
+        actions: [
+          {
+            label: '💬 Nhắn Zalo Hỗ Trợ 1-1',
+            action: () => {
+              window.open(`https://zalo.me/${BANK_INFO.supportPhone}`, '_blank');
+            },
+            primary: true
+          },
+          {
+            label: '👀 Xem thử 4 Skill 0đ',
+            action: () => handleSend('Xem thử')
+          }
+        ]
+      };
+    }
+
+    // =========================================================================
+    // 2. NÚT 4, 5, 6
+    // =========================================================================
+    // Nút 4 — Xem thử
+    if (q.includes('xem thử') || q.includes('dùng thử') || q.includes('nút 4')) {
+      return {
+        text: 'Dạ có ạ, bên em có 4 Skill tặng 0đ để anh/chị dùng thử trước: Avatar, Poster, Tách nền, Xóa vật thể. Em gửi link nhận ngay nhé?',
+        actions: [
+          {
+            label: '🎁 Bấm Nhận Link 4 Skill 0đ Ngay',
+            action: () => {
+              window.open(BANK_INFO.zaloGroupUrl, '_blank');
+            },
+            primary: true
+          },
+          {
+            label: '📞 Gặp người thật tư vấn',
+            action: () => handleSend('Gặp người thật')
+          }
+        ]
+      };
+    }
+
+    // Nút 5 — Nhận quà 0đ
+    if (q.includes('nhận quà 0đ') || q.includes('nhận quà 0 đồng') || q.includes('quà 0đ') || q.includes('nút 5')) {
+      return {
+        text: 'Dạ anh/chị để lại em xin Tên + Số Zalo, em gửi link tải 4 Skill 0đ liền ạ. Không mất phí gì đâu ạ.',
+        actions: [
+          {
+            label: '👉 Vào Nhóm Zalo Nhận Quà 0đ Liền',
+            action: () => {
+              window.open(BANK_INFO.zaloGroupUrl, '_blank');
+            },
+            primary: true
+          },
+          {
+            label: '💬 Nhắn Zalo 0913179424',
+            action: () => {
+              window.open(`https://zalo.me/${BANK_INFO.supportPhone}`, '_blank');
+            }
+          }
+        ]
+      };
+    }
+
+    // Nút 6 — Gặp người thật
+    if (q.includes('gặp người thật') || q.includes('người thật') || q.includes('chuyển máy') || q.includes('nút 6') || q.includes('hải triều')) {
+      return {
+        text: 'Dạ em chuyển máy cho anh Hải Triều ngay ạ. Anh/chị để lại số điện thoại, hoặc gọi trực tiếp 0913179424 giúp em nhé.',
+        actions: [
+          {
+            label: '📞 Gọi Trực Tiếp 0913 179 424',
+            action: () => {
+              window.open(`tel:${BANK_INFO.supportPhone}`, '_self');
+            },
+            primary: true
+          },
+          {
+            label: '💬 Nhắn Zalo Anh Hải Triều',
+            action: () => {
+              window.open(`https://zalo.me/${BANK_INFO.supportPhone}`, '_blank');
+            }
+          }
+        ]
+      };
+    }
+
+    // =========================================================================
+    // 3. GỢI Ý THEO NHU CẦU: b), c), d)
+    // =========================================================================
+    // b) Làm video ngắn
+    if (q.includes('b)') || q.includes('làm video') || q.includes('tiktok') || q.includes('reels') || q.includes('video ngắn')) {
+      return {
+        text: 'Dạ nên lấy Skill kịch bản video + Skill tách nền + Skill phụ đề ạ.',
+        actions: [
+          {
+            label: '⭐ Mở Skill Text Overlay Triệu View (99k)',
+            action: () => onOpenCheckout?.('skill-text-overlay'),
+            primary: true
+          },
+          {
+            label: '🎁 Nhận Skill Tách Nền 0đ',
+            action: () => onOpenCheckout?.('gift-tach-nen')
+          },
+          {
+            label: 'Khám phá Sảnh II (Video bán hàng)',
+            action: () => {
+              document.getElementById('sanh-2')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        ]
+      };
+    }
+
+    // c) Bán hàng online, sản phẩm
+    if (q.includes('c)') || q.includes('bán hàng') || q.includes('sản phẩm') || q.includes('kinh doanh online')) {
+      return {
+        text: 'Dạ hợp Skill Poster, Skill Avatar và Skill xóa vật thể ạ.',
+        actions: [
+          {
+            label: '🎁 Nhận Skill Poster Sản Phẩm 0đ',
+            action: () => onOpenCheckout?.('gift-poster-san-pham'),
+            primary: true
+          },
+          {
+            label: 'Xem Skill Avatar Chuyên Gia',
+            action: () => onOpenCheckout?.('skill-avatar-chuyen-gia')
+          },
+          {
+            label: 'Khám phá Sảnh I (Hình ảnh)',
+            action: () => {
+              document.getElementById('sanh-1')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        ]
+      };
+    }
+
+    // d) Soạn bài giảng, slide
+    if (q.includes('d)') || q.includes('bài giảng') || q.includes('slide') || q.includes('giáo viên') || q.includes('đào tạo')) {
+      return {
+        text: 'Dạ hợp Skill soạn bài giảng và Skill tạo slide ạ.',
+        actions: [
+          {
+            label: 'Xem Skill Slide Thuyết Trình AI',
+            action: () => onOpenCheckout?.('skill-slide-thuyet-trinh-ai'),
+            primary: true
+          },
+          {
+            label: 'Khám phá Sảnh IV (Đào tạo & Workshop)',
+            action: () => {
+              document.getElementById('sanh-4')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        ]
+      };
+    }
+
+    // =========================================================================
+    // 4. KỊCH BẢN CHỐT ĐƠN (3 Bước)
+    // =========================================================================
+    if (q.includes('chốt đơn') || q.includes('mua skill') || q.includes('thanh toán') || q.includes('chuyển khoản')) {
+      return {
+        text: 'Dạ quy trình nhận Skill cực kỳ nhanh chóng và an toàn ạ:\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá 49k (riêng Text Overlay 99k), dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển 49.000đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."',
+        actions: [
+          {
+            label: '⚡ Mở Quét Mã VietQR SHB Tự Động',
+            action: () => {
+              const el = document.getElementById('thanhtoan');
+              el?.scrollIntoView({ behavior: 'smooth' });
+            },
+            primary: true
+          },
+          {
+            label: '💬 Nhắn Zalo Nhận File 1-1 Ngay',
+            action: () => {
+              window.open(BANK_INFO.zaloGroupUrl, '_blank');
+            }
+          }
+        ]
+      };
+    }
+
+    // =========================================================================
+    // 5. Kiểm tra tên Skill cụ thể
+    // =========================================================================
+    const matchedSkill = SKILL_PRODUCTS.find(p => {
+      const pNameLower = p.name.toLowerCase();
+      if (q.includes(pNameLower)) return true;
+      if (p.id === 'skill-avatar-chuyen-gia' && (q.includes('avatar') || q.includes('ảnh đại diện'))) return true;
+      if (p.id === 'skill-poster-san-pham' && (q.includes('poster') || q.includes('poster sản phẩm'))) return true;
+      if (p.id === 'skill-text-overlay' && (q.includes('text overlay') || q.includes('chữ trên ảnh') || q.includes('chữ trên màn hình'))) return true;
+      if (p.id === 'skill-anh-bia-kenh' && (q.includes('ảnh bìa') || q.includes('ảnh bìa kênh'))) return true;
+      if (p.id === 'skill-bo-anh-dich-vu' && (q.includes('bộ ảnh dịch vụ') || q.includes('ảnh dịch vụ'))) return true;
+      if (p.id === 'skill-cat-video-dai-thanh-short' && (q.includes('cắt video') || q.includes('short'))) return true;
+      if (p.id === 'skill-slide-thuyet-trinh-ai' && (q.includes('slide') || q.includes('powerpoint'))) return true;
+      return false;
+    });
+
+    if (matchedSkill) {
+      const priceText = matchedSkill.price === 0 ? 'MIỄN PHÍ [0đ]' : `${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)} VNĐ (Ưu đãi)`;
+      return {
+        text: `Dạ, về Skill "${matchedSkill.name}" (${matchedSkill.sanhTitle}):\n\n${matchedSkill.description}\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá ${matchedSkill.price === 99000 ? '99k' : '49k'}, dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển ${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)}đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."\n\n• Học phí: ${priceText}`,
+        actions: [
+          {
+            label: matchedSkill.price === 0 ? 'Nhận Quà Tặng 0đ' : `Mở Khóa Skill Này (${matchedSkill.price === 99000 ? '99k' : '49k'})`,
+            action: () => {
+              onOpenCheckout?.(matchedSkill.id);
+            },
+            primary: true
+          },
+          {
+            label: 'Xem trên Sàn Skill',
+            action: () => {
+              const el = document.getElementById(matchedSkill.sanhId || 'shop');
+              el?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        ]
+      };
+    }
+
+    // 0. Check if user is asking about a specific Sảnh
     if (q.includes('sảnh 1') || q.includes('sảnh i ') || q.includes('sảnh i—') || q.includes('hình ảnh thương hiệu')) {
       const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-1');
       return {
@@ -120,7 +418,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     if (q.includes('sảnh 2') || q.includes('sảnh ii') || q.includes('video bán hàng')) {
       const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-2');
       return {
-        text: `Dạ, SẢNH II — VIDEO BÁN HÀNG gồm 8 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nAnh/Chị cần làm video dạng nào cứ nhắn em để em gửi chi tiết 3 bước thực hiện ạ!`,
+        text: `Dạ, SẢNH II — VIDEO BÁN HÀNG gồm 9 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nĐặc biệt Skill Text Overlay Triệu View đang là VIP bán chạy #1 giá 99k, các Skill còn lại đồng giá 49k ạ!`,
         actions: [
           {
             label: 'Đến Sảnh II trên website',
@@ -134,262 +432,9 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
       };
     }
 
-    if (q.includes('sảnh 3') || q.includes('sảnh iii') || q.includes('nội dung & marketing')) {
-      return {
-        text: `Dạ, để tối ưu kết quả thực chiến, hệ thống đã tinh gọn và dồn toàn bộ nguồn lực vào các sảnh cốt lõi: Sảnh I (Hình ảnh thương hiệu), Sảnh II (Video bán hàng triệu view) và Sảnh IV (Trang bán hàng & Sàn dịch vụ tự động). Anh/Chị có thể tham khảo ngay các Skill nổi bật có poster tại Sảnh IV nhé!`,
-        actions: [
-          {
-            label: 'Đến Sảnh IV trên website',
-            action: () => {
-              const el = document.getElementById('sanh-4') || document.getElementById('shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    if (q.includes('sảnh 4') || q.includes('sảnh iv') || q.includes('trang bán hàng')) {
-      const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-4');
-      return {
-        text: `Dạ, SẢNH IV — TRANG BÁN HÀNG & DỊCH VỤ gồm 8 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nAnh/Chị muốn dựng trang giới thiệu dịch vụ, đăng ký workshop hay trang nhận quà 0đ cứ nhắn em nhé!`,
-        actions: [
-          {
-            label: 'Đến Sảnh IV trên website',
-            action: () => {
-              const el = document.getElementById('sanh-4') || document.getElementById('shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    if (q.includes('sảnh 5') || q.includes('sảnh v') || q.includes('video vip')) {
-      const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-5');
-      return {
-        text: `Dạ, SẢNH V — VIDEO VIP & ĐA KÊNH gồm 8 Skill cao cấp:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nĐây là các công cụ đòn bẩy tự động hóa tối ưu cho người bận rộn ạ!`,
-        actions: [
-          {
-            label: 'Đến Sảnh V trên website',
-            action: () => {
-              const el = document.getElementById('sanh-5') || document.getElementById('shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    // 0.5. Check if user is asking about ANY of the specific 40 Skills
-    const matchedSkill = SKILL_PRODUCTS.find(p => {
-      const pNameLower = p.name.toLowerCase();
-      // Match full or partial name
-      if (q.includes(pNameLower)) return true;
-      // Match specific keywords
-      if (p.id === 'skill-avatar-chuyen-gia' && (q.includes('avatar') || q.includes('ảnh đại diện'))) return true;
-      if (p.id === 'skill-poster-san-pham' && (q.includes('poster') || q.includes('poster sản phẩm'))) return true;
-      if (p.id === 'skill-text-overlay' && (q.includes('text overlay') || q.includes('chữ trên ảnh') || q.includes('chữ trên màn hình'))) return true;
-      if (p.id === 'skill-anh-bia-kenh' && (q.includes('ảnh bìa') || q.includes('ảnh bìa kênh'))) return true;
-      if (p.id === 'skill-bo-anh-dich-vu' && (q.includes('bộ ảnh dịch vụ') || q.includes('ảnh dịch vụ'))) return true;
-      if (p.id === 'skill-anh-feedback' && (q.includes('feedback') || q.includes('ảnh feedback') || q.includes('tin nhắn phản hồi'))) return true;
-      if ((p.id === 'skill-mot-anh-chin-goc-quay' || p.id === 'skill-anh-quote-thuong-hieu') && (q.includes('chín góc') || q.includes('9 góc') || q.includes('multishot') || q.includes('góc quay') || q.includes('quote') || q.includes('châm ngôn'))) return true;
-      if (p.id === 'skill-anh-chien-dich' && (q.includes('ảnh chiến dịch') || q.includes('chiến dịch ra mắt ảnh'))) return true;
-      if ((p.id === 'skill-edit-video-kol-ai' || p.id === 'skill-kich-ban-video-30-giay') && (q.includes('edit video') || q.includes('kol ai') || q.includes('30 giây') || q.includes('30s') || q.includes('video 30'))) return true;
-      if ((p.id === 'skill-hieu-ung-cao-cap' || p.id === 'skill-video-noi-chuyen-ban-hang') && (q.includes('hiệu ứng') || q.includes('cao cấp') || q.includes('sticker') || q.includes('nói chuyện'))) return true;
-      if (p.id === 'skill-cat-video-dai-thanh-short' && (q.includes('cắt video') || q.includes('video dài thành short') || q.includes('short'))) return true;
-      if (p.id === 'skill-video-giai-dap-khach-hoi' && (q.includes('giải đáp khách hỏi') || q.includes('video giải đáp') || q.includes('khách hỏi'))) return true;
-      if (p.id === 'skill-video-ke-cau-chuyen-khach-hang' && (q.includes('kể câu chuyện') || q.includes('chuyện khách hàng') || q.includes('storytelling'))) return true;
-      if (p.id === 'skill-video-theo-nhip-nhac' && (q.includes('nhịp nhạc') || q.includes('theo nhạc') || q.includes('beat'))) return true;
-      if (p.id === 'skill-video-gioi-thieu-san-pham' && (q.includes('giới thiệu sản phẩm') || q.includes('video giới thiệu'))) return true;
-      if (p.id === 'skill-video-livestream-moi' && (q.includes('livestream mồi') || q.includes('video mồi') || q.includes('kéo mắt xem live'))) return true;
-      if (p.id === 'skill-bai-ban-hang-chieu-sau' && (q.includes('bài bán hàng') || q.includes('chiều sâu') || q.includes('bán hàng không ép'))) return true;
-      if (p.id === 'skill-chuoi-cham-khach-zalo' && (q.includes('chăm khách zalo') || q.includes('chuỗi tin nhắn') || q.includes('chăm sóc zalo'))) return true;
-      if (p.id === 'skill-lich-noi-dung-30-ngay' && (q.includes('30 ngày') || q.includes('lịch nội dung') || q.includes('kế hoạch 30 ngày'))) return true;
-      if (p.id === 'skill-tieu-de-dung-luot' && (q.includes('tiêu đề') || q.includes('dừng lướt') || q.includes('giật tít'))) return true;
-      if (p.id === 'skill-carousel-kien-thuc' && (q.includes('carousel') || q.includes('bài nhiều ảnh') || q.includes('trượt ảnh'))) return true;
-      if (p.id === 'skill-kich-ban-tra-loi-binh-luan' && (q.includes('trả lời bình luận') || q.includes('comment') || q.includes('bình luận'))) return true;
-      if (p.id === 'skill-bai-ke-chuyen-thuong-hieu' && (q.includes('kể chuyện thương hiệu') || q.includes('câu chuyện của tôi') || q.includes('bài kể chuyện'))) return true;
-      if (p.id === 'skill-chien-dich-ra-mat' && (q.includes('chiến dịch ra mắt') || q.includes('mở bán'))) return true;
-      if (p.id === 'skill-trang-gioi-thieu-dich-vu' && (q.includes('trang giới thiệu dịch vụ') || q.includes('trang dịch vụ') || q.includes('landing page dịch vụ'))) return true;
-      if (p.id === 'skill-trang-dang-ky-workshop' && (q.includes('workshop') || q.includes('đăng ký lớp') || q.includes('webinar'))) return true;
-      if (p.id === 'skill-trang-nhan-qua' && (q.includes('trang nhận quà') || q.includes('tặng tài nguyên') || q.includes('nam châm hút khách'))) return true;
-      if (p.id === 'skill-trang-ban-san-pham-so' && (q.includes('sản phẩm số') || q.includes('bán file') || q.includes('khoá học'))) return true;
-      if (p.id === 'skill-trang-ho-so-chuyen-gia' && (q.includes('hồ sơ chuyên gia') || q.includes('portfolio') || q.includes('trang cá nhân'))) return true;
-      if (p.id === 'skill-trang-goi-dich-vu' && (q.includes('bảng giá') || q.includes('gói dịch vụ') || q.includes('so sánh gói'))) return true;
-      if (p.id === 'skill-trang-cau-hoi-thuong-gap' && (q.includes('trang câu hỏi') || q.includes('faq page'))) return true;
-      if (p.id === 'skill-trang-cam-on-sau-dang-ky' && (q.includes('trang cảm ơn') || q.includes('thank you page'))) return true;
-      if (p.id === 'skill-video-zoom-gon-gang' && (q.includes('zoom') || q.includes('video zoom') || q.includes('tóm tắt zoom'))) return true;
-      if (p.id === 'skill-video-ai-theo-kich-ban' && (q.includes('video ai') || q.includes('nhân vật ai') || q.includes('ai theo kịch bản'))) return true;
-      if (p.id === 'skill-tro-ly-cham-cong-dong' && (q.includes('trợ lý chăm cộng đồng') || q.includes('chăm cộng đồng') || q.includes('bot zalo'))) return true;
-      if (p.id === 'skill-tro-ly-nghien-cuu-chu-de' && (q.includes('nghiên cứu chủ đề') || q.includes('tìm chủ đề') || q.includes('ý tưởng video'))) return true;
-      if (p.id === 'skill-seo-video-youtube' && (q.includes('seo youtube') || q.includes('seo video') || q.includes('lên top youtube'))) return true;
-      if (p.id === 'skill-bai-facebook-dung-giong' && (q.includes('facebook đúng giọng') || q.includes('bài facebook') || q.includes('giữ chất riêng'))) return true;
-      if (p.id === 'skill-kich-ban-video-lan-toa' && (q.includes('lan tỏa') || q.includes('viral') || q.includes('triệu view'))) return true;
-      if (p.id === 'skill-slide-thuyet-trinh-ai' && (q.includes('slide') || q.includes('powerpoint') || q.includes('thuyết trình'))) return true;
-      return false;
-    });
-
-    if (matchedSkill) {
-      const priceText = matchedSkill.price === 0 ? 'MIỄN PHÍ [0đ]' : `${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)} VNĐ (Ưu đãi)`;
-      return {
-        text: `Dạ, về Skill "${matchedSkill.name}" (${matchedSkill.sanhTitle}):\n\n${matchedSkill.description}\n\n• Skill giúp gì: ${matchedSkill.skillHelps || matchedSkill.description}\n• Cần chuẩn bị: ${matchedSkill.preparation || 'Điện thoại/máy tính có AI'}\n• 3 bước thực hiện:\n${(matchedSkill.steps || []).map((s, i) => `  ${i + 1}. ${s}`).join('\n')}\n• Kết quả nhận được: ${matchedSkill.result || 'Sản phẩm đầu ra rõ ràng, áp dụng được ngay'}\n• Học phí: ${priceText}`,
-        actions: [
-          {
-            label: matchedSkill.price === 0 ? 'Nhận Quà Tặng 0đ' : 'Mở Khóa Skill Này',
-            action: () => {
-              onOpenCheckout?.(matchedSkill.id);
-            },
-            primary: true
-          },
-          {
-            label: 'Xem trên Sàn Skill',
-            action: () => {
-              const el = document.getElementById(matchedSkill.sanhId || 'shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }
-          }
-        ]
-      };
-    }
-
-    // 1. Check exact or near match with the 10 official FAQs
-    if (q.includes('không rành') || q.includes('chưa rành') || q.includes('công nghệ') || q.includes('không giỏi')) {
-      return {
-        text: 'Dạ, hoàn toàn dùng được ạ. Skill được thiết kế để Anh/Chị chỉ cần mô tả việc mình đang làm, dán hướng dẫn vào AI và làm theo từng bước. Quan trọng nhất không phải giỏi công nghệ mà là biết mình đang muốn giải quyết việc gì.',
-        actions: [
-          {
-            label: 'Xem các Sảnh Skill phù hợp',
-            action: () => {
-              const el = document.getElementById('shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }
-          }
-        ]
-      };
-    }
-
-    if (q.includes('gồm những gì') || q.includes('1 skill gồm')) {
-      return {
-        text: 'Mỗi Skill là một khung hướng dẫn thực hành: cần chuẩn bị gì, câu lệnh mẫu, cách chỉnh theo ngành nghề và hướng xử lý khi AI trả lời chưa đúng ý. Anh/Chị dùng để làm việc nhanh hơn, không phải học lý thuyết cho nhiều ạ.'
-      };
-    }
-
-    if (q.includes('khác gì') || q.includes('phần mềm')) {
-      return {
-        text: 'Skill không phải phần mềm. Đây là cách hướng dẫn AI làm đúng một việc cụ thể như viết nội dung, lên video, làm ảnh hoặc xây trang bán hàng. Anh/Chị vẫn dùng ChatGPT, Gemini hoặc công cụ AI mình đang có bình thường ạ.'
-      };
-    }
-
-    if (q.includes('bán hàng') || q.includes('sảnh nào') || q.includes('bắt đầu từ')) {
-      return {
-        text: 'Dạ nếu kênh của Anh/Chị chưa có hình ảnh rõ ràng, hãy bắt đầu từ Sảnh I (Skill Hình Ảnh Thương Hiệu). Nếu đã có sản phẩm nhưng chưa biết quay gì để khách dừng lại, mình đi từ Sảnh II (Video Ngắn Triệu View). Còn nếu khách xem nhiều nhưng chưa nhắn tin, Anh/Chị ưu tiên Sảnh IV (Trang Bán Hàng & Dịch Vụ Tự Động).',
-        actions: [
-          {
-            label: 'Đi tới Sàn Skill ngay',
-            action: () => {
-              const el = document.getElementById('shop');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    if (q.includes('dịch vụ') || q.includes('đào tạo') || q.includes('spa') || q.includes('bất động sản')) {
-      return {
-        text: 'Rất phù hợp ạ. Người làm dịch vụ cần làm rõ chuyên môn, tạo niềm tin và có quy trình chăm khách. Các Skill hình ảnh, nội dung, video và trang giới thiệu dịch vụ đều có thể áp dụng theo ngành thực tế của Anh/Chị.'
-      };
-    }
-
-    if (q.includes('40 skill') || q.includes('tất cả skill') || q.includes('mua hết')) {
-      return {
-        text: 'Không cần đâu ạ. Anh/Chị nên chọn theo đúng điểm nghẽn đang gặp nhất. Làm đúng một nhóm Skill trước, có kết quả rồi mới mở rộng, sẽ đỡ rối và dùng hiệu quả hơn rất nhiều.'
-      };
-    }
-
-    if (q.includes('điện thoại') || q.includes('smartphone') || q.includes('máy tính') || q.includes('laptop')) {
-      return {
-        text: 'Dạ có. Phần lớn Skill dùng được trên điện thoại nếu Anh/Chị có ứng dụng AI (ChatGPT, Claude, Gemini, CapCut) và hình ảnh hoặc nội dung cần làm. Tuy nhiên, những việc như dựng website hoặc chỉnh nhiều file cùng lúc sẽ thuận tiện hơn khi dùng máy tính.'
-      };
-    }
-
-    if (q.includes('chưa đúng ý') || q.includes('không đúng ý') || q.includes('sửa câu lệnh') || q.includes('prompt')) {
-      return {
-        text: 'Dạ Anh/Chị đừng bỏ ngay. Mình cần bổ sung ngữ cảnh như: sản phẩm cụ thể, khách hàng mục tiêu, mục đích bài viết, giọng văn mong muốn và ví dụ mẫu. Nếu vẫn chưa ưng ý, Anh/Chị cứ gửi câu lệnh vào đây hoặc qua Zalo, Trợ lý bên em sẽ gợi ý cách chỉnh câu lệnh ngay ạ!'
-      };
-    }
-
-    if (q.includes('nhận tài nguyên') || q.includes('sau khi thanh toán') || q.includes('chuyển khoản xong') || q.includes('nhận ở đâu')) {
-      return {
-        text: 'Sau khi chuyển khoản đúng thông tin hiển thị trên website (SHB: 0913179424 - TRỊNH HAI TRIEU), Anh/Chị nhắn xác nhận qua Zalo của Hải Triều AI. Bên em sẽ kích hoạt và gửi link tải toàn bộ tài nguyên (file SKILL.md, prompt, video hướng dẫn) cùng link vào nhóm Zalo kín ngay lập tức ạ.',
-        actions: [
-          {
-            label: 'Mở nhóm Zalo xác nhận',
-            action: () => {
-              window.open(BANK_INFO.zaloGroupUrl, '_blank');
-            },
-            primary: true,
-            href: BANK_INFO.zaloGroupUrl
-          }
-        ]
-      };
-    }
-
-    if (q.includes('tư vấn trực tiếp') || q.includes('gặp hải triều') || q.includes('1-1') || q.includes('anh hải triều tư vấn')) {
-      return {
-        text: 'Dạ, để được Anh Hải Triều AI tư vấn trực tiếp 1-1, Anh/Chị vui lòng để lại: [Họ tên] + [Số Zalo] + [Ngành nghề] + [Điểm đang vướng]. Trợ lý bên em sẽ tiếp nhận trước để Anh Hải Triều nhìn đúng bài toán và tư vấn đi thẳng vào việc, không mất thời gian của Anh/Chị ạ.',
-        actions: [
-          {
-            label: 'Nhắn Zalo Trực Tiếp Anh Hải Triều',
-            action: () => {
-              window.open(`https://zalo.me/${BANK_INFO.supportPhone}`, '_blank');
-            },
-            primary: true,
-            href: `https://zalo.me/${BANK_INFO.supportPhone}`
-          }
-        ]
-      };
-    }
-
-    if (q.includes('stk') || q.includes('tài khoản') || q.includes('thanh toán') || q.includes('ngân hàng') || q.includes('shb')) {
-      return {
-        text: `Dạ thông tin thanh toán chuyển khoản chính thức:\n• Ngân hàng: ${BANK_INFO.bankName} (${BANK_INFO.bankFullName})\n• Số tài khoản: ${BANK_INFO.accountNumber}\n• Chủ tài khoản: ${BANK_INFO.accountOwner}\n• Hệ thống hỗ trợ quét mã VietQR tự động 24/7.`,
-        actions: [
-          {
-            label: 'Mở mục Quét mã VietQR',
-            action: () => {
-              const el = document.getElementById('thanhtoan');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    if (q.includes('quà') || q.includes('0đ') || q.includes('miễn phí') || q.includes('tri ân')) {
-      return {
-        text: 'Dạ bên em đang tặng MIỄN PHÍ 0đ bộ 4 Quà Tặng Tri Ân Độc Quyền:\n1. Poster sản phẩm - Bộ 10 ảnh quảng cáo\n2. Kịch bản & Storyboard Tự Động\n3. 113 Âm Thanh Thao Túng Người Xem\n4. Kịch Bản Video Giọng Adam.\nAnh/Chị chỉ cần bấm "Nhận Quà Tặng Trị Giá 0đ" trên website là nhận được ngay qua Email & Zalo ạ!',
-        actions: [
-          {
-            label: 'Nhận Quà Tặng 0đ Ngay',
-            action: () => {
-              onOpenCheckout?.('gift-poster-san-pham');
-            },
-            primary: true
-          }
-        ]
-      };
-    }
-
-    // Default polite and grounded response
+    // Default polite response
     return {
-      text: 'Dạ, Trợ lý đã ghi nhận câu hỏi của Anh/Chị. Anh/Chị có thể bấm chọn một trong các câu hỏi gợi ý bên dưới hoặc kết nối trực tiếp với Anh Hải Triều qua số Zalo 0913179424 để được hỗ trợ cụ thể theo đúng trường hợp của mình nhé ạ!',
+      text: 'Dạ, Trợ lý đã ghi nhận câu hỏi của Anh/Chị. Anh/Chị có thể bấm chọn một trong các gợi ý bên dưới hoặc kết nối trực tiếp với Anh Hải Triều qua số Zalo 0913179424 để được hỗ trợ cụ thể theo đúng trường hợp của mình nhé ạ!',
       actions: [
         {
           label: 'Nhắn Zalo 0913179424',
@@ -397,6 +442,10 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
             window.open(`https://zalo.me/${BANK_INFO.supportPhone}`, '_blank');
           },
           primary: true
+        },
+        {
+          label: '👀 Xem thử 4 Skill 0đ',
+          action: () => handleSend('Xem thử')
         }
       ]
     };
@@ -417,7 +466,6 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     if (!textToSend) setInput('');
     setIsTyping(true);
 
-    // Simulate natural response latency (400 - 800ms)
     setTimeout(() => {
       const responseData = generateAnswer(query);
       const botMessage: Message = {
@@ -430,7 +478,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
       setMessages((prev) => [...prev, botMessage]);
       setIsTyping(false);
       playChime();
-    }, 600);
+    }, 500);
   };
 
   if (!isOpen) return null;
@@ -443,13 +491,13 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
           onClick={() => setIsMinimized(false)}
           className="flex items-center gap-3 bg-[#130728] border-2 border-purple-500/80 rounded-full py-2.5 px-4 shadow-2xl shadow-purple-950/80 cursor-pointer hover:bg-[#1a0a38] transition-all hover:scale-105"
         >
-          <div className="relative w-8 h-8 rounded-full overflow-hidden border border-purple-300">
+          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-purple-300">
             <img 
-              src="/images/tro-ly-hai-trieu.jpg" 
+              src={ASSISTANT_AVATAR} 
               alt="Trợ lý Hải Triều AI" 
               className="w-full h-full object-cover"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
+                (e.currentTarget as HTMLImageElement).src = ASSISTANT_AVATAR_FALLBACK;
               }}
             />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 rounded-full border border-purple-900" />
@@ -480,13 +528,13 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
           <div className="bg-gradient-to-r from-purple-950 via-[#1e0a3d] to-indigo-950 p-4 border-b border-purple-800/50 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-purple-400 shadow-md">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-400 shadow-md">
                   <img
-                    src="/images/tro-ly-hai-trieu.jpg"
+                    src={ASSISTANT_AVATAR}
                     alt="Trợ lý Hải Triều AI"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
+                      (e.currentTarget as HTMLImageElement).src = ASSISTANT_AVATAR_FALLBACK;
                     }}
                   />
                 </div>
@@ -497,13 +545,13 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
                   <h3 className="font-bold text-white text-sm sm:text-base tracking-wide">
                     Trợ lý HẢI TRIỀU AI
                   </h3>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 font-medium">
-                    Auto Bot
+                  <span className="text-[10px] bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 font-black px-1.5 py-0.2 rounded shadow-2xs">
+                    VIP
                   </span>
                 </div>
-                <p className="text-purple-300/80 text-xs flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse" />
-                  Trực tuyến 24/7 • Giải đáp thực tế
+                <p className="text-[11px] text-purple-200/90 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse" />
+                  <span>Trực tuyến 24/7 • Tư vấn chọn Skill</span>
                 </p>
               </div>
             </div>
@@ -512,40 +560,24 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
               <button
                 type="button"
                 onClick={() => setIsMinimized(true)}
-                title="Thu nhỏ"
-                className="w-8 h-8 rounded-lg hover:bg-purple-800/50 text-purple-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full hover:bg-white/10 text-purple-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                title="Thu nhỏ khung chat"
               >
-                <ChevronDown className="w-5 h-5" />
+                <ChevronDown className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={onClose}
-                title="Đóng chatbot"
-                className="w-8 h-8 rounded-lg hover:bg-purple-800/50 text-purple-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full hover:bg-white/10 text-purple-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+                title="Đóng chat"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* Quick Announcement inside chatbot */}
-          <div className="bg-purple-900/30 px-3.5 py-1.5 border-b border-purple-800/30 flex items-center justify-between text-[11px] text-purple-200">
-            <span className="flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-purple-300" />
-              SHB: <b className="text-white">0913179424</b> - TRỊNH HAI TRIEU
-            </span>
-            <a
-              href={BANK_INFO.zaloGroupUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-300 hover:text-white underline font-medium"
-            >
-              Vào Zalo 1-1
-            </a>
-          </div>
-
-          {/* Message History */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-800 scrollbar-track-transparent">
+          {/* Messages Body */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3.5 scrollbar-thin scrollbar-thumb-purple-800 scrollbar-track-transparent">
             {messages.map((msg) => {
               const isBot = msg.sender === 'bot';
               return (
@@ -554,19 +586,19 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
                   className={`flex gap-2.5 ${isBot ? 'justify-start' : 'justify-end'}`}
                 >
                   {isBot && (
-                    <div className="w-7 h-7 rounded-full overflow-hidden border border-purple-400/50 shrink-0 mt-1">
+                    <div className="w-8 h-8 rounded-full overflow-hidden border border-purple-400/50 shrink-0 mt-1">
                       <img
-                        src="/images/tro-ly-hai-trieu.jpg"
+                        src={ASSISTANT_AVATAR}
                         alt="Avatar"
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
+                          (e.currentTarget as HTMLImageElement).src = ASSISTANT_AVATAR_FALLBACK;
                         }}
                       />
                     </div>
                   )}
 
-                  <div className={`max-w-[82%] space-y-2`}>
+                  <div className={`max-w-[84%] space-y-2`}>
                     <div
                       className={`p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-line ${
                         isBot
@@ -587,7 +619,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
                             onClick={act.action}
                             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
                               act.primary
-                                ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-sm border border-purple-400/50'
+                                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-sm border border-purple-400/50'
                                 : 'bg-purple-950/80 hover:bg-purple-900 text-purple-200 border border-purple-700/60'
                             }`}
                           >
@@ -612,13 +644,13 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
 
             {isTyping && (
               <div className="flex gap-2.5 items-center">
-                <div className="w-7 h-7 rounded-full overflow-hidden border border-purple-400/50 shrink-0">
+                <div className="w-8 h-8 rounded-full overflow-hidden border border-purple-400/50 shrink-0">
                   <img
-                    src="/images/tro-ly-hai-trieu.jpg"
+                    src={ASSISTANT_AVATAR}
                     alt="Avatar"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/assets/aistudio/image_70c6648a.png';
+                      (e.currentTarget as HTMLImageElement).src = ASSISTANT_AVATAR_FALLBACK;
                     }}
                   />
                 </div>
@@ -634,10 +666,10 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick FAQ Chips */}
+          {/* Quick Consultation Chips */}
           <div className="p-2.5 bg-[#0e0620] border-t border-purple-900/50">
             <div className="text-[11px] font-semibold text-purple-300/90 mb-1.5 px-1 flex items-center justify-between">
-              <span>Gợi ý câu hỏi nhanh:</span>
+              <span>Gợi ý chọn nhanh theo nhu cầu:</span>
               <span className="text-[10px] text-purple-400/60">Chạm để hỏi</span>
             </div>
             <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
@@ -646,7 +678,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => handleSend(q)}
-                  className="shrink-0 px-2.5 py-1 rounded-full bg-purple-950/90 hover:bg-purple-900 text-purple-200 hover:text-white border border-purple-800/70 text-[11px] transition-colors whitespace-nowrap cursor-pointer"
+                  className="shrink-0 px-2.5 py-1 rounded-full bg-purple-950/90 hover:bg-purple-900 text-purple-200 hover:text-white border border-purple-800/70 text-[11px] transition-colors whitespace-nowrap cursor-pointer shadow-2xs"
                 >
                   {q}
                 </button>
