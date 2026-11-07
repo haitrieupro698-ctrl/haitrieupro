@@ -1,0 +1,165 @@
+<!-- ============================================================
+     ĐỒNG HỒ ĐẾM NGƯỢC MUA HÀNG - HẢI TRIỀU AI
+     Cài đặt: dán nguyên khối này vào vị trí khối đếm ngược cũ.
+     Đồng hồ tự reset về 23:59:59 mỗi ngày (giờ Việt Nam).
+     Không dùng số suất ảo - an toàn với chính sách Facebook Ads.
+     ============================================================ -->
+
+<!-- KHỐI 1: ĐỒNG HỒ TRONG TRANG (thay khối "ƯU ĐÃI ĐỒNG GIÁ 49K ... KẾT THÚC SAU") -->
+<div class="ht-countdown-wrap">
+  <div class="ht-cd-label">⚡ ƯU ĐÃI ĐỒNG GIÁ 49K KẾT THÚC SAU</div>
+  <div class="ht-cd-clock" id="htCountdown">
+    <div class="ht-cd-box"><span id="htHours">00</span><small>GIỜ</small></div>
+    <div class="ht-cd-sep">:</div>
+    <div class="ht-cd-box"><span id="htMinutes">00</span><small>PHÚT</small></div>
+    <div class="ht-cd-sep">:</div>
+    <div class="ht-cd-box"><span id="htSeconds">00</span><small>GIÂY</small></div>
+  </div>
+  <div class="ht-cd-note">Hết ngày hôm nay, giá quay về 199.000đ/skill</div>
+</div>
+
+<style>
+.ht-countdown-wrap{
+  max-width:520px;margin:0 auto;padding:22px 18px;border-radius:18px;text-align:center;
+  background:linear-gradient(135deg,rgba(124,58,237,.16),rgba(6,182,212,.12));
+  border:1px solid rgba(124,58,237,.38);box-shadow:0 0 28px rgba(124,58,237,.22);
+}
+.ht-cd-label{font-size:13px;font-weight:800;letter-spacing:.6px;color:#e9d5ff;margin-bottom:14px;text-transform:uppercase}
+.ht-cd-clock{display:flex;align-items:center;justify-content:center;gap:8px}
+.ht-cd-box{
+  min-width:74px;padding:12px 8px 8px;border-radius:12px;
+  background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.14);
+  box-shadow:inset 0 0 18px rgba(124,58,237,.28);
+}
+.ht-cd-box span{display:block;font-size:30px;font-weight:900;line-height:1;color:#fff;
+  font-variant-numeric:tabular-nums;letter-spacing:1px;text-shadow:0 0 14px rgba(168,85,247,.85)}
+.ht-cd-box small{display:block;margin-top:6px;font-size:9px;font-weight:700;color:#c4b5fd;letter-spacing:1.2px}
+.ht-cd-sep{font-size:26px;font-weight:900;color:#a855f7;transform:translateY(-6px)}
+.ht-cd-note{margin-top:12px;font-size:12px;color:#cbd5e1}
+@media(max-width:420px){
+  .ht-cd-box{min-width:58px;padding:10px 6px 7px}
+  .ht-cd-box span{font-size:23px}
+}
+</style>
+
+<script>
+(function(){
+  // Nếu muốn chốt 1 mốc cố định thay vì reset mỗi ngày:
+  // đổi null thành chuỗi ngày, ví dụ: '2026-11-30T23:59:59+07:00'
+  var FIXED_DEADLINE = null;
+
+  var elH = document.getElementById('htHours');
+  var elM = document.getElementById('htMinutes');
+  var elS = document.getElementById('htSeconds');
+  if(!elH || !elM || !elS) return;
+
+  // Mốc 00:00 giờ Việt Nam (UTC+7) của ngày kế tiếp
+  function msToNextMidnightVN(){
+    var nowMs = Date.now();
+    var vnMs  = nowMs + 7 * 3600 * 1000;               // dời sang giờ VN
+    var vnNow = new Date(vnMs);
+    var vnNext = Date.UTC(
+      vnNow.getUTCFullYear(),
+      vnNow.getUTCMonth(),
+      vnNow.getUTCDate() + 1,
+      0, 0, 0, 0
+    );
+    return vnNext - vnMs;                              // còn lại bao nhiêu ms
+  }
+
+  function getRemain(){
+    if(FIXED_DEADLINE){
+      var r = new Date(FIXED_DEADLINE).getTime() - Date.now();
+      return r > 0 ? r : 0;
+    }
+    return msToNextMidnightVN();
+  }
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  function tick(){
+    var remain = getRemain();
+    var totalSec = Math.floor(remain / 1000);
+    var h = Math.floor(totalSec / 3600);
+    var m = Math.floor((totalSec % 3600) / 60);
+    var s = totalSec % 60;
+
+    elH.textContent = pad(h);
+    elM.textContent = pad(m);
+    elS.textContent = pad(s);
+
+    if(remain <= 0 && FIXED_DEADLINE){
+      elH.textContent = '00'; elM.textContent = '00'; elS.textContent = '00';
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+
+<!-- ============================================================
+     KHỐI 2: THANH ĐẾM NGƯỢC DÍNH ĐÁY MÀN HÌNH (MOBILE)
+     Tăng mạnh tỷ lệ bấm mua. Dán trước thẻ </body>.
+     ============================================================ -->
+<div class="ht-sticky-buy" id="htStickyBuy">
+  <div class="ht-sb-info">
+    <span class="ht-sb-title">Đồng giá 49.000đ</span>
+    <span class="ht-sb-sub">Kết thúc sau <b id="htSbTime">--:--:--</b></span>
+  </div>
+  <a class="ht-sb-btn" href="#kho-skill">MUA NGAY</a>
+</div>
+
+<style>
+.ht-sticky-buy{
+  position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  display:none;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 14px;background:rgba(11,10,26,.97);
+  border-top:1px solid rgba(124,58,237,.5);
+  box-shadow:0 -8px 26px rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+}
+.ht-sb-info{display:flex;flex-direction:column;line-height:1.25}
+.ht-sb-title{font-size:14px;font-weight:800;color:#fff}
+.ht-sb-sub{font-size:11px;color:#c4b5fd}
+.ht-sb-sub b{color:#22d3ee;font-variant-numeric:tabular-nums}
+.ht-sb-btn{
+  padding:11px 20px;border-radius:999px;font-size:13px;font-weight:900;letter-spacing:.4px;
+  color:#fff;text-decoration:none;white-space:nowrap;
+  background:linear-gradient(135deg,#7c3aed,#06b6d4);
+  box-shadow:0 0 18px rgba(124,58,237,.6);
+  animation:htPulse 1.8s ease-in-out infinite;
+}
+@keyframes htPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 18px rgba(124,58,237,.6)}
+  50%{transform:scale(1.04);box-shadow:0 0 28px rgba(6,182,212,.85)}
+}
+@media(max-width:900px){
+  .ht-sticky-buy{display:flex}
+  body{padding-bottom:74px}
+}
+</style>
+
+<script>
+(function(){
+  var el = document.getElementById('htSbTime');
+  if(!el) return;
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  function tick2(){
+    var nowMs = Date.now();
+    var vnMs  = nowMs + 7 * 3600 * 1000;
+    var vnNow = new Date(vnMs);
+    var vnNext = Date.UTC(vnNow.getUTCFullYear(), vnNow.getUTCMonth(), vnNow.getUTCDate()+1, 0,0,0,0);
+    var rest = Math.max(0, vnNext - vnMs);
+
+    var t = Math.floor(rest / 1000);
+    el.textContent = pad(Math.floor(t/3600)) + ':' + pad(Math.floor((t%3600)/60)) + ':' + pad(t%60);
+  }
+
+  tick2();
+  setInterval(tick2, 1000);
+})();
+</script>

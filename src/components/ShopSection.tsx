@@ -25,6 +25,7 @@ import {
 import { SKILL_PRODUCTS, SKILL_CATEGORIES, SKILL_SANH_LIST, BANK_INFO } from '../data/skillsData';
 import { SkillProduct, SkillCategory } from '../types';
 import { SkillDetailModal } from './SkillDetailModal';
+import { CountdownWidget } from './CountdownWidget';
 
 interface ShopSectionProps {
   onSelectProduct: (productId: string) => void;
@@ -36,20 +37,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct, onOpe
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDetailProduct, setActiveDetailProduct] = useState<SkillProduct | null>(null);
-
-  // Active countdown timer for 49.000đ promotion
-  const [timeLeft, setTimeLeft] = useState({ hours: 5, minutes: 42, seconds: 18 });
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: 59, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 5, minutes: 59, seconds: 59 };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const formatVND = (amount: number) => {
     if (amount === 0) return '0 đ';
@@ -320,6 +307,8 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct, onOpe
 
   return (
     <section id="shop" className="py-16 sm:py-24 pb-28 sm:pb-36 bg-[#f8f9fe] text-slate-900 relative overflow-hidden">
+      {/* Target anchor for #kho-skill */}
+      <div id="kho-skill" className="sr-only" />
       {/* Soft Luminous Ambient Accents */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-purple-200/40 blur-[150px] pointer-events-none rounded-full" />
       <div className="absolute bottom-10 right-10 w-[500px] h-[400px] bg-indigo-200/40 blur-[160px] pointer-events-none rounded-full" />
@@ -340,22 +329,8 @@ export const ShopSection: React.FC<ShopSectionProps> = ({ onSelectProduct, onOpe
           </p>
         </div>
 
-        {/* Countdown Ribbon for Promo */}
-        <div className="max-w-2xl mx-auto mb-8 p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-amber-50 to-purple-50 border border-amber-300/80 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm shadow-xs">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping inline-block" />
-            <span className="text-purple-950 font-black uppercase tracking-wide">Ưu Đãi Đồng Giá 49k (VIP 99k) Kết Thúc Sau:</span>
-          </div>
-          <div className="flex items-center gap-1.5 font-mono font-black text-rose-600 bg-white px-3 py-1 rounded-lg border border-purple-200 shadow-2xs">
-            <Clock className="w-4 h-4 text-amber-500" />
-            <span>
-              {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
-            </span>
-          </div>
-          <span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 text-xs font-black">
-            🔥 Còn 47/50 suất hôm nay
-          </span>
-        </div>
+        {/* KHỐI 1: ĐỒNG HỒ TRONG TRANG - HẢI TRIỀU AI */}
+        <CountdownWidget />
 
         {/* Marketplace Metrics Strip - 4 Số Liệu Chuẩn */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 max-w-5xl mx-auto mb-10">

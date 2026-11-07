@@ -16,6 +16,7 @@ import { BackgroundMusicPlayer } from './components/BackgroundMusicPlayer';
 import { OrdersManagerModal } from './components/OrdersManagerModal';
 import { GmailManagerModal } from './components/GmailManagerModal';
 import { PromoGiftSection } from './components/PromoGiftSection';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText, Gift, Phone } from 'lucide-react';
 import { BANK_INFO } from './data/skillsData';
 import { initAuth } from './services/gmailService';
@@ -81,6 +82,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fe] text-slate-800 selection:bg-purple-600 selection:text-white">
+      {/* Visual Scroll Progress Bar at very top of screen */}
+      <ScrollProgressBar />
+
       {/* 1-Line Top Bar & Navigation (Point 1) */}
       <Navbar 
         onOpenCheckout={handleSelectProduct}
@@ -205,27 +209,6 @@ export default function App() {
           </div>
         </button>
       )}
-
-      {/* Mobile Fixed Bottom Bar (Point 6: nút "Vào Nhóm Zalo" + "Gọi ngay") */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-purple-200 px-4 py-2.5 flex items-center justify-between gap-3 shadow-2xl">
-        <a
-          href={BANK_INFO.zaloGroupUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 py-3 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs uppercase flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all"
-        >
-          <MessageCircle className="w-4 h-4 fill-white" />
-          <span>Vào Nhóm Zalo</span>
-        </a>
-
-        <a
-          href={`tel:${BANK_INFO.supportPhone}`}
-          className="flex-1 py-3 px-3 rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 text-slate-950 font-black text-xs uppercase flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all border border-amber-300"
-        >
-          <Phone className="w-4 h-4 text-slate-950" />
-          <span>Gọi ngay</span>
-        </a>
-      </div>
 
       {/* Background Music Player (Bottom Left with Music Note Icon, 30% Vol, Autoplay & Video clash protection) */}
       <BackgroundMusicPlayer defaultAudioSrc="/audio/background-music.mp3" />
