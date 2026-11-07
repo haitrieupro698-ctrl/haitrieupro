@@ -18,9 +18,9 @@ export const AboutSection: React.FC = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
                 <div className="relative rounded-2xl overflow-hidden border-2 border-purple-300 bg-white shadow-xl">
                   <img
-                    src="/assets/aistudio/image_70c6648a.png"
+                    src="/assets/aistudio/image_5c7412ca.png"
                     alt="Trịnh Hải Triều - Sáng tạo nội dung & AI"
-                    className="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-80 sm:h-96 object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent p-4 text-center">
                     <p className="font-serif-luxury font-bold text-white text-lg drop-shadow">

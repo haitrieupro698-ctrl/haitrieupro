@@ -112,8 +112,17 @@ export const ZaloCommunitySection: React.FC = () => {
             {/* Right Direct Contact Box - NO QR CODE as user requested, direct phone & buttons */}
             <div className="lg:col-span-4 flex justify-center">
               <div className="bg-slate-950 p-6 rounded-3xl border-2 border-amber-400 shadow-xl text-center max-w-sm w-full text-white space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center mx-auto shadow-md font-bold">
-                  <MessageCircle className="w-8 h-8 fill-slate-950 text-slate-950" />
+                {/* Circular Portrait of Hai Trieu */}
+                <div className="relative w-24 h-24 rounded-full overflow-hidden mx-auto border-4 border-amber-400 shadow-xl shadow-amber-400/25 ring-4 ring-amber-400/20">
+                  <img
+                    src="/assets/aistudio/image_5c7412ca.png"
+                    alt="Trịnh Hải Triều"
+                    className="w-full h-full object-cover object-top"
+                  />
+                  <span
+                    className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-400 border-2 border-slate-950 rounded-full"
+                    title="Trực tiếp hỗ trợ 24/7"
+                  />
                 </div>
 
                 <div>
