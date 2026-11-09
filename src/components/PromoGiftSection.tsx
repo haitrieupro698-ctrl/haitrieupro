@@ -32,7 +32,7 @@ export const PromoGiftSection: React.FC = () => {
       badgeTopRight: 'HOT TREND TIKTOK',
       categoryTag: 'ỨNG DỤNG TẠO ẢNH & VIDEO AI',
       title: 'Xưởng Ảnh Thương Hiệu Cá Nhân (Skill 01)',
-      originalPrice: '350.000đ',
+      originalPrice: '340.000đ',
       desc: 'Tạo ảnh đại diện rõ gương mặt, chuẩn phong thái chuyên gia và xây dựng thương hiệu cá nhân thu hút người xem ngay từ cái nhìn đầu tiên.',
       bullets: [
         { label: 'Tự động đồng bộ nét mặt:', text: 'Gõ kịch bản, AI tự giữ 100% đường nét khuôn mặt thật, không bị ảo hay biến dạng.' },
@@ -47,7 +47,7 @@ export const PromoGiftSection: React.FC = () => {
       badgeTopRight: 'BỘ SKILL HẢI TRIỀU AI',
       categoryTag: 'POSTER THƯƠNG MẠI ĐIỆN TỬ',
       title: 'Poster Sản Phẩm 10 Tấm Đồng Bộ Thương Mại (Skill 02)',
-      originalPrice: '350.000đ',
+      originalPrice: '340.000đ',
       desc: 'Từ 1 ảnh sản phẩm chụp điện thoại, AI tự động sinh chuỗi 10 poster thương mại với ánh sáng studio, bục trưng bày và câu chốt ưu đãi.',
       bullets: [
         { label: 'Tự động đồng bộ ánh sáng:', text: 'Hòa quyện sản phẩm vào mọi bối cảnh sang trọng, nổi khối như chụp tạp chí cao cấp.' },
@@ -62,7 +62,7 @@ export const PromoGiftSection: React.FC = () => {
       badgeTopRight: 'CHUẨN ĐỒ HỌA 4K',
       categoryTag: 'TÁCH NỀN TRONG SUỐT',
       title: 'Tách Nền Trong Suốt & Đồ Họa Đỉnh Cao (Skill 03)',
-      originalPrice: '350.000đ',
+      originalPrice: '340.000đ',
       desc: 'Xóa sạch phông nền phức tạp, giữ trọn vẹn chủ thể sắc nét từng sợi tóc, xuất file PNG trong suốt chất lượng cao để ghép poster hay làm video.',
       bullets: [
         { label: 'Tách nền chuẩn xác từng chi tiết:', text: 'Tự động bóc tách từng sợi tóc, mép áo, trang sức mà không để lại vệt răng cưa hay lem nhem.' },
@@ -77,7 +77,7 @@ export const PromoGiftSection: React.FC = () => {
       badgeTopRight: 'SIÊU TIỆN ÍCH 2026',
       categoryTag: 'CHỈNH SỬA ẢNH THỰC CHIẾN',
       title: 'Xoá Vật Thể, Logo & Chi Tiết Rác Khỏi Ảnh (Skill 04)',
-      originalPrice: '350.000đ',
+      originalPrice: '340.000đ',
       desc: 'Xoá sạch người đi đường, rác nền, dây điện, logo hoặc chi tiết thừa trong 3 giây. AI tự động bù đắp hậu cảnh hoàn hảo không tì vết.',
       bullets: [
         { label: 'Một nét cọ xóa sạch chi tiết thừa:', text: 'Chỉ cần quét cọ qua vùng muốn bỏ, AI phân tích và tái tạo hậu cảnh tự nhiên.' },
@@ -120,7 +120,7 @@ export const PromoGiftSection: React.FC = () => {
             >
               Nhóm Zalo Nhận Quà
             </a>{' '}
-            để nhận trọn vẹn 4 món quà trị giá <strong className="text-rose-600 font-black">1.400.000đ</strong> hoàn toàn miễn phí.
+            để nhận trọn vẹn 4 món quà trị giá <strong className="text-rose-600 font-black">340.000đ</strong> hoàn toàn miễn phí.
           </p>
         </div>
 

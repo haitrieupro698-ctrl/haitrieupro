@@ -136,7 +136,7 @@ export const PoliciesModal: React.FC<PoliciesModalProps> = ({
                   <strong className="text-slate-900">1. Phạm vi sản phẩm:</strong> Hải Triều AI cung cấp sản phẩm số dạng bộ Prompt/Skill, tài liệu hướng dẫn và tài nguyên số liên quan. Sản phẩm là tài liệu hướng dẫn thực hành, không phải phần mềm cài đặt và không cam kết một kết quả doanh thu cụ thể nào cho người sử dụng.
                 </p>
                 <p>
-                  <strong className="text-slate-900">2. Giá và thanh toán:</strong> Các Skill thực chiến đang mở có giá ưu đãi từ 49.000đ – 99.000đ/Skill (các Skill đồng giá 49.000đ, riêng Skill VIP Text Overlay Triệu View là 99.000đ, quà tặng tri ân 0đ). Thanh toán bằng chuyển khoản VietQR qua ngân hàng SHB, nội dung chuyển khoản ghi đúng mã đơn được hệ thống cấp.
+                  <strong className="text-slate-900">2. Giá và thanh toán:</strong> Các Skill thực chiến đang mở có giá ưu đãi từ 135.000đ – 199.000đ/Skill (các Skill đồng giá 135.000đ, riêng Skill VIP Text Overlay Triệu View là 199.000đ, 4 quà tặng tri ân 0đ trị giá 340.000đ). Thanh toán bằng chuyển khoản VietQR qua ngân hàng SHB, nội dung chuyển khoản ghi đúng mã đơn được hệ thống cấp.
                 </p>
                 <p>
                   <strong className="text-slate-900">3. Bàn giao:</strong> Sản phẩm số được bàn giao tự động hoặc gửi qua Zalo/email trong vòng tối đa 24 giờ làm việc sau khi nhận được thanh toán hợp lệ.

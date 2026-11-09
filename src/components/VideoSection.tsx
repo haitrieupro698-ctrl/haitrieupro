@@ -1,6 +1,7 @@
 import React from 'react';
 import { Play, ExternalLink, Sparkles, CheckCircle2, MessageCircle, ArrowRight } from 'lucide-react';
 import { YOUTUBE_VIDEO, BANK_INFO } from '../data/skillsData';
+import { trackBuyClick, trackZaloClick } from '../services/analytics';
 
 interface VideoSectionProps {
   onBuyClick: () => void;
@@ -140,10 +141,13 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ onBuyClick }) => {
               {/* Action Buttons */}
               <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <button
-                  onClick={onBuyClick}
+                  onClick={() => {
+                    trackBuyClick('skill-text-overlay', 'Text Overlay Triệu View', 199000);
+                    onBuyClick();
+                  }}
                   className="purple-gradient-btn text-white font-extrabold text-sm uppercase tracking-wider px-6 py-3.5 rounded-xl cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 hover:scale-105 transition-transform"
                 >
-                  <span>MUA SKILL NGAY (99.000 VNĐ)</span>
+                  <span>MUA SKILL NGAY (199.000 VNĐ)</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -151,6 +155,7 @@ export const VideoSection: React.FC<VideoSectionProps> = ({ onBuyClick }) => {
                   href={BANK_INFO.zaloGroupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackZaloClick('Video Section Zalo', '/video')}
                   className="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-sm font-bold px-5 py-3.5 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-2xs"
                 >
                   <MessageCircle className="w-4 h-4 text-blue-600" />

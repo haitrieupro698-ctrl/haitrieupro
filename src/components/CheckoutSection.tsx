@@ -21,6 +21,7 @@ import {
   sendEmailViaGmail, 
   generateSkillDeliveryEmail 
 } from '../services/gmailService';
+import { trackBuyClick, trackZaloClick } from '../services/analytics';
 
 interface CheckoutSectionProps {
   selectedProductId: string;
@@ -74,13 +75,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
     return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
   };
 
-  // Dynamic VietQR generator URL with TRỊNH HAI TRIEU
+  // Standard VietQR generator URL with exact current product price (199.000đ for Text Overlay, 135.000đ for others)
+  const staticQrUrl = `https://img.vietqr.io/image/${BANK_INFO.bankShortCode}-${BANK_INFO.accountNumber}-compact2.png?amount=${currentProduct.price}&accountName=${encodeURIComponent(BANK_INFO.accountOwner)}`;
+
+  // Dynamic VietQR generator URL with order memo & exact current product price
   const dynamicQrUrl = `https://img.vietqr.io/image/${BANK_INFO.bankShortCode}-${BANK_INFO.accountNumber}-compact2.png?amount=${currentProduct.price}&addInfo=${encodeURIComponent(orderCode)}&accountName=${encodeURIComponent(BANK_INFO.accountOwner)}`;
 
   // Submit order to Firestore
   const handleConfirmPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('last_order_code', orderCode);
+      }
+      trackBuyClick(currentProduct.id, currentProduct.name, currentProduct.price);
+
       const orderPayload: Parameters<typeof createOrderInFirestore>[0] = {
         orderCode,
         customerName: customerName.trim(),
@@ -237,8 +246,8 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 {/* QR Image Box - white canvas for clean QR contrast scanning */}
                 <div className="relative rounded-2xl overflow-hidden bg-white p-3 border border-slate-200 shadow-xs">
                   <img
-                    src={qrType === 'static' ? BANK_INFO.qrStaticUrl : dynamicQrUrl}
-                    alt="Mã VietQR SHB TRỊNH HAI TRIEU"
+                    src={qrType === 'static' ? staticQrUrl : dynamicQrUrl}
+                    alt={`Mã VietQR SHB TRỊNH HAI TRIEU - ${currentProduct.name} - ${formatVND(currentProduct.price)}`}
                     className="w-full h-auto object-contain mx-auto max-h-[300px]"
                   />
                 </div>
@@ -262,14 +271,14 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
 
               {/* Download QR Button */}
               <a
-                href={BANK_INFO.qrStaticUrl}
-                download="VietQR_Hai_Trieu_AI.png"
+                href={qrType === 'static' ? staticQrUrl : dynamicQrUrl}
+                download={`VietQR_Hai_Trieu_${currentProduct.id}.png`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-purple-300 hover:text-purple-200 transition-colors"
+                className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-purple-700 hover:text-purple-900 transition-colors"
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Tải ảnh mã QR về máy</span>
+                <span>Tải ảnh mã QR về máy ({formatVND(currentProduct.price)})</span>
               </a>
 
               {/* Zalo group callout below QR */}
@@ -631,7 +640,10 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 href={BANK_INFO.zaloGroupUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setIsSuccessModalOpen(false)}
+                onClick={() => {
+                  trackZaloClick('Xác nhận đặt hàng - Vào nhóm Zalo');
+                  setIsSuccessModalOpen(false);
+                }}
                 className="w-full py-4 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30 transition-colors"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -639,10 +651,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({
                 <ExternalLink className="w-4 h-4" />
               </a>
 
+              <a
+                href="/cam-on"
+                onClick={() => {
+                  setIsSuccessModalOpen(false);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl bg-purple-950 hover:bg-purple-900 text-purple-200 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 border border-purple-700/50 transition-colors"
+              >
+                <span>Xem Trang Cảm Ơn & Biên Nhận</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+
               <button
                 type="button"
                 onClick={() => setIsSuccessModalOpen(false)}
-                className="w-full py-2.5 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className="w-full py-2 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
                 Đóng cửa sổ này
               </button>

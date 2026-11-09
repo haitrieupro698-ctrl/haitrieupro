@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, X, Gift, Phone, MessageCircle, ExternalLink, ShoppingBag, Mail } from 'lucide-react';
+import { Menu, X, Gift, Phone, MessageCircle, ExternalLink, ShoppingBag, Mail, ChevronDown, ShieldCheck } from 'lucide-react';
 import { BANK_INFO } from '../data/skillsData';
 
 interface NavbarProps {
@@ -7,12 +7,14 @@ interface NavbarProps {
   currentUser?: any;
   onOpenOrders?: () => void;
   onOpenGmail?: () => void;
+  onNavigate?: (path: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
   currentUser,
   onOpenOrders,
   onOpenGmail,
+  onNavigate,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -52,8 +54,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </a>
 
-          {/* Menu rút gọn: Sản phẩm | Quà tặng | FAQ | Nhóm Zalo */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold text-slate-700">
+          {/* Menu rút gọn: Sản phẩm | Quà tặng | FAQ | Chính sách | Nhóm Zalo */}
+          <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-sm font-semibold text-slate-700">
             <button
               onClick={() => handleNavClick('#shop')}
               className="hover:text-purple-700 transition-colors cursor-pointer"
@@ -72,6 +74,58 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               FAQ
             </button>
+            
+            {/* Policy Dropdown Menu */}
+            <div className="relative group">
+              <button
+                type="button"
+                className="hover:text-purple-700 transition-colors cursor-pointer flex items-center gap-1 py-1"
+              >
+                <span>Chính sách</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-700 transition-transform group-hover:rotate-180" />
+              </button>
+              <div className="absolute top-full left-0 pt-2 w-56 opacity-0 translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                <div className="bg-white rounded-2xl p-2 border border-purple-200 shadow-xl space-y-1 text-xs">
+                  <a
+                    href="/chinh-sach-bao-mat"
+                    onClick={(e) => {
+                      if (onNavigate) {
+                        e.preventDefault();
+                        onNavigate('/chinh-sach-bao-mat');
+                      }
+                    }}
+                    className="block px-3 py-2 rounded-xl text-slate-700 hover:text-purple-950 hover:bg-purple-50 font-medium transition-colors"
+                  >
+                    Chính sách bảo mật
+                  </a>
+                  <a
+                    href="/dieu-khoan-su-dung"
+                    onClick={(e) => {
+                      if (onNavigate) {
+                        e.preventDefault();
+                        onNavigate('/dieu-khoan-su-dung');
+                      }
+                    }}
+                    className="block px-3 py-2 rounded-xl text-slate-700 hover:text-purple-950 hover:bg-purple-50 font-medium transition-colors"
+                  >
+                    Điều khoản sử dụng
+                  </a>
+                  <a
+                    href="/chinh-sach-hoan-tien"
+                    onClick={(e) => {
+                      if (onNavigate) {
+                        e.preventDefault();
+                        onNavigate('/chinh-sach-hoan-tien');
+                      }
+                    }}
+                    className="block px-3 py-2 rounded-xl text-slate-700 hover:text-purple-950 hover:bg-purple-50 font-medium transition-colors"
+                  >
+                    Chính sách hoàn tiền
+                  </a>
+                </div>
+              </div>
+            </div>
+
             <a
               href={BANK_INFO.zaloGroupUrl}
               target="_blank"
@@ -190,6 +244,53 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Quản Lý Gmail {currentUser ? `(${currentUser.email})` : ''}</span>
             </button>
           )}
+
+          {/* Policy Links in mobile menu */}
+          <div className="pt-2 border-t border-purple-100 space-y-1">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-purple-900 px-3 py-1 flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
+              <span>Chính sách & Pháp lý</span>
+            </div>
+            <a
+              href="/chinh-sach-bao-mat"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  onNavigate('/chinh-sach-bao-mat');
+                }
+              }}
+              className="block w-full text-left py-2 px-3 text-sm font-semibold text-slate-700 hover:bg-purple-50 rounded-lg cursor-pointer"
+            >
+              Chính sách bảo mật
+            </a>
+            <a
+              href="/dieu-khoan-su-dung"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  onNavigate('/dieu-khoan-su-dung');
+                }
+              }}
+              className="block w-full text-left py-2 px-3 text-sm font-semibold text-slate-700 hover:bg-purple-50 rounded-lg cursor-pointer"
+            >
+              Điều khoản sử dụng
+            </a>
+            <a
+              href="/chinh-sach-hoan-tien"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault();
+                  setMobileMenuOpen(false);
+                  onNavigate('/chinh-sach-hoan-tien');
+                }
+              }}
+              className="block w-full text-left py-2 px-3 text-sm font-semibold text-slate-700 hover:bg-purple-50 rounded-lg cursor-pointer"
+            >
+              Chính sách hoàn tiền
+            </a>
+          </div>
 
           {/* CTA & Hotline Buttons inside mobile menu */}
           <div className="pt-2 space-y-2 border-t border-purple-100">

@@ -17,6 +17,10 @@ import { OrdersManagerModal } from './components/OrdersManagerModal';
 import { GmailManagerModal } from './components/GmailManagerModal';
 import { PromoGiftSection } from './components/PromoGiftSection';
 import { ScrollProgressBar } from './components/ScrollProgressBar';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
+import { TermsPage } from './pages/TermsPage';
+import { RefundPolicyPage } from './pages/RefundPolicyPage';
+import { ThankYouPage } from './pages/ThankYouPage';
 import { Sparkles, MessageCircle, ArrowRight, Mail, ShoppingBag, ChevronDown, MessageSquareText, Gift, Phone } from 'lucide-react';
 import { BANK_INFO } from './data/skillsData';
 import { initAuth } from './services/gmailService';
@@ -29,6 +33,32 @@ export default function App() {
   const [isGmailModalOpen, setIsGmailModalOpen] = useState(false);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(true);
+
+  // Client-side routing for /chinh-sach-bao-mat, /dieu-khoan-su-dung, /chinh-sach-hoan-tien, /cam-on
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.replace(/\/+$/, '') || '/';
+      return path;
+    }
+    return '/';
+  });
+
+  const navigateTo = (path: string) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
+      setCurrentPath(path.replace(/\/+$/, '') || '/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.replace(/\/+$/, '') || '/';
+      setCurrentPath(path);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     // Listen to scroll position: hide scroll-down button once user starts browsing
@@ -80,6 +110,19 @@ export default function App() {
     }
   };
 
+  if (currentPath === '/chinh-sach-bao-mat') {
+    return <PrivacyPolicyPage onNavigateHome={() => navigateTo('/')} />;
+  }
+  if (currentPath === '/dieu-khoan-su-dung') {
+    return <TermsPage onNavigateHome={() => navigateTo('/')} />;
+  }
+  if (currentPath === '/chinh-sach-hoan-tien') {
+    return <RefundPolicyPage onNavigateHome={() => navigateTo('/')} />;
+  }
+  if (currentPath === '/cam-on') {
+    return <ThankYouPage onNavigateHome={() => navigateTo('/')} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#f8f9fe] text-slate-800 selection:bg-purple-600 selection:text-white">
       {/* Visual Scroll Progress Bar at very top of screen */}
@@ -91,6 +134,7 @@ export default function App() {
         currentUser={currentUser}
         onOpenOrders={() => setIsOrdersModalOpen(true)}
         onOpenGmail={() => setIsGmailModalOpen(true)}
+        onNavigate={navigateTo}
       />
 
       {/* Hero Section */}
@@ -137,7 +181,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onNavigate={navigateTo} />
 
       {/* Modals for Firebase Orders & Gmail Integration */}
       <OrdersManagerModal

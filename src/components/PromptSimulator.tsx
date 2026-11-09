@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, ArrowRight, Zap } from 'lucide-react';
+import { trackBuyClick } from '../services/analytics';
 
 const PRESET_TOPICS = [
   {
@@ -187,13 +188,16 @@ export const PromptSimulator: React.FC<PromptSimulatorProps> = ({ onBuyClick }) 
           <div className="mt-6 pt-5 border-t border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-slate-700 text-xs sm:text-sm text-center sm:text-left">
               <span className="text-slate-900 font-bold">Muốn sở hữu ngay trọn bộ Prompt này cho mọi ngành nghề?</span>
-              <p className="text-purple-700 text-xs mt-0.5 font-medium">Chỉ 99.000 VNĐ • Nhận file và tham gia nhóm Zalo hướng dẫn ngay</p>
+              <p className="text-purple-700 text-xs mt-0.5 font-medium">Chỉ 199.000 VNĐ • Nhận file và tham gia nhóm Zalo hướng dẫn ngay</p>
             </div>
             <button
-              onClick={onBuyClick}
+              onClick={() => {
+                trackBuyClick('skill-text-overlay', 'Text Overlay Triệu View', 199000);
+                onBuyClick();
+              }}
               className="purple-gradient-btn text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer flex items-center gap-2 whitespace-nowrap shadow-lg shadow-purple-600/30 hover:scale-105 transition-transform"
             >
-              <span>MUA SKILL CHỈ 99K</span>
+              <span>MUA SKILL CHỈ 199K</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

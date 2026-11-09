@@ -45,7 +45,7 @@ const QUICK_QUESTIONS = [
   '👀 Xem thử',
   '🎁 Nhận quà 0đ',
   '📞 Gặp người thật',
-  'Giá 49k có đắt không?',
+  'Giá 135k có đắt không?',
   'Sợ không dùng được'
 ];
 
@@ -139,10 +139,10 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     // =========================================================================
     if (q.includes('đắt') || q.includes('giá cao') || q.includes('mắc') || q.includes('bớt') || q.includes('giảm giá')) {
       return {
-        text: 'Dạ 49k bằng 1 ly trà sữa thôi ạ, mà dùng được vĩnh viễn, tiết kiệm mấy tiếng mỗi lần làm ạ.',
+        text: 'Dạ 135k bằng 2 ly cà phê thôi ạ, mà dùng được vĩnh viễn, tiết kiệm hàng chục tiếng mỗi lần làm video và thiết kế ạ.',
         actions: [
           {
-            label: 'Mở Khóa Skill (Chỉ 49k)',
+            label: 'Mở Khóa Skill (Chỉ 135k)',
             action: () => {
               const el = document.getElementById('shop');
               el?.scrollIntoView({ behavior: 'smooth' });
@@ -338,7 +338,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     // =========================================================================
     if (q.includes('chốt đơn') || q.includes('mua skill') || q.includes('thanh toán') || q.includes('chuyển khoản')) {
       return {
-        text: 'Dạ quy trình nhận Skill cực kỳ nhanh chóng và an toàn ạ:\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá 49k (riêng Text Overlay 99k), dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển 49.000đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."',
+        text: 'Dạ quy trình nhận Skill cực kỳ nhanh chóng và an toàn ạ:\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá 135k (riêng Text Overlay 199k), dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển 135.000đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."',
         actions: [
           {
             label: '⚡ Mở Quét Mã VietQR SHB Tự Động',
@@ -376,11 +376,12 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
 
     if (matchedSkill) {
       const priceText = matchedSkill.price === 0 ? 'MIỄN PHÍ [0đ]' : `${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)} VNĐ (Ưu đãi)`;
+      const skillPriceLabel = matchedSkill.price === 0 ? '0đ' : matchedSkill.price === 199000 ? '199k' : '135k';
       return {
-        text: `Dạ, về Skill "${matchedSkill.name}" (${matchedSkill.sanhTitle}):\n\n${matchedSkill.description}\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá ${matchedSkill.price === 99000 ? '99k' : '49k'}, dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển ${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)}đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."\n\n• Học phí: ${priceText}`,
+        text: `Dạ, về Skill "${matchedSkill.name}" (${matchedSkill.sanhTitle}):\n\n${matchedSkill.description}\n\n• Bước 1: "Dạ Skill này đúng nhu cầu của mình luôn ạ. Giá ${skillPriceLabel}, dùng vĩnh viễn, có hướng dẫn kèm theo."\n• Bước 2: "Em gửi anh/chị mã QR, mình chuyển ${new Intl.NumberFormat('vi-VN').format(matchedSkill.price)}đ với nội dung là SĐT của mình nhé."\n• Bước 3: "Dạ em nhận được rồi ạ, em gửi file Skill + hướng dẫn ngay bây giờ. Có gì chưa dùng được anh/chị nhắn em hỗ trợ 1-1 ạ."\n\n• Học phí: ${priceText}`,
         actions: [
           {
-            label: matchedSkill.price === 0 ? 'Nhận Quà Tặng 0đ' : `Mở Khóa Skill Này (${matchedSkill.price === 99000 ? '99k' : '49k'})`,
+            label: matchedSkill.price === 0 ? 'Nhận Quà Tặng 0đ' : `Mở Khóa Skill Này (${skillPriceLabel})`,
             action: () => {
               onOpenCheckout?.(matchedSkill.id);
             },
@@ -418,7 +419,7 @@ export const AssistantChatbot: React.FC<AssistantChatbotProps> = ({
     if (q.includes('sảnh 2') || q.includes('sảnh ii') || q.includes('video bán hàng')) {
       const skillsInSanh = SKILL_PRODUCTS.filter(s => s.sanhId === 'sanh-2');
       return {
-        text: `Dạ, SẢNH II — VIDEO BÁN HÀNG gồm 9 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nĐặc biệt Skill Text Overlay Triệu View đang là VIP bán chạy #1 giá 99k, các Skill còn lại đồng giá 49k ạ!`,
+        text: `Dạ, SẢNH II — VIDEO BÁN HÀNG gồm 9 Skill thực chiến:\n\n${skillsInSanh.map((s, i) => `${i + 1}. **${s.name}**:\n${s.description}`).join('\n\n')}\n\nĐặc biệt Skill Text Overlay Triệu View đang là VIP bán chạy #1 giá 199k, các Skill còn lại đồng giá 135k ạ!`,
         actions: [
           {
             label: 'Đến Sảnh II trên website',

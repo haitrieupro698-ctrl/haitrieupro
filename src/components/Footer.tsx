@@ -3,7 +3,11 @@ import { MessageCircle, Phone, Mail, ArrowUp, Users, ExternalLink, Check, Copy, 
 import { BANK_INFO, YOUTUBE_VIDEO } from '../data/skillsData';
 import { PoliciesModal, PolicyTab } from './PoliciesModal';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate?: (path: string) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const [copiedLink, setCopiedLink] = useState(false);
   const [policyModalOpen, setPolicyModalOpen] = useState(false);
   const [activePolicyTab, setActivePolicyTab] = useState<PolicyTab>('privacy');
@@ -133,8 +137,8 @@ export const Footer: React.FC = () => {
               </p>
               <p>
                 <span className="text-slate-500">Giá Skill niêm yết:</span>{' '}
-                <strong className="text-emerald-700 font-black">49.000 VNĐ – 99.000 VNĐ</strong>{' '}
-                <span className="text-slate-500">(Quà tặng tri ân: 0đ)</span>
+                <strong className="text-emerald-700 font-black">135.000 VNĐ – 199.000 VNĐ</strong>{' '}
+                <span className="text-slate-500">(Quà tặng tri ân: 0đ • Trị giá 340.000đ)</span>
               </p>
               <p className="text-[11px] text-slate-500 pt-1 border-t border-purple-100">
                 * Hỗ trợ thanh toán quét mã VietQR tự động từ mọi ứng dụng ngân hàng 24/7.
@@ -201,29 +205,53 @@ export const Footer: React.FC = () => {
 
         {/* Policy Links bar */}
         <div className="py-6 border-b border-purple-200/70 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-bold text-purple-900">
-          <button
-            onClick={() => handleOpenPolicy('privacy')}
+          <a
+            href="/chinh-sach-bao-mat"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/chinh-sach-bao-mat');
+              } else {
+                handleOpenPolicy('privacy');
+              }
+            }}
             className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-purple-600" />
             <span>Chính sách bảo mật</span>
-          </button>
+          </a>
           <span className="text-purple-300">|</span>
-          <button
-            onClick={() => handleOpenPolicy('terms')}
+          <a
+            href="/dieu-khoan-su-dung"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/dieu-khoan-su-dung');
+              } else {
+                handleOpenPolicy('terms');
+              }
+            }}
             className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
           >
             <FileText className="w-3.5 h-3.5 text-purple-600" />
             <span>Điều khoản sử dụng</span>
-          </button>
+          </a>
           <span className="text-purple-300">|</span>
-          <button
-            onClick={() => handleOpenPolicy('refund')}
+          <a
+            href="/chinh-sach-hoan-tien"
+            onClick={(e) => {
+              if (onNavigate) {
+                e.preventDefault();
+                onNavigate('/chinh-sach-hoan-tien');
+              } else {
+                handleOpenPolicy('refund');
+              }
+            }}
             className="hover:text-purple-700 hover:underline transition-colors cursor-pointer flex items-center gap-1.5"
           >
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
             <span>Chính sách hoàn tiền & bàn giao</span>
-          </button>
+          </a>
         </div>
 
         {/* Bottom bar */}

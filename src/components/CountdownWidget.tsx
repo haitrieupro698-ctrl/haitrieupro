@@ -1,75 +1,68 @@
 import React, { useState, useEffect } from 'react';
 
-// Computes remaining milliseconds until 23:59:59 VN Time (UTC+7)
-export function getVietnamRemainingMs(fixedDeadline: string | null = null): number {
-  if (fixedDeadline) {
-    const remain = new Date(fixedDeadline).getTime() - Date.now();
-    return remain > 0 ? remain : 0;
+const COUNTDOWN_STORAGE_KEY = 'ht_visitor_countdown_5m';
+const DURATION_SECONDS = 5 * 60; // 5 phút = 300 giây khi người dùng mở trang
+
+export function getVisitorCountdownRemainingSec(): number {
+  if (typeof window === 'undefined') return DURATION_SECONDS;
+  try {
+    const stored = sessionStorage.getItem(COUNTDOWN_STORAGE_KEY);
+    const now = Math.floor(Date.now() / 1000);
+    if (!stored) {
+      const expireAt = now + DURATION_SECONDS;
+      sessionStorage.setItem(COUNTDOWN_STORAGE_KEY, String(expireAt));
+      return DURATION_SECONDS;
+    }
+    const expireAt = parseInt(stored, 10);
+    const diff = expireAt - now;
+    return diff > 0 ? diff : 0;
+  } catch {
+    return DURATION_SECONDS;
   }
-  const nowMs = Date.now();
-  const vnMs = nowMs + 7 * 3600 * 1000; // Shift to UTC+7 (Vietnam Time)
-  const vnNow = new Date(vnMs);
-  const vnNext = Date.UTC(
-    vnNow.getUTCFullYear(),
-    vnNow.getUTCMonth(),
-    vnNow.getUTCDate() + 1,
-    0, 0, 0, 0
-  );
-  return Math.max(0, vnNext - vnMs);
 }
 
 function pad(n: number): string {
   return n < 10 ? '0' + n : String(n);
 }
 
-export function useVietnamCountdown(fixedDeadline: string | null = null) {
-  const [time, setTime] = useState(() => {
-    const remain = getVietnamRemainingMs(fixedDeadline);
-    const totalSec = Math.floor(remain / 1000);
-    return {
-      hours: pad(Math.floor(totalSec / 3600)),
-      minutes: pad(Math.floor((totalSec % 3600) / 60)),
-      seconds: pad(totalSec % 60),
-      rawString: `${pad(Math.floor(totalSec / 3600))}:${pad(Math.floor((totalSec % 3600) / 60))}:${pad(totalSec % 60)}`
-    };
-  });
+export function useFiveMinuteCountdown() {
+  const [remainingSec, setRemainingSec] = useState<number>(() => getVisitorCountdownRemainingSec());
 
   useEffect(() => {
     const tick = () => {
-      const remain = getVietnamRemainingMs(fixedDeadline);
-      const totalSec = Math.floor(remain / 1000);
-      const h = Math.floor(totalSec / 3600);
-      const m = Math.floor((totalSec % 3600) / 60);
-      const s = totalSec % 60;
-
-      setTime({
-        hours: pad(h),
-        minutes: pad(m),
-        seconds: pad(s),
-        rawString: `${pad(h)}:${pad(m)}:${pad(s)}`
-      });
+      setRemainingSec(getVisitorCountdownRemainingSec());
     };
 
     tick();
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [fixedDeadline]);
+  }, []);
 
-  return time;
+  const hours = pad(Math.floor(remainingSec / 3600));
+  const minutes = pad(Math.floor((remainingSec % 3600) / 60));
+  const seconds = pad(remainingSec % 60);
+
+  return {
+    hours,
+    minutes,
+    seconds,
+    isExpired: remainingSec <= 0,
+    rawString: `${hours}:${minutes}:${seconds}`,
+  };
 }
 
 /**
- * KHỐI 1: ĐỒNG HỒ TRONG TRANG
- * Cài đặt: dán vào vị trí khối đếm ngược cũ.
- * Tự reset về 23:59:59 mỗi ngày (giờ Việt Nam).
- * Không dùng số suất ảo - an toàn với chính sách Facebook Ads.
+ * KHỐI ĐỒNG HỒ ĐẾM NGƯỢC 5 PHÚT KHI MỞ TRANG
+ * Đếm ngược chính xác 5 phút cho mỗi lượt người dùng truy cập.
  */
 export const CountdownWidget: React.FC = () => {
-  const { hours, minutes, seconds } = useVietnamCountdown();
+  const { hours, minutes, seconds, isExpired } = useFiveMinuteCountdown();
 
   return (
     <div className="ht-countdown-wrap mb-8">
-      <div className="ht-cd-label">⚡ ƯU ĐÃI ĐỒNG GIÁ 49K KẾT THÚC SAU</div>
+      <div className="ht-cd-label">
+        ⚡ {isExpired ? 'ĐÃ HẾT THỜI GIAN ƯU ĐÃI ĐẶC BIỆT' : 'ƯU ĐÃI ĐỒNG GIÁ 135K (VIP 199K) KẾT THÚC SAU'}
+      </div>
       <div className="ht-cd-clock" id="htCountdown">
         <div className="ht-cd-box">
           <span id="htHours">{hours}</span>
@@ -86,8 +79,11 @@ export const CountdownWidget: React.FC = () => {
           <small>GIÂY</small>
         </div>
       </div>
-      <div className="ht-cd-note">Hết ngày hôm nay, giá quay về 199.000đ</div>
+      <div className="ht-cd-note">
+        {isExpired
+          ? 'Ưu đãi 5 phút đã hết, vui lòng nhắn Zalo để được duyệt giữ mức giá 135k!'
+          : 'Đồng hồ đếm ngược 5 phút ưu đãi độc quyền khi bạn mở trang. Hết thời gian, giá quay về giá gốc 340.000đ!'}
+      </div>
     </div>
   );
 };
-
